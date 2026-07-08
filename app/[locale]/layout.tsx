@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
 import deMessages from "@/messages/de.json";
@@ -103,7 +104,11 @@ export default async function LandingLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
+  // Ungueltige Locale-Segmente (z.B. /login, /xyz die nicht via next.config
+  // redirects abgefangen wurden) sind echte 404 — kein stiller Fallback auf
+  // "de", sonst rendert jeder unbekannte Ein-Segment-Pfad die Homepage (soft-404).
+  if (!locales.includes(locale as Locale)) notFound();
+  const safeLocale = locale as Locale;
   const jsonLd = buildJsonLd(safeLocale);
   return (
     <html lang={safeLocale}>
