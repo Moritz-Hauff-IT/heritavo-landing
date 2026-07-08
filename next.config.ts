@@ -19,7 +19,6 @@ const LEGACY_APP_PATHS = [
   "invite",
   "dashboard",
   "admin",
-  "f",
   "release",
   "trustees",
   "unsubscribe",
@@ -30,14 +29,20 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   async redirects() {
-    return LEGACY_APP_PATHS.flatMap((p) => [
-      { source: `/${p}`, destination: `${APP_ORIGIN}/${p}`, permanent: true },
-      {
-        source: `/${p}/:path*`,
-        destination: `${APP_ORIGIN}/${p}/:path*`,
-        permanent: true,
-      },
-    ]);
+    return [
+      // /f = Flyer-Kurz-URL (gedruckte Flyer/QR). Zeigt wie vor dem Split auf
+      // die deutsche Landing. Temporaer (307), damit das Ziel spaeter ohne
+      // Browser-Cache-Probleme aenderbar bleibt.
+      { source: "/f", destination: "/de", permanent: false },
+      ...LEGACY_APP_PATHS.flatMap((p) => [
+        { source: `/${p}`, destination: `${APP_ORIGIN}/${p}`, permanent: true },
+        {
+          source: `/${p}/:path*`,
+          destination: `${APP_ORIGIN}/${p}/:path*`,
+          permanent: true,
+        },
+      ]),
+    ];
   },
   async headers() {
     const fallbackCsp = [
