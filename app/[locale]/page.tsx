@@ -8,7 +8,7 @@ import { Link } from "@/i18n/navigation";
 import AuthLink from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
 
@@ -77,16 +77,80 @@ type PricingInterval = "1year" | "2years" | "3years";
 export default function LandingPage() {
   // 1 Jahr ist Default-Standard, kein Monats-Toggle mehr.
   const [pricingInterval, setPricingInterval] = useState<PricingInterval>("1year");
+  const [scrolled, setScrolled] = useState(false);
 
   const t = useTranslations("landing");
   const tAuth = useTranslations("auth");
   const tBilling = useTranslations("billing");
 
+  // Scroll-Reveal (IntersectionObserver, gebuendelt = CSP-safe), Scroll-
+  // Progress-Bar und Nav-Elevation. Alles rein progressiv: faellt JS oder
+  // der Observer aus, greift der Safety-Timeout bzw. der reduced-motion-
+  // CSS-Fallback und der Content bleibt sichtbar.
+  useEffect(() => {
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]")
+    );
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let io: IntersectionObserver | undefined;
+    let safety: number | undefined;
+
+    if (reduce || !("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-visible"));
+    } else {
+      io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              obs.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      els.forEach((el) => io!.observe(el));
+      // Sicherheitsnetz: nach 2.5s alles zeigen, falls ein Element nie triggert.
+      safety = window.setTimeout(
+        () => els.forEach((el) => el.classList.add("is-visible")),
+        2500
+      );
+    }
+
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      h.style.setProperty("--scroll", max > 0 ? String(h.scrollTop / max) : "0");
+      setScrolled(h.scrollTop > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io?.disconnect();
+      if (safety) clearTimeout(safety);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
 
+      {/* Scroll-Progress-Indikator */}
+      <div
+        aria-hidden
+        className="scroll-progress fixed top-0 left-0 right-0 z-[60] h-[3px] bg-gradient-to-r from-primary to-[hsl(var(--brand-accent))]"
+      />
+
       {/* ── Navigation ── */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+      <header
+        className={`sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md transition-shadow duration-300 ${
+          scrolled ? "border-slate-200 shadow-sm" : "border-slate-100"
+        }`}
+      >
         <div className="container flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2.5">
             <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized />
@@ -114,43 +178,66 @@ export default function LandingPage() {
 
         {/* ── Hero ── */}
         <section className="relative overflow-hidden pt-24 pb-28 md:pt-32 md:pb-36">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-gradient-to-b from-slate-100 to-transparent rounded-full blur-3xl opacity-60" />
-            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-50 rounded-full blur-3xl opacity-80" />
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="aurora-blob absolute -top-[10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-gradient-to-b from-slate-100 to-transparent rounded-full blur-3xl opacity-70" />
+            <div className="aurora-blob aurora-blob-2 absolute bottom-0 -right-[5%] w-[420px] h-[420px] bg-blue-100 rounded-full blur-3xl opacity-60" />
+            <div
+              className="aurora-blob absolute top-[18%] -left-[5%] w-[380px] h-[380px] rounded-full blur-3xl opacity-50"
+              style={{ background: "radial-gradient(circle, hsl(152 43% 30% / 0.28), transparent 70%)" }}
+            />
+            <div
+              className="aurora-blob aurora-blob-2 absolute bottom-[8%] left-[28%] w-[320px] h-[320px] rounded-full blur-3xl opacity-40"
+              style={{ background: "radial-gradient(circle, hsl(var(--brand-accent) / 0.32), transparent 70%)" }}
+            />
           </div>
 
           <div className="container flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold mb-8 tracking-wide uppercase">
-              <Lock className="w-3 h-3" />
+            <div
+              className="hero-item inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold mb-8 tracking-wide uppercase"
+              style={{ "--hero-i": 0 } as CSSProperties}
+            >
+              <Lock className="lock-pulse w-3 h-3 text-[hsl(var(--brand-accent))]" />
               {t("heroBadge")}
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.05]">
+            <h1
+              className="hero-item text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.05]"
+              style={{ "--hero-i": 1 } as CSSProperties}
+            >
               {t("heroTitleLine1")}<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-400">
+              <span className="hero-gradient-text">
                 {t("heroTitleLine2")}
               </span>
             </h1>
 
-            <p className="text-xl text-slate-500 max-w-2xl mb-10 leading-relaxed">
+            <p
+              className="hero-item text-xl text-slate-500 max-w-2xl mb-10 leading-relaxed"
+              style={{ "--hero-i": 2 } as CSSProperties}
+            >
               {t("heroSubtitle")}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-16">
+            <div
+              className="hero-item flex flex-col sm:flex-row gap-4 mb-16"
+              style={{ "--hero-i": 3 } as CSSProperties}
+            >
               <AuthLink href="/register">
-                <Button size="lg" className="px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2">
+                <Button size="lg" className="group px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2 transition-transform hover:scale-[1.03] active:scale-95">
                   {t("hero.cta")}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </Button>
               </AuthLink>
               <Link href="#how-it-works">
-                <Button variant="outline" size="lg" className="px-8 text-base rounded-full border-slate-200">
+                <Button variant="outline" size="lg" className="px-8 text-base rounded-full border-slate-200 transition-transform hover:scale-[1.03] active:scale-95">
                   {t("hero.ctaSecondary")}
                 </Button>
               </Link>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm text-slate-400">
+            <div
+              className="hero-item flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm text-slate-400"
+              style={{ "--hero-i": 4 } as CSSProperties}
+            >
               {([
                 { icon: Shield, label: t("trust.encryption") },
                 { icon: Globe, label: t("trust.hosting") },
@@ -168,14 +255,14 @@ export default function LandingPage() {
         {/* ── Moments (3 Anlässe — Vorsorge-Frame) ── */}
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="container">
-            <div className="text-center mb-14 max-w-3xl mx-auto">
+            <div data-reveal className="text-center mb-14 max-w-3xl mx-auto">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("moments.label")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("moments.title")}</h2>
               <p className="text-lg text-slate-500">{t("moments.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {momentDefs.map((m) => (
-                <div key={m.key} className={`rounded-3xl p-7 border ${m.border} bg-white shadow-sm hover:shadow-md transition-shadow`}>
+              {momentDefs.map((m, i) => (
+                <div key={m.key} data-reveal style={{ "--reveal-i": i } as CSSProperties} className={`card-lift rounded-3xl p-7 border ${m.border} bg-white shadow-sm hover:shadow-xl`}>
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${m.bg}`}>
                     <m.icon className={`w-6 h-6 ${m.color}`} />
                   </div>
@@ -190,7 +277,7 @@ export default function LandingPage() {
         {/* ── Features ── */}
         <section id="features" className="py-24 bg-slate-50">
           <div className="container">
-            <div className="text-center mb-16">
+            <div data-reveal className="text-center mb-16">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("featuresLabel")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("featuresTitle")}</h2>
               <p className="text-lg text-slate-500 max-w-xl mx-auto">
@@ -198,8 +285,8 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featureKeys.map((f) => (
-                <div key={f.key} className="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              {featureKeys.map((f, i) => (
+                <div key={f.key} data-reveal style={{ "--reveal-i": i % 3 } as CSSProperties} className="card-lift bg-white rounded-3xl p-7 border border-slate-100 shadow-sm hover:shadow-xl">
                   <div className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-5 ${f.color}`}>
                     <f.icon className="w-5 h-5" />
                   </div>
@@ -214,16 +301,16 @@ export default function LandingPage() {
         {/* ── How it works ── */}
         <section id="how-it-works" className="py-24">
           <div className="container">
-            <div className="text-center mb-16">
+            <div data-reveal className="text-center mb-16">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("stepsLabel")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("stepsTitle")}</h2>
               <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("stepsSubtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8 relative">
               <div className="hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-              {stepKeys.map((step) => (
-                <div key={step.number} className="relative flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10">
+              {stepKeys.map((step, i) => (
+                <div key={step.number} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="relative flex flex-col items-center text-center">
+                  <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10 transition-transform hover:scale-105">
                     {step.number}
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{t(`steps.${step.key}.title`)}</h3>
@@ -237,7 +324,7 @@ export default function LandingPage() {
         {/* ── 3 Release Modes ── */}
         <section id="modes" className="py-24 bg-white">
           <div className="container">
-            <div className="text-center mb-14">
+            <div data-reveal className="text-center mb-14">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("modes.label")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("modes.title")}</h2>
               <p className="text-lg text-slate-500 max-w-xl mx-auto">
@@ -246,12 +333,12 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-              {modesDef.map((mode) => {
+              {modesDef.map((mode, i) => {
                 const Icon = mode.icon;
                 const pros = t(`modes.${mode.key}.pros`).split("|");
                 const cons = t(`modes.${mode.key}.cons`).split("|");
                 return (
-                  <div key={mode.num} className="bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                  <div key={mode.num} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="card-lift bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-xl flex flex-col">
                     <div className="flex items-start gap-4 mb-5">
                       <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${mode.bg}`}>
                         <Icon className={`w-5 h-5 ${mode.color}`} />
@@ -292,7 +379,7 @@ export default function LandingPage() {
               })}
 
               {/* Zero-Knowledge notice card */}
-              <div className="bg-amber-50 rounded-3xl border border-amber-200 p-7 flex flex-col justify-center">
+              <div data-reveal className="bg-amber-50 rounded-3xl border border-amber-200 p-7 flex flex-col justify-center">
                 <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">{t("modes.noticeLabel")}</p>
                 <p className="text-lg font-bold text-amber-900 mb-3">{t("modes.noticeTitle")}</p>
                 <p className="text-sm text-amber-800 leading-relaxed">
@@ -310,7 +397,7 @@ export default function LandingPage() {
         <section id="security" className="py-24 bg-slate-900">
           <div className="container">
             <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div>
+              <div data-reveal>
                 <p className="text-sm font-bold uppercase tracking-widest text-emerald-400 mb-4">{t("security.label")}</p>
                 <h2 className="text-4xl font-extrabold text-white mb-6 leading-tight">
                   {t("security.title")}
@@ -328,7 +415,7 @@ export default function LandingPage() {
                 </ul>
               </div>
 
-              <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700 space-y-5">
+              <div data-reveal style={{ "--reveal-i": 1 } as CSSProperties} className="bg-slate-800 rounded-3xl p-8 border border-slate-700 space-y-5">
                 <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
                   <div className="flex gap-1.5">
                     <span className="w-3 h-3 rounded-full bg-rose-500" />
@@ -357,7 +444,7 @@ await uploadToServer(encrypted);`}</pre>
         {/* ── Pricing ── */}
         <section id="pricing" className="py-24 bg-white">
           <div className="container">
-            <div className="text-center mb-12">
+            <div data-reveal className="text-center mb-12">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("pricingLabel")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("pricingTitle")}</h2>
               <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("pricingSubtitle")}</p>
@@ -390,7 +477,7 @@ await uploadToServer(encrypted);`}</pre>
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            <div data-reveal className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
               {planDefs.map((plan) => {
                 const price = plan[pricingInterval];
                 // CHF/Mt-Aequivalent als Wert-Anker (auch fuer 1J — niemand
@@ -463,11 +550,11 @@ await uploadToServer(encrypted);`}</pre>
         {/* ── FAQ ── */}
         <section id="faq" className="py-24 bg-slate-50">
           <div className="container max-w-2xl">
-            <div className="text-center mb-14">
+            <div data-reveal className="text-center mb-14">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("faqLabel")}</p>
               <h2 className="text-4xl font-extrabold text-slate-900">{t("faqTitle")}</h2>
             </div>
-            <Accordion type="single" collapsible className="space-y-3">
+            <Accordion data-reveal type="single" collapsible className="space-y-3">
               {faqKeys.map((key, i) => (
                 <AccordionItem
                   key={key}
@@ -488,7 +575,7 @@ await uploadToServer(encrypted);`}</pre>
 
         {/* ── Über Heritavo ── */}
         <section id="about" className="py-24 bg-white border-t border-slate-100">
-          <div className="container max-w-3xl">
+          <div data-reveal className="container max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4">
               {t("about.label")}
             </p>
@@ -506,7 +593,7 @@ await uploadToServer(encrypted);`}</pre>
 
         {/* ── CTA ── */}
         <section className="py-24 bg-slate-900">
-          <div className="container text-center">
+          <div data-reveal className="container text-center">
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
               {t("cta.titleLine1")}<br />
               <span className="text-slate-400">{t("cta.titleLine2")}</span>
@@ -515,9 +602,9 @@ await uploadToServer(encrypted);`}</pre>
               {t("cta.desc")}
             </p>
             <AuthLink href="/register">
-              <Button size="lg" className="px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold">
+              <Button size="lg" className="group px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold transition-transform hover:scale-[1.03] active:scale-95">
                 {t("cta.button")}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </AuthLink>
           </div>
