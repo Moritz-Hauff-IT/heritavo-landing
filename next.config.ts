@@ -3,9 +3,42 @@ import type { NextConfig } from "next";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+const APP_ORIGIN = "https://app.heritavo.com";
+
+// Top-Level-Pfade, die frueher unter heritavo.com von der App bedient wurden
+// (vor dem app.heritavo.com-Split). Alte Bookmarks und bereits versendete
+// E-Mail-/Token-Links (Release, Trustee-Einladung, Invite) muessen weiter
+// funktionieren -> 308-Redirect auf die App. `:path*` deckt Basis + Subpfade
+// inkl. [token]-Segmente ab.
+const LEGACY_APP_PATHS = [
+  "login",
+  "register",
+  "reset",
+  "2fa",
+  "verify-pending",
+  "invite",
+  "dashboard",
+  "admin",
+  "f",
+  "release",
+  "trustees",
+  "unsubscribe",
+  "newsletter",
+];
+
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  async redirects() {
+    return LEGACY_APP_PATHS.flatMap((p) => [
+      { source: `/${p}`, destination: `${APP_ORIGIN}/${p}`, permanent: true },
+      {
+        source: `/${p}/:path*`,
+        destination: `${APP_ORIGIN}/${p}/:path*`,
+        permanent: true,
+      },
+    ]);
+  },
   async headers() {
     const fallbackCsp = [
       "default-src 'self'",
