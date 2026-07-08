@@ -1,5 +1,5 @@
 image:
-  tag: sha-REPLACE_ME
+  tag: sha-7e9a348
 
 replicaCount: 2
 
