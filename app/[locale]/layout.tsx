@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
 import deMessages from "@/messages/de.json";
 import enMessages from "@/messages/en.json";
@@ -111,7 +112,9 @@ export default async function LandingLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        <NextIntlClientProvider locale={safeLocale} messages={messagesByLocale[safeLocale]}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
