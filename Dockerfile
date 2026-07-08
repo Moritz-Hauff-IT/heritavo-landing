@@ -20,21 +20,22 @@ ENV NODE_ENV=production \
 RUN addgroup --system --gid 1001 app \
     && adduser --system --uid 1001 --ingroup app app
 
-COPY --from=builder --chown=app:app /app/package.json /app/package-lock.json* ./
-COPY --from=builder --chown=app:app /app/node_modules ./node_modules
-COPY --from=builder --chown=app:app /app/.next ./.next
+# Next.js standalone output is self-contained under .next/standalone.
+COPY --from=builder --chown=app:app /app/.next/standalone ./.next/standalone
+COPY --from=builder --chown=app:app /app/.next/static ./.next/standalone/.next/static
+COPY --from=builder --chown=app:app /app/public ./.next/standalone/public
+COPY --from=builder --chown=app:app /app/messages ./.next/standalone/messages
+COPY --from=builder --chown=app:app /app/content ./.next/standalone/content
+
+# Keep a root-level copy as well so relative imports (e.g. ../messages) and
+# process.cwd() based code (e.g. content/blog) resolve regardless of CWD.
 COPY --from=builder --chown=app:app /app/public ./public
 COPY --from=builder --chown=app:app /app/messages ./messages
 COPY --from=builder --chown=app:app /app/content ./content
 COPY --from=builder --chown=app:app /app/i18n ./i18n
-COPY --from=builder --chown=app:app /app/next.config.ts ./
-COPY --from=builder --chown=app:app /app/postcss.config.mjs ./
-COPY --from=builder --chown=app:app /app/tailwind.config.ts ./
-COPY --from=builder --chown=app:app /app/tsconfig.json ./
-COPY --from=builder --chown=app:app /app/middleware.ts ./
 
 USER app
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["node", ".next/standalone/server.js"]
