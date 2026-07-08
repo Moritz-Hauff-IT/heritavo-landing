@@ -36,6 +36,10 @@ export async function generateMetadata({
       description:
         "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland.",
     },
+    icons: {
+      icon: "/favicon.png",
+      apple: "/logo-square.png",
+    },
   };
 }
 
