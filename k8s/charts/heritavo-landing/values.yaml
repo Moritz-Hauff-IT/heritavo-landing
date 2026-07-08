@@ -1,0 +1,39 @@
+image:
+  repository: ghcr.io/moritz-hauff-it/heritavo-landing
+  tag: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+probe:
+  path: /api/health
+
+ingress:
+  enabled: true
+  className: nginx
+  host: heritavo.com
+  tls: true
+  clusterIssuer: letsencrypt-prod
+  # Legacy/Alias-Domains redirecten via Next.js Middleware auf /de canonical
+  legacyHosts:
+    - www.heritavo.com
+    - heritavo.ch
+    - www.heritavo.ch
+    - heritavo.de
+    - www.heritavo.de
+    - heritavo.fr
+    - www.heritavo.fr
+    - heritavo.net
+    - www.heritavo.net
+    - heritavo.app
+    - www.heritavo.app
+
+namespace: heritavo-landing

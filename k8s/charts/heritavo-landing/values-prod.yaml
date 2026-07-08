@@ -1,0 +1,21 @@
+image:
+  tag: sha-REPLACE_ME
+
+replicaCount: 2
+
+ingress:
+  enabled: true
+  host: heritavo.com
+  clusterIssuer: letsencrypt-prod
+  legacyHosts:
+    - www.heritavo.com
+    - heritavo.ch
+    - www.heritavo.ch
+    - heritavo.de
+    - www.heritavo.de
+    - heritavo.fr
+    - www.heritavo.fr
+    - heritavo.net
+    - www.heritavo.net
+    - heritavo.app
+    - www.heritavo.app

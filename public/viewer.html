@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritavo – Notfall-Viewer</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f172a;--surface:#1e293b;--surface2:#0f172a;
+  --border:#334155;--border2:#1e293b;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
+  --emerald:#10b981;--emerald-dim:#064e3b;
+  --red:#ef4444;--red-dim:#450a0a;
+  --amber:#f59e0b;--amber-dim:#451a03;
+  --blue:#6366f1;--blue-dim:#1e1b4b;
+  --radius:1rem;--radius-sm:.75rem;--radius-xs:.5rem;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:2rem 1rem}
+
+/* ── Header ── */
+.header{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem}
+.header-icon{width:2.5rem;height:2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:.75rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.header h1{font-size:1.5rem;font-weight:700;letter-spacing:-.3px}
+.subtitle{color:var(--text2);font-size:.875rem;margin-bottom:2rem;padding-left:3.25rem}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.badge-emerald{background:var(--emerald-dim);color:var(--emerald)}
+.badge-slate{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.badge-amber{background:var(--amber-dim);color:var(--amber)}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem}
+.card-title{font-size:1rem;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:1.25rem}
+.card-title span{font-size:1.1rem}
+
+/* ── Steps ── */
+.step-num{width:1.75rem;height:1.75rem;border-radius:999px;background:var(--blue);color:white;font-size:.75rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── Drop zone ── */
+.drop-zone{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--surface2)}
+.drop-zone:hover,.drop-zone.over{border-color:var(--blue);background:rgba(99,102,241,.06)}
+.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-zone .dz-icon{font-size:2rem;margin-bottom:.75rem}
+.drop-zone .dz-text{color:var(--text2);font-size:.875rem}
+.drop-zone .dz-hint{color:var(--text3);font-size:.75rem;margin-top:.25rem}
+.drop-zone .dz-file{color:var(--emerald);font-weight:600;font-size:.875rem;margin-top:.5rem}
+.hidden{display:none!important}
+
+/* ── Inputs ── */
+label.lbl{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.4rem}
+input[type=text],textarea{width:100%;padding:.65rem 1rem;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+input:focus,textarea:focus{border-color:var(--blue)}
+textarea{font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.8rem;resize:vertical;min-height:4.5rem}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:.25rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:.2rem;margin-bottom:1rem}
+.tab{flex:1;padding:.45rem .75rem;border-radius:.375rem;border:none;background:transparent;color:var(--text2);font-size:.8rem;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
+.tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.shamir-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem}
+.shamir-row input{flex:1;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.75rem}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1.25rem;border-radius:var(--radius-xs);border:none;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-full{width:100%;margin-top:1rem}
+.btn-primary{background:var(--emerald);color:#fff}.btn-primary:hover{background:#059669}.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{background:#334155}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}.btn-ghost:hover{background:var(--surface)}
+.btn-icon{padding:.45rem;width:2rem;height:2rem;border-radius:var(--radius-xs)}
+.btn-sm{padding:.4rem .75rem;font-size:.75rem}
+
+/* ── Status banners ── */
+.status{padding:.7rem 1rem;border-radius:var(--radius-xs);font-size:.8rem;margin-top:.75rem;display:flex;align-items:flex-start;gap:.5rem}
+.status-ok{background:var(--emerald-dim);border:1px solid #065f46;color:#6ee7b7}
+.status-err{background:var(--red-dim);border:1px solid #7f1d1d;color:#fca5a5}
+.status-info{background:var(--blue-dim);border:1px solid #312e81;color:#a5b4fc}
+.status-warn{background:var(--amber-dim);border:1px solid #78350f;color:#fcd34d}
+
+/* ── Entry cards ── */
+.entries-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin-top:1rem}
+.entry-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.entry-header{padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--border)}
+.entry-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.4rem}
+.entry-title{font-weight:700;font-size:.975rem;line-height:1.3}
+.entry-url{font-size:.75rem;color:var(--text3);word-break:break-all;display:flex;align-items:center;gap:.25rem}
+.entry-url a{color:var(--text2);text-decoration:none}.entry-url a:hover{color:var(--text)}
+.entry-body{padding:1rem 1.25rem}
+.field-row{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.875rem}
+.field-row:last-child{margin-bottom:0}
+.field-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);display:flex;align-items:center;gap:.3rem}
+.field-value-row{display:flex;align-items:center;gap:.5rem}
+.field-value{flex:1;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.8rem;color:var(--emerald);word-break:break-all;background:var(--surface);border:1px solid var(--border);border-radius:.375rem;padding:.5rem .75rem;min-height:2.25rem;line-height:1.5}
+.field-secret{filter:blur(5px);user-select:none;cursor:pointer;transition:filter .2s}
+.field-secret.revealed{filter:none;user-select:auto;cursor:default}
+.field-notes{font-family:inherit;font-size:.8rem;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:.375rem;padding:.6rem .75rem;white-space:pre-wrap;word-break:break-word;line-height:1.6}
+.field-copy-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:.375rem;padding:.4rem;cursor:pointer;display:flex;align-items:center;transition:all .15s}
+.field-copy-btn:hover{background:#334155;color:var(--text)}
+.field-copy-btn svg{width:14px;height:14px}
+.field-eye-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:.375rem;padding:.4rem;cursor:pointer;display:flex;align-items:center;transition:all .15s}
+.field-eye-btn:hover{background:#334155;color:var(--text)}
+.field-eye-btn svg{width:14px;height:14px}
+
+/* ── Attachments ── */
+.att-list{display:flex;flex-direction:column;gap:.375rem;margin-top:.25rem}
+.att-btn{display:flex;align-items:center;gap:.5rem;padding:.45rem .75rem;background:var(--surface);border:1px solid var(--border);border-radius:.375rem;color:var(--text2);font-size:.75rem;cursor:pointer;transition:all .15s;text-align:left}
+.att-btn:hover{background:#334155;color:var(--text)}
+.att-btn svg{width:14px;height:14px;flex-shrink:0}
+.att-btn .att-name{flex:1;font-family:'SF Mono',Monaco,Consolas,monospace;color:var(--text)}
+.att-btn .att-size{color:var(--text3);font-size:.7rem;margin-left:auto}
+
+/* ── Toolbar ── */
+.toolbar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.result-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}
+.result-count{font-size:.8rem;color:var(--text2)}
+.result-count strong{color:var(--text);font-size:1rem}
+
+/* ── Footer ── */
+.footer{text-align:center;color:var(--text3);font-size:.75rem;margin-top:3rem;padding-bottom:2rem}
+.lang-btn.active{background:var(--surface)!important;color:var(--text)!important;border-color:var(--blue)!important}
+
+/* ── Responsive ── */
+@media(max-width:600px){.page{padding:1rem .75rem}.entries-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+    <div class="header">
+      <div class="header-icon">🔐</div>
+      <h1>Heritavo Notfall-Viewer</h1>
+    </div>
+    <div style="display:flex;gap:.25rem" id="lang-switcher">
+      <button class="lang-btn active" data-lang="de" onclick="switchLang('de')" style="padding:.2rem .5rem;border-radius:.375rem;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.7rem;font-weight:700;cursor:pointer">DE</button>
+      <button class="lang-btn" data-lang="en" onclick="switchLang('en')" style="padding:.2rem .5rem;border-radius:.375rem;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.7rem;font-weight:700;cursor:pointer">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="switchLang('fr')" style="padding:.2rem .5rem;border-radius:.375rem;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.7rem;font-weight:700;cursor:pointer">FR</button>
+      <button class="lang-btn" data-lang="it" onclick="switchLang('it')" style="padding:.2rem .5rem;border-radius:.375rem;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.7rem;font-weight:700;cursor:pointer">IT</button>
+    </div>
+  </div>
+  <p class="subtitle">Offline-Entschlüsselung · Alles passiert lokal in deinem Browser · Kein Internet erforderlich</p>
+
+  <!-- Step 1: Load ZIP -->
+  <div class="card" id="card-file">
+    <div class="card-title">
+      <div class="step-num">1</div>
+      Export-Datei laden
+    </div>
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" accept=".zip" id="file-input" />
+      <div class="dz-icon">📦</div>
+      <div class="dz-text">ZIP-Datei hierher ziehen</div>
+      <div class="dz-hint">oder klicken zum Auswählen</div>
+      <div class="dz-file hidden" id="file-name"></div>
+    </div>
+    <div id="file-status" class="hidden"></div>
+  </div>
+
+  <!-- Step 2: Release Key -->
+  <div class="card hidden" id="card-key">
+    <div class="card-title">
+      <div class="step-num">2</div>
+      Release Key eingeben
+    </div>
+
+    <div class="tabs" id="key-mode-tabs">
+      <button class="tab active" data-mode="direct" onclick="setKeyMode('direct')">Recovery Key</button>
+      <button class="tab" data-mode="shamir_code" onclick="setKeyMode('shamir_code')">Shamir-Codes</button>
+    </div>
+
+    <div id="mode-direct">
+      <label class="lbl">Release Key (64 Hex-Zeichen)</label>
+      <input type="text" id="release-key" placeholder="a1b2c3d4e5f6…" spellcheck="false" autocomplete="off" />
+    </div>
+
+    <!-- Mode: Shamir Code (Modi 2+3) – offline code entry per contact -->
+    <div id="mode-shamir-code" class="hidden">
+      <div class="status status-info" style="margin-bottom:1rem">
+        <span>🔑</span>
+        <span>Gib die persönlichen Codes der Notfallkontakte ein. Jeder Kontakt hat seinen Code beim Setup erhalten (per Mail oder ausgedruckt).</span>
+      </div>
+      <div id="shamir-code-inputs"></div>
+      <p id="shamir-code-progress" style="font-size:.75rem;color:var(--text3);margin-top:.5rem"></p>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="btn-decrypt" onclick="decrypt()" disabled>
+      🔓 Entschlüsseln
+    </button>
+    <div id="decrypt-status" class="hidden"></div>
+  </div>
+
+  <!-- Step 3: Results -->
+  <div class="hidden" id="section-results">
+    <div class="result-header">
+      <div class="result-count">
+        <strong id="result-count">0</strong> Einträge entschlüsselt
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-ghost btn-sm" id="btn-export" onclick="exportZip()">⬇️ Export ZIP</button>
+      </div>
+    </div>
+    <div class="entries-grid" id="entries-grid"></div>
+  </div>
+
+  <div class="footer">
+    Heritavo · Zero-Knowledge Digitalvorsorge · Made in Switzerland 🇨🇭<br>
+    <span style="font-size:.65rem;opacity:.6">Alle Daten werden ausschliesslich lokal in deinem Browser verarbeitet. Kein Netzwerk-Zugriff.</span>
+  </div>
+</div>
+
+<script src="jszip.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════
+// i18n
+// ═══════════════════════════════════════════════════════════
+const I18N = {
+  de: {
+    title: 'Heritavo Notfall-Viewer',
+    subtitle: 'Offline-Entschlüsselung · Alles passiert lokal in deinem Browser · Kein Internet erforderlich',
+    step1: 'Export-Datei laden', dropText: 'ZIP-Datei hierher ziehen', dropHint: 'oder klicken zum Auswählen',
+    step2: 'Release Key eingeben', recoveryKey: 'Recovery Key', shamirCodes: 'Shamir-Codes',
+    releaseKeyLabel: 'Release Key (64 Hex-Zeichen)',
+    shamirHint: 'Gib die persönlichen Codes der Notfallkontakte ein. Jeder Kontakt hat seinen Code beim Setup erhalten.',
+    shamirProgress: 'Mindestens {t} Codes von {n} Kontakten benötigt.',
+    decrypt: 'Entschlüsseln', decrypting: 'Entschlüssele…',
+    step3: 'Ergebnis', entriesDecrypted: 'Einträge entschlüsselt', exportZip: 'Export ZIP',
+    exporting: 'Exportiere…', codeFor: 'Code für',
+    noFragments: 'Keine verschlüsselten Fragmente im Export.',
+    invalidZip: 'Bitte eine .zip-Datei auswählen.',
+    loaded: 'Geladen', entries: 'Einträge', attachments: 'Anhänge',
+    failed: 'fehlgeschlagen', username: 'Benutzername', password: 'Passwort', notes: 'Notizen',
+    footer: 'Alle Daten werden ausschliesslich lokal in deinem Browser verarbeitet. Kein Netzwerk-Zugriff.',
+    language: 'Sprache'
+  },
+  en: {
+    title: 'Heritavo Emergency Viewer',
+    subtitle: 'Offline decryption · Everything happens locally in your browser · No internet required',
+    step1: 'Load export file', dropText: 'Drag ZIP file here', dropHint: 'or click to select',
+    step2: 'Enter Release Key', recoveryKey: 'Recovery Key', shamirCodes: 'Shamir Codes',
+    releaseKeyLabel: 'Release Key (64 hex characters)',
+    shamirHint: 'Enter the personal codes of the emergency contacts. Each contact received their code during setup.',
+    shamirProgress: 'At least {t} codes from {n} contacts required.',
+    decrypt: 'Decrypt', decrypting: 'Decrypting…',
+    step3: 'Result', entriesDecrypted: 'entries decrypted', exportZip: 'Export ZIP',
+    exporting: 'Exporting…', codeFor: 'Code for',
+    noFragments: 'No encrypted fragments in the export.',
+    invalidZip: 'Please select a .zip file.',
+    loaded: 'Loaded', entries: 'entries', attachments: 'attachments',
+    failed: 'failed', username: 'Username', password: 'Password', notes: 'Notes',
+    footer: 'All data is processed exclusively locally in your browser. No network access.',
+    language: 'Language'
+  },
+  fr: {
+    title: 'Heritavo Viewer d\'urgence',
+    subtitle: 'Déchiffrement hors ligne · Tout se passe localement dans votre navigateur · Aucune connexion requise',
+    step1: 'Charger le fichier', dropText: 'Glisser le fichier ZIP ici', dropHint: 'ou cliquer pour sélectionner',
+    step2: 'Saisir la clé de libération', recoveryKey: 'Recovery Key', shamirCodes: 'Codes Shamir',
+    releaseKeyLabel: 'Clé de libération (64 caractères hex)',
+    shamirHint: 'Saisissez les codes personnels des contacts d\'urgence. Chaque contact a reçu son code lors de la configuration.',
+    shamirProgress: 'Au moins {t} codes de {n} contacts nécessaires.',
+    decrypt: 'Déchiffrer', decrypting: 'Déchiffrement…',
+    step3: 'Résultat', entriesDecrypted: 'entrées déchiffrées', exportZip: 'Export ZIP',
+    exporting: 'Exportation…', codeFor: 'Code pour',
+    noFragments: 'Aucun fragment chiffré dans l\'export.',
+    invalidZip: 'Veuillez sélectionner un fichier .zip.',
+    loaded: 'Chargé', entries: 'entrées', attachments: 'pièces jointes',
+    failed: 'échoué', username: 'Nom d\'utilisateur', password: 'Mot de passe', notes: 'Notes',
+    footer: 'Toutes les données sont traitées exclusivement localement dans votre navigateur. Aucun accès réseau.',
+    language: 'Langue'
+  },
+  it: {
+    title: 'Heritavo Viewer d\'emergenza',
+    subtitle: 'Decrittazione offline · Tutto avviene localmente nel tuo browser · Nessuna connessione necessaria',
+    step1: 'Carica il file', dropText: 'Trascina il file ZIP qui', dropHint: 'o clicca per selezionare',
+    step2: 'Inserisci la chiave di rilascio', recoveryKey: 'Recovery Key', shamirCodes: 'Codici Shamir',
+    releaseKeyLabel: 'Chiave di rilascio (64 caratteri hex)',
+    shamirHint: 'Inserisci i codici personali dei contatti d\'emergenza. Ogni contatto ha ricevuto il suo codice durante la configurazione.',
+    shamirProgress: 'Almeno {t} codici da {n} contatti necessari.',
+    decrypt: 'Decritta', decrypting: 'Decrittazione…',
+    step3: 'Risultato', entriesDecrypted: 'voci decrittate', exportZip: 'Export ZIP',
+    exporting: 'Esportazione…', codeFor: 'Codice per',
+    noFragments: 'Nessun frammento crittografato nell\'esportazione.',
+    invalidZip: 'Seleziona un file .zip.',
+    loaded: 'Caricato', entries: 'voci', attachments: 'allegati',
+    failed: 'fallito', username: 'Nome utente', password: 'Password', notes: 'Note',
+    footer: 'Tutti i dati vengono elaborati esclusivamente localmente nel tuo browser. Nessun accesso alla rete.',
+    language: 'Lingua'
+  }
+};
+let currentLang = (navigator.language || 'de').split('-')[0];
+if (!I18N[currentLang]) currentLang = 'de';
+function T(key) { return I18N[currentLang][key] || I18N.de[key] || key; }
+
+function switchLang(lang) {
+  currentLang = lang;
+  // Update static HTML elements
+  document.querySelector('.header h1').textContent = T('title');
+  document.querySelector('.subtitle').textContent = T('subtitle');
+  document.querySelector('#card-file .card-title').innerHTML = '<div class="step-num">1</div>' + T('step1');
+  document.querySelector('.dz-text').textContent = T('dropText');
+  document.querySelector('.dz-hint').textContent = T('dropHint');
+  document.querySelector('#card-key .card-title').innerHTML = '<div class="step-num">2</div>' + T('step2');
+  document.querySelector('[data-mode="direct"]').textContent = T('recoveryKey');
+  document.querySelector('[data-mode="shamir_code"]').textContent = T('shamirCodes');
+  document.querySelector('#mode-direct .lbl').textContent = T('releaseKeyLabel');
+  document.querySelector('#btn-decrypt').textContent = '🔓 ' + T('decrypt');
+  document.querySelector('.footer').innerHTML = 'Heritavo · Zero-Knowledge · Made in Switzerland 🇨🇭<br><span style="font-size:.65rem;opacity:.6">' + T('footer') + '</span>';
+  // Language switcher active state
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+}
+
+// ═══════════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════════
+let loadedZip = null;
+let bundle = null;
+let decryptedEntries = [];
+let dekMap = {};        // entryIndex → dekBytes (Uint8Array)
+let keyMode = 'direct';
+
+
+// ═══════════════════════════════════════════════════════════
+// Auto-detect language on load
+switchLang(currentLang);
+
+// File handling
+// ═══════════════════════════════════════════════════════════
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+['dragenter','dragover'].forEach(ev =>
+  dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('over'); })
+);
+['dragleave','drop'].forEach(ev =>
+  dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('over'); })
+);
+dropZone.addEventListener('drop', e => { if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+async function handleFile(file) {
+  if (!file.name.endsWith('.zip')) {
+    showStatus('file-status', '❌ Bitte eine .zip-Datei auswählen.', 'err');
+    return;
+  }
+  document.getElementById('file-name').textContent = '✅ ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+  document.getElementById('file-name').classList.remove('hidden');
+
+  try {
+    loadedZip = await JSZip.loadAsync(file);
+    const vaultFile = loadedZip.file('vault.json');
+    if (!vaultFile) throw new Error('vault.json nicht im ZIP gefunden');
+
+    bundle = JSON.parse(await vaultFile.async('string'));
+
+    const MODE_LABELS = {
+      testament: 'Recovery Sheet',
+      shamir_code_email: 'Shamir – Code per Mail',
+      shamir_code_print: 'Shamir – Code ausgedruckt',
+    };
+    const modeLabel = MODE_LABELS[bundle.releaseMode] || bundle.releaseMode || 'Unbekannt';
+    const attCount = bundle.entries.reduce((n, e) => n + (e.attachments?.length ?? 0), 0);
+    showStatus('file-status',
+      `✅ Geladen · <strong>${bundle.entries.length}</strong> Einträge · ` +
+      `<strong>${attCount}</strong> Anhänge · Modus: <strong>${modeLabel}</strong>`,
+      'ok'
+    );
+    document.getElementById('card-key').classList.remove('hidden');
+    document.getElementById('btn-decrypt').disabled = false;
+
+    // Auto-select the right mode tab
+    const rm = bundle.releaseMode;
+    const isShamir = rm === 'shamir_code_email' || rm === 'shamir_code_print';
+
+    if (isShamir) {
+      setKeyMode('shamir_code');
+      buildCodeInputs(bundle.shamirShares || [], bundle.shamirThreshold || 2);
+    } else {
+      setKeyMode('direct');
+    }
+
+    document.getElementById('btn-decrypt').disabled = false;
+  } catch (err) {
+    showStatus('file-status', '❌ Fehler: ' + escHtml(err.message), 'err');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Key mode
+// ═══════════════════════════════════════════════════════════
+function setKeyMode(mode) {
+  keyMode = mode;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.getElementById('mode-direct').classList.toggle('hidden', mode !== 'direct');
+  document.getElementById('mode-shamir-code').classList.toggle('hidden', mode !== 'shamir_code');
+}
+
+
+function buildCodeInputs(shares, threshold) {
+  const container = document.getElementById('shamir-code-inputs');
+  container.innerHTML = '';
+  if (!shares || shares.length === 0) {
+    container.innerHTML = '<p style="color:var(--red);font-size:.8rem;padding:.5rem 0">' + T('noFragments') + '</p>';
+    return;
+  }
+  shares.forEach((share, i) => {
+    const row = document.createElement('div');
+    row.style.marginBottom = '.75rem';
+    const label = share.contactName ? `${share.contactName} (${share.contactEmail})` : (share.contactEmail || `Kontakt ${i + 1}`);
+    row.innerHTML = `<label class="lbl">${esc(label)}</label>
+      <input type="text" class="shamir-code-input" data-idx="${i}"
+             placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
+             style="font-family:'SF Mono',Monaco,Consolas,monospace;letter-spacing:.05em"
+             spellcheck="false" autocomplete="off" />`;
+    container.appendChild(row);
+  });
+  const prog = document.getElementById('shamir-code-progress');
+  prog.textContent = T('shamirProgress').replace('{t}', threshold).replace('{n}', shares.length);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Crypto helpers
+// ═══════════════════════════════════════════════════════════
+function hexToBytes(hex) {
+  const b = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) b[i / 2] = parseInt(hex.substr(i, 2), 16);
+  return b;
+}
+function bytesToHex(b) { return Array.from(b).map(x => x.toString(16).padStart(2,'0')).join(''); }
+function base64ToBytes(b64) {
+  const bin = atob(b64);
+  const b = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i);
+  return b;
+}
+function bytesToBase64(bytes) {
+  let bin = '';
+  for (let i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+async function aesGcmDecrypt(keyBytes, encB64) {
+  const combined = base64ToBytes(encB64);
+  const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
+  const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: combined.slice(0, 12) }, key, combined.slice(12));
+  return new Uint8Array(plain);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Shamir GF(256) reconstruction — generator=3, matches lib/shamir.ts exactly
+// ═══════════════════════════════════════════════════════════
+const GF_EXP = new Uint8Array(512);
+const GF_LOG = new Uint8Array(256);
+(function(){
+  let x=1;
+  for(let i=0;i<255;i++){
+    GF_EXP[i]=x; GF_LOG[x]=i;
+    x = (x ^ (x<<1) ^ (x>=128 ? 0x11b : 0)) & 0xff;
+  }
+  for(let i=255;i<512;i++) GF_EXP[i]=GF_EXP[i-255];
+})();
+function gfMul(a,b){if(!a||!b)return 0;return GF_EXP[GF_LOG[a]+GF_LOG[b]];}
+function gfDiv(a,b){if(!b)throw new Error('div/0');if(!a)return 0;return GF_EXP[(GF_LOG[a]-GF_LOG[b]+255)%255];}
+// combineShares accepts "xx:base64" strings — same format as lib/shamir.ts splitSecret output
+function combineShares(shareStrs) {
+  const parsed = shareStrs.map(s => {
+    const c = s.indexOf(':');
+    if (c === -1) throw new Error('Ungültiges Fragment-Format');
+    const x = parseInt(s.substring(0, c), 16);
+    const y = base64ToBytes(s.substring(c + 1));
+    return { x, y };
+  });
+  const len = parsed[0].y.length;
+  const result = new Uint8Array(len);
+  for (let bi = 0; bi < len; bi++) {
+    let v = 0;
+    for (let i = 0; i < parsed.length; i++) {
+      const { x: xi, y: yi } = parsed[i];
+      let basis = yi[bi];
+      for (let j = 0; j < parsed.length; j++) {
+        if (i===j) continue;
+        basis = gfMul(basis, gfDiv(parsed[j].x, xi ^ parsed[j].x));
+      }
+      v ^= basis;
+    }
+    result[bi] = v;
+  }
+  return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Shamir Code decryption (HKDF + AES-GCM, matches crypto-client.ts)
+// ═══════════════════════════════════════════════════════════
+async function deriveCodeKey(code, salt) {
+  const raw = new TextEncoder().encode(code.replace(/-/g, '').toUpperCase());
+  const baseKey = await crypto.subtle.importKey('raw', raw, 'HKDF', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'HKDF', hash: 'SHA-256', salt, info: new TextEncoder().encode('heritavo-shamir-code') },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['decrypt']
+  );
+}
+
+// encShare = base64(hkdfSalt[16] || iv[12] || ciphertext)
+// Returns the "xx:base64" share string — passed directly to combineShares
+async function decryptShareWithCode(encShareB64, code) {
+  const combined = base64ToBytes(encShareB64);
+  const hkdfSalt = combined.slice(0, 16);
+  const iv = combined.slice(16, 28);
+  const ciphertext = combined.slice(28);
+  const key = await deriveCodeKey(code, hkdfSalt);
+  const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+  return new TextDecoder().decode(plaintext); // "xx:base64" string
+}
+
+// ═══════════════════════════════════════════════════════════
+// Main decrypt
+// ═══════════════════════════════════════════════════════════
+async function decrypt() {
+  if (!bundle) return;
+  const btn = document.getElementById('btn-decrypt');
+  btn.disabled = true;
+  btn.textContent = '⏳ ' + T('decrypting');
+  showStatus('decrypt-status', '⏳ Verarbeite…', 'info');
+
+  try {
+    let releaseKeyBytes;
+    if (keyMode === 'direct') {
+      const hex = document.getElementById('release-key').value.trim();
+      if (hex.length !== 64) throw new Error(`Release Key muss 64 Hex-Zeichen haben (aktuell: ${hex.length})`);
+      releaseKeyBytes = hexToBytes(hex);
+    } else if (keyMode === 'shamir_code') {
+      if (!bundle.shamirShares || bundle.shamirShares.length === 0)
+        throw new Error('Keine verschlüsselten Fragmente im Export. Bitte neuen Release auslösen.');
+      const threshold = bundle.shamirThreshold || 2;
+      const codeInputs = [...document.querySelectorAll('.shamir-code-input')];
+      const shares = [];
+      const badCodes = [];
+      for (let i = 0; i < codeInputs.length; i++) {
+        const code = codeInputs[i].value.trim();
+        if (!code) continue;
+        const shareData = bundle.shamirShares[i];
+        if (!shareData || !shareData.shareEnc) continue;
+        try {
+          shares.push(await decryptShareWithCode(shareData.shareEnc, code));
+        } catch {
+          const label = shareData.contactName || shareData.contactEmail || `Kontakt ${i + 1}`;
+          badCodes.push(label);
+        }
+      }
+      if (shares.length < threshold) {
+        const msg = badCodes.length > 0
+          ? `Ungültiger Code für: ${badCodes.join(', ')}. `
+          : '';
+        throw new Error(`${msg}${shares.length} von ${threshold} gültigen Codes erhalten.`);
+      }
+      releaseKeyBytes = combineShares(shares);
+    } else {
+      throw new Error('Unbekannter Schlüssel-Modus.');
+    }
+
+    const hasRelease = bundle.entries.some(e => e.dekWrappedRelease);
+    if (!hasRelease) throw new Error('Kein dekWrappedRelease gefunden – Export benötigt Master-Passwort (CLI-Tool).');
+
+    decryptedEntries = [];
+    dekMap = {};
+    let failed = 0;
+
+    for (let idx = 0; idx < bundle.entries.length; idx++) {
+      const entry = bundle.entries[idx];
+      try {
+        if (!entry.dekWrappedRelease) { failed++; continue; }
+        const dekBytes = await aesGcmDecrypt(releaseKeyBytes, entry.dekWrappedRelease);
+        const payloadBytes = await aesGcmDecrypt(dekBytes, entry.payloadEnc);
+        const payload = JSON.parse(new TextDecoder().decode(payloadBytes));
+        const attList = (entry.attachments || []).map(a => ({ ...a })); // shallow clone
+        // Decrypt encrypted metadata (v2) or use plaintext fallback (v1)
+        let entryTitle = entry.title || '(kein Titel)';
+        let entryUrl = entry.url || '';
+        let entryCategory = entry.category || '';
+        if (entry.titleEncDek) {
+          try { entryTitle = new TextDecoder().decode(await aesGcmDecrypt(dekBytes, entry.titleEncDek)); } catch {}
+        }
+        if (entry.urlEncDek) {
+          try { entryUrl = new TextDecoder().decode(await aesGcmDecrypt(dekBytes, entry.urlEncDek)); } catch {}
+        }
+        if (entry.categoryEncDek) {
+          try { entryCategory = new TextDecoder().decode(await aesGcmDecrypt(dekBytes, entry.categoryEncDek)); } catch {}
+        }
+        decryptedEntries.push({
+          idx,
+          title: entryTitle,
+          url: entryUrl,
+          category: entryCategory,
+          username: payload.username || '',
+          secret: payload.secret || '',
+          notes: payload.notes || '',
+          attachments: attList
+        });
+        dekMap[idx] = dekBytes;
+        // Decrypt filenames/MIME immediately so the UI shows real names
+        for (const att of attList) {
+          if (att.filenameEncDek) {
+            try { att.filename = new TextDecoder().decode(await aesGcmDecrypt(dekBytes, att.filenameEncDek)); } catch {}
+          }
+          if (att.mimeEncDek) {
+            try { att.mime = new TextDecoder().decode(await aesGcmDecrypt(dekBytes, att.mimeEncDek)); } catch {}
+          }
+        }
+      } catch {
+        failed++;
+      }
+    }
+
+    if (decryptedEntries.length === 0) throw new Error('Keine Einträge entschlüsselbar. Release Key korrekt?');
+
+    showStatus('decrypt-status',
+      `✅ ${decryptedEntries.length} Eintrag${decryptedEntries.length !== 1 ? 'e' : ''} entschlüsselt` +
+      (failed ? ` · ⚠️ ${failed} fehlgeschlagen` : ''),
+      'ok'
+    );
+    renderEntries();
+
+  } catch (err) {
+    showStatus('decrypt-status', '❌ ' + escHtml(err.message), 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔓 ' + T('decrypt');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Render entries
+// ═══════════════════════════════════════════════════════════
+function renderEntries() {
+  const grid = document.getElementById('entries-grid');
+  const section = document.getElementById('section-results');
+  document.getElementById('result-count').textContent = decryptedEntries.length;
+  section.classList.remove('hidden');
+
+  grid.innerHTML = decryptedEntries.map(entry => {
+    const catBadge = entry.category
+      ? `<span class="badge badge-slate">${esc(entry.category)}</span>`
+      : '';
+    const urlRow = entry.url
+      ? `<div class="entry-url">🔗 <a href="${esc(entry.url)}" target="_blank" rel="noopener">${esc(entry.url)}</a></div>`
+      : '';
+    const usernameField = entry.username ? `
+      <div class="field-row">
+        <div class="field-label">👤 Benutzername</div>
+        <div class="field-value-row">
+          <div class="field-value">${esc(entry.username)}</div>
+          <button class="field-copy-btn" title="Kopieren" onclick="copyText('${esc(entry.username)}', this)">${iconCopy()}</button>
+        </div>
+      </div>` : '';
+    const secretField = entry.secret ? `
+      <div class="field-row">
+        <div class="field-label">🔑 Passwort / Secret</div>
+        <div class="field-value-row">
+          <div class="field-value field-secret" id="secret-${entry.idx}" onclick="toggleSecret(${entry.idx})">${esc(entry.secret)}</div>
+          <button class="field-eye-btn" title="Anzeigen/Verstecken" onclick="toggleSecret(${entry.idx})">${iconEye()}</button>
+          <button class="field-copy-btn" title="Kopieren" onclick="copyText('${esc(entry.secret).replace(/'/g, "\\'")}', this)">${iconCopy()}</button>
+        </div>
+        <div style="font-size:.65rem;color:var(--text3);margin-top:.2rem">Klicken zum Anzeigen</div>
+      </div>` : '';
+    const notesField = entry.notes ? `
+      <div class="field-row">
+        <div class="field-label">📝 Notizen</div>
+        <div class="field-notes">${esc(entry.notes)}</div>
+      </div>` : '';
+    const attField = entry.attachments.length > 0 ? `
+      <div class="field-row">
+        <div class="field-label">📎 Anhänge</div>
+        <div class="att-list">${entry.attachments.map((att, ai) => `
+          <button class="att-btn" id="attbtn-${entry.idx}-${ai}" onclick="downloadAtt(${entry.idx}, '${att.id}', ${ai})">
+            ${iconDownload()}
+            <span class="att-name" id="attname-${entry.idx}-${ai}">${esc(att.filename || `anhang-${ai + 1}.bin`)}</span>
+            ${att.size ? `<span class="att-size">${(att.size / 1024).toFixed(1)} KB</span>` : ''}
+          </button>`).join('')}
+        </div>
+      </div>` : '';
+
+    return `
+      <div class="entry-card">
+        <div class="entry-header">
+          <div class="entry-title-row">
+            <div class="entry-title">${esc(entry.title)}</div>
+            ${catBadge}
+          </div>
+          ${urlRow}
+        </div>
+        <div class="entry-body">
+          ${usernameField}
+          ${secretField}
+          ${notesField}
+          ${attField}
+        </div>
+      </div>`;
+  }).join('');
+
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ═══════════════════════════════════════════════════════════
+// Interactions
+// ═══════════════════════════════════════════════════════════
+function toggleSecret(idx) {
+  const el = document.getElementById('secret-' + idx);
+  if (!el) return;
+  el.classList.toggle('revealed');
+}
+
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = iconCheck();
+    btn.style.color = 'var(--emerald)';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1500);
+  });
+}
+
+async function downloadAtt(entryIdx, attId, attNum) {
+  const dekBytes = dekMap[entryIdx];
+  if (!loadedZip) { alert('ZIP nicht geladen. Bitte Seite neu laden.'); return; }
+  if (!dekBytes) { alert('DEK nicht gefunden – bitte zuerst entschlüsseln.'); return; }
+
+  const btn = document.getElementById('attbtn-' + entryIdx + '-' + attNum);
+  if (btn) btn.disabled = true;
+
+  try {
+    const binFile = loadedZip.file('attachments/' + attId + '.bin');
+    if (!binFile) throw new Error('Anhang-Datei nicht im ZIP: ' + attId);
+    const encBin = await binFile.async('uint8array');
+    const decrypted = await aesGcmDecrypt(dekBytes, bytesToBase64(encBin));
+
+    const entry = decryptedEntries.find(e => e.idx === entryIdx);
+    const att = entry && entry.attachments[attNum];
+    const filename = att?.filename || 'anhang-' + (attNum + 1) + '.bin';
+    const mimeType = att?.mime || 'application/octet-stream';
+
+    const blob = new Blob([decrypted], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    alert('Download fehlgeschlagen: ' + err.message);
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Export
+// ═══════════════════════════════════════════════════════════
+async function exportZip() {
+  const btn = document.getElementById('btn-export');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ ' + T('exporting'); }
+  try {
+    const zip = new JSZip();
+    const attFolder = zip.folder('attachments');
+
+    // Decrypt and collect all attachments; build entry metadata
+    const entries = await Promise.all(decryptedEntries.map(async e => {
+      const dekBytes = dekMap[e.idx];
+      const attFiles = [];
+      if (dekBytes && loadedZip) {
+        for (const att of (e.attachments || [])) {
+          const name = att.filename || (att.id + '.bin');
+          try {
+            const binFile = loadedZip.file('attachments/' + att.id + '.bin');
+            if (binFile) {
+              const encBin = await binFile.async('uint8array');
+              const dec = await aesGcmDecrypt(dekBytes, bytesToBase64(encBin));
+              attFolder.file(name, dec);
+              attFiles.push(name);
+            }
+          } catch {}
+        }
+      }
+      return { ...e, attFiles };
+    }));
+
+    // vault.json
+    const jsonEntries = entries.map(e => ({
+      title: e.title, category: e.category, url: e.url,
+      username: e.username, secret: e.secret, notes: e.notes,
+      attachments: e.attFiles,
+    }));
+    zip.file('vault.json', JSON.stringify({ exportedAt: new Date().toISOString(), entries: jsonEntries }, null, 2));
+
+    // vault.html
+    const rows = entries.map(e => {
+      const fields = [
+        e.username ? `<tr><td style="color:#64748b;padding:6px 12px;width:140px">Benutzername</td><td style="padding:6px 12px">${esc(e.username)}</td></tr>` : '',
+        e.secret   ? `<tr><td style="color:#64748b;padding:6px 12px;width:140px">Passwort</td><td style="padding:6px 12px">${esc(e.secret)}</td></tr>` : '',
+        e.notes    ? `<tr><td style="color:#64748b;padding:6px 12px;width:140px">Notizen</td><td style="padding:6px 12px;white-space:pre-wrap">${esc(e.notes)}</td></tr>` : '',
+      ].join('');
+      const atts = e.attFiles.length
+        ? `<p style="font-size:.85rem;color:#64748b;margin-top:.5rem">Anhänge: ${e.attFiles.map(f => esc(f)).join(', ')}</p>`
+        : '';
+      return `<section style="margin-bottom:2rem"><h2 style="margin:0 0 4px;font-size:1.1rem">${esc(e.category)} — ${esc(e.title)}</h2>${e.url?`<p style="margin:0 0 8px"><a href="${esc(e.url)}" style="color:#2563eb">${esc(e.url)}</a></p>`:''}<table style="width:100%;border-collapse:collapse;font-size:.9rem">${fields}</table>${atts}</section>`;
+    }).join('<hr style="border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0"/>');
+    const html = `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>Heritavo Vault Export</title></head><body style="font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;color:#1e293b"><h1 style="color:#0f172a">Heritavo Vault Export</h1><p style="color:#94a3b8;font-size:.85rem">Exportiert am ${new Date().toLocaleString('de-CH')} · ${decryptedEntries.length} Einträge</p>${rows}</body></html>`;
+    zip.file('vault.html', html);
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'heritavo-export.zip'; a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    alert('Export fehlgeschlagen: ' + err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '⬇️ ' + T('exportZip'); }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Helpers
+// ═══════════════════════════════════════════════════════════
+// ME-46: Werte aus err.message MUESSEN escaped werden — sonst koennte ein
+// crafted ZIP per JSZip-Error-Message Skript einschmuggeln. Callsites
+// nutzen escHtml() bei dynamic content; statische HTML-Templates duerfen
+// roh durchlaufen.
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+  });
+}
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.className = 'status status-' + type;
+  el.innerHTML = msg;
+  el.classList.remove('hidden');
+}
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s || '');
+  return d.innerHTML;
+}
+function iconCopy(){return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`}
+function iconCheck(){return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`}
+function iconEye(){return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`}
+function iconDownload(){return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`}
+</script>
+</body>
+</html>

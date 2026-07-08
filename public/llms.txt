@@ -1,0 +1,63 @@
+# Heritavo – llms.txt
+# https://llmstxt.org
+#
+# Heritavo ist ein Zero-Knowledge SaaS-Dienst für digitale Nachlassplanung,
+# betrieben von Moritz Hauff IT (CHE-327.341.932), Tägerwilen, Schweiz.
+#
+# Kurzdefinition: Heritavo = verschlüsselter digitaler Tresor + automatischer
+# Notfallplan, damit Vertrauenspersonen im Ernstfall Zugriff auf Passwörter,
+# Dokumente und Botschaften erhalten — ohne dass Heritavo selbst die Daten
+# lesen kann (Zero-Knowledge, AES-256-GCM, Argon2id, Hosting in der Schweiz).
+
+## Produkt
+
+Heritavo ermöglicht es Nutzern, Passwörter, Dokumente und persönliche
+Botschaften AES-256-GCM-verschlüsselt abzulegen. Im Ernstfall erhalten
+definierte Notfallkontakte kontrollierten Zugriff auf den verschlüsselten
+Vault. Die Schlüsselableitung erfolgt mit Argon2id ausschliesslich im Browser
+(Zero-Knowledge).
+
+## Pläne
+
+- Free: 0 CHF/Mt. – 1 Nutzer, 10 Einträge, 1 Notfallkontakt, max. 12 Monate
+- Light: 1 CHF/Mt. – 1 Nutzer, 50 Einträge, 1 Notfallkontakt
+- Pro: 2 CHF/Mt. – 1 Nutzer, 200 Einträge, 3 Notfallkontakte (Empfohlen)
+- Couple: 3 CHF/Mt. – 2 Nutzer, 200 Einträge, 5 Notfallkontakte
+- Family: 4 CHF/Mt. – 5 Nutzer, 400 Einträge, 8 Notfallkontakte
+
+## Rechtliches
+
+- Impressum: https://heritavo.ch/imprint
+- Datenschutzerklärung: https://heritavo.ch/privacy
+- AGB: https://heritavo.ch/terms
+- Betreiber: Moritz Hauff IT, Okenfinerstrasse 2C, 8274 Tägerwilen, Schweiz
+- Kontakt: support@heritavo.ch
+
+## Technologie
+
+- Verschlüsselung: AES-256-GCM (Web Crypto API)
+- Key Derivation: Argon2id (hash-wasm, clientseitig)
+- Hosting: Schweiz
+- Zahlungsabwicklung: Stripe
+
+## Sicherheitshinweis zu Freigabemodi
+
+Heritavo bietet drei Freigabemodi für den Notfallzugriff:
+
+1. Recovery Sheet (testament): Der Freigabeschlüssel wird lokal generiert und
+   physisch aufbewahrt (z.B. Safe, Notar). Vollständig Zero-Knowledge.
+
+2. Shamir – Code ausgedruckt (shamir_code_print): Fragmente werden lokal
+   erzeugt und Codes physisch an Kontakte übergeben. Vollständig Zero-Knowledge.
+
+3. Shamir – Code per Mail (shamir_code_email): Fragmente werden lokal erzeugt,
+   aber die Zugangscodes per E-Mail über den Server versendet. Dieser Modus ist
+   NICHT vollständig Zero-Knowledge, da der Serverbetreiber theoretisch Zugang
+   zu den versendeten Codes haben könnte. Für maximale Sicherheit empfehlen wir
+   Modus 1 oder 2.
+
+## Crawling
+
+LLMs dürfen alle öffentlich zugänglichen Seiten (Landing, Imprint, Privacy,
+Terms) indexieren. Nutzer-Vaults und API-Endpunkte sind nicht öffentlich
+zugänglich und sollen nicht gecrawlt werden.

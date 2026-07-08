@@ -1,0 +1,568 @@
+"use client";
+
+import { Link } from "@/i18n/navigation";
+// Auth-Pages (/login, /register) sind absichtlich OHNE Locale-Prefix
+// (siehe i18n/routing.ts). Link aus @/i18n/navigation wuerde dort ein
+// /de/login draus machen -> 404. AuthLink ist der plain next/link
+// fuer genau diese Faelle.
+import AuthLink from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/language-switcher";
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  ShieldCheck,
+  Key,
+  UserCheck,
+  CheckCircle2,
+  Lock,
+  Clock,
+  FileText,
+  ArrowRight,
+  Shield,
+  Globe,
+  Zap,
+  Mail,
+  Printer,
+  Stethoscope,
+  Brain,
+  Hourglass,
+} from "lucide-react";
+
+const featureKeys = [
+  { key: "vault", icon: Key, color: "bg-blue-500/10 text-blue-600" },
+  { key: "contacts", icon: UserCheck, color: "bg-emerald-500/10 text-emerald-600" },
+  { key: "zeroKnowledge", icon: ShieldCheck, color: "bg-purple-500/10 text-purple-600" },
+  { key: "autoRelease", icon: Clock, color: "bg-amber-500/10 text-amber-600" },
+  { key: "methods", icon: FileText, color: "bg-rose-500/10 text-rose-600" },
+  { key: "offline", icon: Globe, color: "bg-sky-500/10 text-sky-600" },
+] as const;
+
+const stepKeys = [
+  { key: "s1", number: "01" },
+  { key: "s2", number: "02" },
+  { key: "s3", number: "03" },
+] as const;
+
+// PR-pricing-2026: Jahresabos 1J / 2J / 3J. 1 Jahr ist Standard, 2 Jahre
+// mit ~10% Rabatt, 3 Jahre mit ~15% Rabatt. 3 Jahre ist Stripe's
+// recurring-Subscription-Maximum. Preise in CHF (Schweiz-Markt).
+const planDefs = [
+  { key: "free",   name: "Free",   "1year": 0,  "2years": 0,   "3years": 0,   highlighted: false },
+  { key: "light",  name: "Light",  "1year": 19, "2years": 34,  "3years": 49,  highlighted: false },
+  { key: "pro",    name: "Pro",    "1year": 39, "2years": 70,  "3years": 99,  highlighted: true  },
+  { key: "couple", name: "Couple", "1year": 59, "2years": 106, "3years": 150, highlighted: false },
+  { key: "family", name: "Family", "1year": 89, "2years": 160, "3years": 227, highlighted: false },
+] as const;
+
+const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"] as const;
+
+const modesDef = [
+  { key: "recovery", icon: FileText, num: "01", color: "text-slate-600", bg: "bg-slate-100" },
+  { key: "email", icon: Mail, num: "02", color: "text-blue-600", bg: "bg-blue-100" },
+  { key: "print", icon: Printer, num: "03", color: "text-amber-600", bg: "bg-amber-100" },
+] as const;
+
+const momentDefs = [
+  { key: "sudden",    icon: Stethoscope, color: "text-rose-600",    bg: "bg-rose-50",    border: "border-rose-100" },
+  { key: "cognitive", icon: Brain,       color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-100" },
+  { key: "death",     icon: Hourglass,   color: "text-slate-600",   bg: "bg-slate-100",  border: "border-slate-200" },
+] as const;
+
+type PricingInterval = "1year" | "2years" | "3years";
+
+export default function LandingPage() {
+  // 1 Jahr ist Default-Standard, kein Monats-Toggle mehr.
+  const [pricingInterval, setPricingInterval] = useState<PricingInterval>("1year");
+
+  const t = useTranslations("landing");
+  const tAuth = useTranslations("auth");
+  const tBilling = useTranslations("billing");
+
+  return (
+    <div className="flex flex-col min-h-screen bg-white">
+
+      {/* ── Navigation ── */}
+      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+        <div className="container flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2.5">
+            <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized />
+          </Link>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+            <Link href="#features" className="hover:text-slate-900 transition-colors">{t("nav.solution")}</Link>
+            <Link href="#how-it-works" className="hover:text-slate-900 transition-colors">{t("nav.howItWorks")}</Link>
+            <Link href="#pricing" className="hover:text-slate-900 transition-colors">{t("nav.pricing")}</Link>
+            <Link href="#faq" className="hover:text-slate-900 transition-colors">{t("nav.faq")}</Link>
+            <Link href="/blog" className="hover:text-slate-900 transition-colors">{t("nav.blog")}</Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <AuthLink href="/login">
+              <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">{tAuth("login")}</Button>
+            </AuthLink>
+            <AuthLink href="/register">
+              <Button size="sm" className="rounded-full px-5 shadow-sm">{t("hero.cta")}</Button>
+            </AuthLink>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1">
+
+        {/* ── Hero ── */}
+        <section className="relative overflow-hidden pt-24 pb-28 md:pt-32 md:pb-36">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-gradient-to-b from-slate-100 to-transparent rounded-full blur-3xl opacity-60" />
+            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-50 rounded-full blur-3xl opacity-80" />
+          </div>
+
+          <div className="container flex flex-col items-center text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold mb-8 tracking-wide uppercase">
+              <Lock className="w-3 h-3" />
+              {t("heroBadge")}
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.05]">
+              {t("heroTitleLine1")}<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-400">
+                {t("heroTitleLine2")}
+              </span>
+            </h1>
+
+            <p className="text-xl text-slate-500 max-w-2xl mb-10 leading-relaxed">
+              {t("heroSubtitle")}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-16">
+              <AuthLink href="/register">
+                <Button size="lg" className="px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2">
+                  {t("hero.cta")}
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </AuthLink>
+              <Link href="#how-it-works">
+                <Button variant="outline" size="lg" className="px-8 text-base rounded-full border-slate-200">
+                  {t("hero.ctaSecondary")}
+                </Button>
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm text-slate-400">
+              {([
+                { icon: Shield, label: t("trust.encryption") },
+                { icon: Globe, label: t("trust.hosting") },
+                { icon: Zap, label: t("trust.noCreditCard") },
+              ] as const).map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <Icon className="w-4 h-4" />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Moments (3 Anlässe — Vorsorge-Frame) ── */}
+        <section className="py-24 bg-white border-t border-slate-100">
+          <div className="container">
+            <div className="text-center mb-14 max-w-3xl mx-auto">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("moments.label")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("moments.title")}</h2>
+              <p className="text-lg text-slate-500">{t("moments.subtitle")}</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {momentDefs.map((m) => (
+                <div key={m.key} className={`rounded-3xl p-7 border ${m.border} bg-white shadow-sm hover:shadow-md transition-shadow`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${m.bg}`}>
+                    <m.icon className={`w-6 h-6 ${m.color}`} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{t(`moments.${m.key}.title`)}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{t(`moments.${m.key}.desc`)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Features ── */}
+        <section id="features" className="py-24 bg-slate-50">
+          <div className="container">
+            <div className="text-center mb-16">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("featuresLabel")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("featuresTitle")}</h2>
+              <p className="text-lg text-slate-500 max-w-xl mx-auto">
+                {t("featuresSubtitle")}
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featureKeys.map((f) => (
+                <div key={f.key} className="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-5 ${f.color}`}>
+                    <f.icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{t(`features.${f.key}.title`)}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{t(`features.${f.key}.desc`)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── How it works ── */}
+        <section id="how-it-works" className="py-24">
+          <div className="container">
+            <div className="text-center mb-16">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("stepsLabel")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("stepsTitle")}</h2>
+              <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("stepsSubtitle")}</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              <div className="hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+              {stepKeys.map((step) => (
+                <div key={step.number} className="relative flex flex-col items-center text-center">
+                  <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10">
+                    {step.number}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{t(`steps.${step.key}.title`)}</h3>
+                  <p className="text-slate-500 leading-relaxed text-sm max-w-xs">{t(`steps.${step.key}.desc`)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── 3 Release Modes ── */}
+        <section id="modes" className="py-24 bg-white">
+          <div className="container">
+            <div className="text-center mb-14">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("modes.label")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("modes.title")}</h2>
+              <p className="text-lg text-slate-500 max-w-xl mx-auto">
+                {t("modes.subtitle")}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+              {modesDef.map((mode) => {
+                const Icon = mode.icon;
+                const pros = t(`modes.${mode.key}.pros`).split("|");
+                const cons = t(`modes.${mode.key}.cons`).split("|");
+                return (
+                  <div key={mode.num} className="bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                    <div className="flex items-start gap-4 mb-5">
+                      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${mode.bg}`}>
+                        <Icon className={`w-5 h-5 ${mode.color}`} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-slate-400">{mode.num}</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${mode.bg} ${mode.color}`}>{t(`modes.${mode.key}.tag`)}</span>
+                        </div>
+                        <h3 className="font-bold text-slate-900">{t(`modes.${mode.key}.title`)}</h3>
+                      </div>
+                    </div>
+                    <p className="text-sm text-slate-500 leading-relaxed mb-5 flex-1">{t(`modes.${mode.key}.desc`)}</p>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1.5">{t("modes.prosLabel")}</p>
+                        <ul className="space-y-1">
+                          {pros.map(p => (
+                            <li key={p} className="text-xs text-slate-600 flex items-start gap-1.5">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" /> {p}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">{t("modes.consLabel")}</p>
+                        <ul className="space-y-1">
+                          {cons.map(c => (
+                            <li key={c} className="text-xs text-slate-500 flex items-start gap-1.5">
+                              <span className="text-slate-300 shrink-0 mt-0.5">&rarr;</span> {c}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Zero-Knowledge notice card */}
+              <div className="bg-amber-50 rounded-3xl border border-amber-200 p-7 flex flex-col justify-center">
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">{t("modes.noticeLabel")}</p>
+                <p className="text-lg font-bold text-amber-900 mb-3">{t("modes.noticeTitle")}</p>
+                <p className="text-sm text-amber-800 leading-relaxed">
+                  {t("modes.noticeDesc1")}
+                </p>
+                <p className="text-sm text-amber-700 mt-3 leading-relaxed">
+                  {t("modes.noticeDesc2")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Security ── */}
+        <section id="security" className="py-24 bg-slate-900">
+          <div className="container">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-widest text-emerald-400 mb-4">{t("security.label")}</p>
+                <h2 className="text-4xl font-extrabold text-white mb-6 leading-tight">
+                  {t("security.title")}
+                </h2>
+                <p className="text-slate-400 mb-8 text-lg leading-relaxed">
+                  {t("security.desc")}
+                </p>
+                <ul className="space-y-4">
+                  {t("security.items").split("|").map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                      <span className="text-slate-300 text-sm">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700 space-y-5">
+                <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
+                  <div className="flex gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-rose-500" />
+                    <span className="w-3 h-3 rounded-full bg-amber-500" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                  </div>
+                  <span className="text-xs text-slate-500 font-mono">heritavo-crypto.ts</span>
+                </div>
+                <pre className="text-xs text-slate-300 font-mono leading-relaxed overflow-x-auto">{`${t("security.codeComment1")}
+const { dataKey, authKey } =
+  await deriveKeys(masterPassword, kdfSalt);
+
+${t("security.codeComment2")}
+${t("security.codeComment3")}
+const encrypted =
+  await encryptPayload(data, dataKey);
+
+${t("security.codeComment4")}
+${t("security.codeComment5")}
+await uploadToServer(encrypted);`}</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Pricing ── */}
+        <section id="pricing" className="py-24 bg-white">
+          <div className="container">
+            <div className="text-center mb-12">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("pricingLabel")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("pricingTitle")}</h2>
+              <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("pricingSubtitle")}</p>
+
+              {/* Interval Toggle (1 Jahr Default, 2 Jahre ~10% off, 3 Jahre ~15% off) */}
+              <div className="inline-flex items-center gap-1 mt-8 p-1 bg-slate-100 rounded-2xl">
+                {(["1year", "2years", "3years"] as PricingInterval[]).map((iv) => (
+                  <button
+                    key={iv}
+                    onClick={() => setPricingInterval(iv)}
+                    className={`relative px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                      pricingInterval === iv
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700"
+                    }`}
+                  >
+                    {iv === "1year" ? tBilling("oneYear") : iv === "2years" ? tBilling("twoYears") : tBilling("threeYears")}
+                    {iv === "2years" && (
+                      <span className="absolute -top-2.5 -right-1 bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
+                        &minus;10%
+                      </span>
+                    )}
+                    {iv === "3years" && (
+                      <span className="absolute -top-2.5 -right-1 bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
+                        &minus;15%
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+              {planDefs.map((plan) => {
+                const price = plan[pricingInterval];
+                // CHF/Mt-Aequivalent als Wert-Anker (auch fuer 1J — niemand
+                // rechnet "39 / 12 = 3.25" im Kopf).
+                const monthlyDivisor = pricingInterval === "1year" ? 12 : pricingInterval === "2years" ? 24 : 36;
+                const monthlyEquiv = price > 0 ? (price / monthlyDivisor).toFixed(2) : null;
+                const planFeatures = t(`plans.${plan.key}.features`).split("|");
+                return (
+                  <div
+                    key={plan.name}
+                    className={`relative flex flex-col rounded-3xl p-6 border transition-all ${
+                      plan.highlighted
+                        ? "bg-slate-900 border-slate-900 shadow-xl shadow-slate-200 scale-105"
+                        : "bg-white border-slate-200 hover:border-slate-300 hover:shadow-md"
+                    }`}
+                  >
+                    {plan.highlighted && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+                        {t("pricingPopular")}
+                      </div>
+                    )}
+                    <div className="mb-5">
+                      <p className={`font-bold text-lg mb-1 ${plan.highlighted ? "text-white" : "text-slate-900"}`}>{plan.name}</p>
+                      <div className="flex items-baseline gap-1">
+                        <span className={`text-4xl font-black ${plan.highlighted ? "text-white" : "text-slate-900"}`}>
+                          {price}
+                        </span>
+                        <span className="text-sm text-slate-400">
+                          {pricingInterval === "1year" ? t("pricingPer1Year") : pricingInterval === "2years" ? t("pricingPer2Years") : t("pricingPer3Years")}
+                        </span>
+                      </div>
+                      {monthlyEquiv && price > 0 && (
+                        <p className={`text-xs mt-1 ${plan.highlighted ? "text-emerald-400" : "text-emerald-600"}`}>
+                          {t("pricingEquiv", { amount: monthlyEquiv })}
+                        </p>
+                      )}
+                      <p className={`text-xs mt-2 leading-relaxed ${plan.highlighted ? "text-slate-400" : "text-slate-500"}`}>{t(`plans.${plan.key}.desc`)}</p>
+                    </div>
+
+                    <ul className="space-y-2.5 mb-6 flex-1">
+                      {planFeatures.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2 text-sm">
+                          <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${plan.highlighted ? "text-emerald-400" : "text-emerald-500"}`} />
+                          <span className={plan.highlighted ? "text-slate-300" : "text-slate-600"}>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <AuthLink href="/register" className="w-full">
+                      <Button
+                        variant={plan.highlighted ? "default" : "outline"}
+                        className={`w-full rounded-xl h-11 font-semibold ${
+                          plan.highlighted ? "bg-white text-slate-900 hover:bg-slate-100" : ""
+                        }`}
+                      >
+                        {t(`plans.${plan.key}.cta`)}
+                      </Button>
+                    </AuthLink>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="text-center text-xs text-slate-400 mt-8">
+              {t("pricingNote")}
+            </p>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section id="faq" className="py-24 bg-slate-50">
+          <div className="container max-w-2xl">
+            <div className="text-center mb-14">
+              <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("faqLabel")}</p>
+              <h2 className="text-4xl font-extrabold text-slate-900">{t("faqTitle")}</h2>
+            </div>
+            <Accordion type="single" collapsible className="space-y-3">
+              {faqKeys.map((key, i) => (
+                <AccordionItem
+                  key={key}
+                  value={`item-${i}`}
+                  className="bg-white rounded-2xl border border-slate-100 px-6 shadow-sm data-[state=open]:shadow-md transition-shadow"
+                >
+                  <AccordionTrigger className="text-left font-semibold text-slate-900 hover:no-underline py-5">
+                    {t(`faq.${key}.q`)}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-slate-500 text-sm leading-relaxed pb-5">
+                    {t(`faq.${key}.a`)}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+
+        {/* ── Über Heritavo ── */}
+        <section id="about" className="py-24 bg-white border-t border-slate-100">
+          <div className="container max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4">
+              {t("about.label")}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight tracking-tight mb-6">
+              {t("about.title")}
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-5">
+              {t("about.body")}
+            </p>
+            <p className="text-sm text-slate-500 leading-relaxed">
+              {t("about.founderLine")}
+            </p>
+          </div>
+        </section>
+
+        {/* ── CTA ── */}
+        <section className="py-24 bg-slate-900">
+          <div className="container text-center">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
+              {t("cta.titleLine1")}<br />
+              <span className="text-slate-400">{t("cta.titleLine2")}</span>
+            </h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-lg mx-auto">
+              {t("cta.desc")}
+            </p>
+            <AuthLink href="/register">
+              <Button size="lg" className="px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold">
+                {t("cta.button")}
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </AuthLink>
+          </div>
+        </section>
+
+      </main>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-slate-100 py-14 bg-white">
+        <div className="container">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
+            <div className="col-span-2">
+              <Link href="/" className="flex items-center space-x-2.5 mb-4">
+                <Image src="/logo.svg" alt="Heritavo Logo" width={140} height={40} unoptimized className="rounded-lg" />
+              </Link>
+              <p className="text-sm text-slate-500 max-w-xs leading-relaxed">
+                {t("footerDesc")}
+              </p>
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 mb-4 text-sm">{t("footerLegal")}</h3>
+              <ul className="space-y-2.5 text-sm text-slate-500">
+                <li><Link href="/imprint" className="hover:text-slate-900 transition-colors">{t("footer.imprint")}</Link></li>
+                <li><Link href="/privacy" className="hover:text-slate-900 transition-colors">{t("footer.privacy")}</Link></li>
+                <li><Link href="/terms" className="hover:text-slate-900 transition-colors">{t("footer.terms")}</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 mb-4 text-sm">{t("footerContact")}</h3>
+              <ul className="space-y-2.5 text-sm text-slate-500">
+                <li>support@heritavo.com</li>
+                <li>Tägerwilen, Schweiz</li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <span>&copy; {new Date().getFullYear()} {t("footerCopyright")}</span>
+            <div className="flex items-center gap-2">
+              <Shield className="w-3.5 h-3.5 text-slate-300" />
+              <span>{t("footerMadeIn")}</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
