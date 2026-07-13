@@ -19,6 +19,17 @@ resources:
 probe:
   path: /api/health
 
+# Umami-Analytics (self-hosted auf dem internal-Cluster, analytics.hauff.cloud).
+# Beide Werte sind oeffentlich — die websiteId landet als data-website-id im
+# ausgelieferten HTML. Default leer = Tracking aus (sicheres no-op), die echte
+# ID setzt values-prod.yaml.
+# ACHTUNG: Der Origin von url muss zusaetzlich als UMAMI_ORIGIN in der CSP in
+# next.config.ts stehen — die CSP wird beim Build eingebacken und liest die ENV
+# NICHT zur Laufzeit. Host hier aendern => dort mitaendern.
+umami:
+  url: https://analytics.hauff.cloud/script.js
+  websiteId: ""
+
 ingress:
   enabled: true
   className: nginx

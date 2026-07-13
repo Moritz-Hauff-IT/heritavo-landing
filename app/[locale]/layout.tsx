@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
+import UmamiAnalytics from "@/components/UmamiAnalytics";
 import deMessages from "@/messages/de.json";
 import enMessages from "@/messages/en.json";
 import frMessages from "@/messages/fr.json";
@@ -124,6 +125,7 @@ export default async function LandingLayout({
         <NextIntlClientProvider locale={safeLocale} messages={messagesByLocale[safeLocale]}>
           {children}
         </NextIntlClientProvider>
+        <UmamiAnalytics />
       </body>
     </html>
   );
