@@ -31,6 +31,9 @@ export type BlogPostFrontmatter = {
   keywords?: string[];
   author?: string;
   draft?: boolean;
+  /** Header-Bild, Pfad unter public/ (z.B. /images/blog/crypto.webp) */
+  image?: string;
+  imageAlt?: string;
 };
 
 export type BlogPost = BlogPostFrontmatter & {

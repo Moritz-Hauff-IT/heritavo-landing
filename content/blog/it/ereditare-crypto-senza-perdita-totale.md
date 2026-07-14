@@ -10,6 +10,8 @@ keywords:
   - "hardware wallet eredità"
   - "successione crypto Svizzera"
 author: "Moritz Hauff"
+image: "/images/blog/crypto.webp"
+imageAlt: "Monete Bitcoin dorate in luce calda"
 ---
 
 È probabilmente la forma più costosa di disattenzione digitale: **circa il 20% di tutti i Bitcoin è oggi considerato irreversibilmente perso** — stima della società di analisi Chainalysis. Coin che non si muovono da oltre cinque anni, le cui chiavi nessuno conosce più. Ai corsi attuali parliamo di centinaia di miliardi di franchi di patrimonio che non appartengono più a nessuno.

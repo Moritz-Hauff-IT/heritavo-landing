@@ -10,6 +10,8 @@ keywords:
   - "Argon2id"
   - "Shamir Secret Sharing"
 author: "Moritz Hauff"
+image: "/images/blog/zero-knowledge.webp"
+imageAlt: "Vecchia chiave d'ottone su una tastiera di computer"
 ---
 
 Quando si prende sul serio la pianificazione digitale, emerge subito una domanda centrale: **chi può leggere i miei dati sensibili?** Con i servizi cloud classici, la risposta è: teoricamente il fornitore, l'host, nel peggiore dei casi le autorità. Con una cassaforte zero-knowledge, la risposta è: **nessuno tranne te**, e in caso di emergenza le persone di fiducia che hai esplicitamente designato.

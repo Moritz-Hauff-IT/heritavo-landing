@@ -10,6 +10,8 @@ keywords:
   - "Schweizer Erbrecht Online-Konten"
   - "digitaler Nachlass ZGB"
 author: "Moritz Hauff"
+image: "/images/blog/legacy-guide.webp"
+imageAlt: "Hände halten alte Briefe und Fotografien"
 ---
 
 Beim Aufbau von [Heritavo](/de) habe ich mich intensiv mit dem Schweizer Erbrecht im Kontext digitaler Vermögenswerte beschäftigt. Die zentrale Erkenntnis: das Schweizer Recht ist gut auf physische Vermögenswerte vorbereitet, aber bei digitalem Nachlass entstehen regelmässig Probleme, die mit einer **rechtzeitigen Vorsorge** komplett vermeidbar wären.

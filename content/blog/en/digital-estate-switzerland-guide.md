@@ -10,6 +10,8 @@ keywords:
   - "Swiss inheritance online accounts"
   - "digital legacy Switzerland"
 author: "Moritz Hauff"
+image: "/images/blog/legacy-guide.webp"
+imageAlt: "Hands holding old letters and photographs"
 ---
 
 While building [Heritavo](/en), I dug deep into Swiss inheritance law in the context of digital assets. The central takeaway: Swiss law is well-prepared for physical assets but regularly runs into trouble with digital estates — trouble that **timely preparation** could completely avoid.

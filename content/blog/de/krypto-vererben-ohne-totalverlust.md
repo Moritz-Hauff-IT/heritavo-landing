@@ -10,6 +10,8 @@ keywords:
   - "Hardware Wallet Erbe"
   - "Krypto Erbschaft Schweiz"
 author: "Moritz Hauff"
+image: "/images/blog/crypto.webp"
+imageAlt: "Goldene Bitcoin-Münzen in warmem Licht"
 ---
 
 Es ist die wahrscheinlich teuerste Form digitaler Sorglosigkeit: **rund 20% aller Bitcoin gelten heute als irreversibel verloren** — geschätzt vom Analyse-Unternehmen Chainalysis. Coins, die seit über fünf Jahren nicht mehr bewegt wurden, deren Schlüssel niemand mehr kennt. Bei aktuellen Kursen reden wir über mehrere hundert Milliarden Franken Vermögen, das niemandem mehr gehört.

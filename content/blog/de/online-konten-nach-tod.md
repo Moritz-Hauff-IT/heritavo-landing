@@ -10,6 +10,8 @@ keywords:
   - "Passwörter vererben"
   - "Notfallzugriff Konten"
 author: "Moritz Hauff"
+image: "/images/blog/accounts.webp"
+imageAlt: "Ältere Menschen sitzen mit einem Laptop am Tisch"
 ---
 
 Wer einmal beginnt, seine Online-Konten zu zählen, kommt schnell auf erstaunliche Zahlen. E-Mail-Konten, Banking, Cloud-Speicher, Streaming-Dienste, Newsletter, Foren — ein typisches modernes Leben verteilt sich heute auf Dutzende bis weit über hundert digitale Konten. Die Frage, die mich beim Aufbau von Heritavo nicht losgelassen hat: Was passiert mit all dem, wenn einem Menschen morgen etwas zustösst?
