@@ -249,6 +249,23 @@ export default function LandingPage() {
                 </div>
               ))}
             </div>
+
+            <div
+              className="hero-item mt-16 w-full max-w-5xl"
+              style={{ "--hero-i": 5 } as CSSProperties}
+            >
+              <div className="relative rounded-3xl overflow-hidden border border-slate-100 shadow-2xl shadow-slate-200">
+                <Image
+                  src="/images/hero-family.webp"
+                  alt={t("heroImageAlt")}
+                  width={2000}
+                  height={950}
+                  unoptimized
+                  priority
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -592,8 +609,17 @@ await uploadToServer(encrypted);`}</pre>
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-24 bg-slate-900">
-          <div data-reveal className="container text-center">
+        <section className="relative overflow-hidden py-24 bg-slate-900">
+          <Image
+            src="/images/cta-lake.webp"
+            alt=""
+            aria-hidden
+            fill
+            unoptimized
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-slate-900/75" />
+          <div data-reveal className="container text-center relative">
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
               {t("cta.titleLine1")}<br />
               <span className="text-slate-400">{t("cta.titleLine2")}</span>
