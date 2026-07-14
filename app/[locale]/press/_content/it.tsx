@@ -27,8 +27,8 @@ const ANGLES: [string, string][] = [
     "La previdenza digitale non riguarda solo il decesso: demenza, incidenti o un ricovero rendono altrettanto necessario un accesso ordinato.",
   ],
   [
-    "Funziona anche offline",
-    "Tutti i metodi di consegna funzionano offline — il passaggio riesce anche se un giorno il servizio non esistesse più.",
+    "Decifrabile offline",
+    "La notifica d'emergenza arriva via e-mail — ma il pacchetto di dati consegnato è autonomo: i familiari lo decifrano localmente nel browser, senza connessione internet e senza che Heritavo debba ancora esistere.",
   ],
 ];
 

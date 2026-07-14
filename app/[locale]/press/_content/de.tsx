@@ -27,8 +27,8 @@ const ANGLES: [string, string][] = [
     "Digitale Vorsorge betrifft nicht nur den Todesfall: Demenz, Unfall oder ein Spitalaufenthalt machen den geregelten Zugriff genauso nötig.",
   ],
   [
-    "Funktioniert auch offline",
-    "Alle Freigabe-Methoden funktionieren offline — die Übergabe klappt auch, wenn es den Dienst eines Tages nicht mehr gäbe.",
+    "Offline entschlüsselbar",
+    "Die Benachrichtigung im Ernstfall kommt per E-Mail — das übergebene Datenpaket selbst ist aber eigenständig: Angehörige entschlüsseln es lokal im Browser, ohne Internetverbindung und ohne dass es Heritavo dafür noch braucht.",
   ],
 ];
 
