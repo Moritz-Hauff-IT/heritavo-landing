@@ -216,6 +216,13 @@
     "heroImageAlt": "Grossmutter und Enkelin schauen gemeinsam lächelnd auf ein Smartphone",
     "heroCard1": "Lebenszeichen bestätigt",
     "heroCard2": "Nur du hast den Schlüssel",
+    "zkDemo": {
+      "inputLabel": "Bei dir im Browser",
+      "placeholder": "Schreib etwas Vertrauliches …",
+      "serverLabel": "Was auf unserem Server ankommt",
+      "sample": "Der Zweitschlüssel liegt im Bankschliessfach",
+      "caption": "Live mit AES-256-GCM in deinem Browser verschlüsselt — nichts davon wird gesendet. Der Schlüssel bleibt bei dir: Wir könnten deine Daten nicht lesen, selbst wenn wir wollten."
+    },
     "trust": {
       "encryption": "AES-256-GCM verschlüsselt",
       "hosting": "Hosting in der Schweiz",

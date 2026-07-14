@@ -219,6 +219,13 @@
     "heroImageAlt": "Nonna e nipote sorridenti guardano insieme uno smartphone",
     "heroCard1": "Segno di vita confermato",
     "heroCard2": "Solo tu hai la chiave",
+    "zkDemo": {
+      "inputLabel": "Nel tuo browser",
+      "placeholder": "Scrivi qualcosa di riservato …",
+      "serverLabel": "Ciò che arriva sul nostro server",
+      "sample": "La chiave di riserva è nella cassetta di sicurezza",
+      "caption": "Cifrato in tempo reale con AES-256-GCM nel tuo browser — nulla viene inviato. La chiave resta da te: non potremmo leggere i tuoi dati nemmeno volendo."
+    },
     "trust": {
       "encryption": "Crittografia AES-256-GCM",
       "hosting": "Ospitato in Svizzera",

@@ -219,6 +219,13 @@
     "heroImageAlt": "Grandmother and granddaughter smiling while looking at a smartphone together",
     "heroCard1": "Check-in confirmed",
     "heroCard2": "Only you hold the key",
+    "zkDemo": {
+      "inputLabel": "In your browser",
+      "placeholder": "Write something confidential …",
+      "serverLabel": "What reaches our server",
+      "sample": "The spare key is in the safe deposit box",
+      "caption": "Encrypted live with AES-256-GCM in your browser — nothing is sent anywhere. The key stays with you: we couldn't read your data even if we wanted to."
+    },
     "trust": {
       "encryption": "AES-256-GCM encrypted",
       "hosting": "Hosted in Switzerland",

@@ -166,6 +166,23 @@
   .kenburns-cta {
     animation: kenBurnsCta 38s ease-in-out infinite alternate;
   }
+
+  /* Schritte-Verbindungslinie: zeichnet sich beim Reveal von links. */
+  [data-reveal].steps-line {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+      transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.35s,
+      opacity 0.5s ease 0.35s;
+  }
+  [data-reveal].steps-line.is-visible {
+    transform: scaleX(1);
+  }
+
+  /* Ciphertext-Panel der Zero-Knowledge-Demo: kurzer Puls bei jedem Update. */
+  .cipher-flash {
+    animation: cipherFlash 0.45s ease-out;
+  }
 }
 
 /* Fallback: reduzierte Bewegung -> nichts verstecken. */
@@ -232,4 +249,8 @@
 @keyframes kenBurnsCta {
   from { transform: scale(1.04); }
   to   { transform: scale(1.15); }
+}
+@keyframes cipherFlash {
+  from { opacity: 0.35; }
+  to   { opacity: 1; }
 }
