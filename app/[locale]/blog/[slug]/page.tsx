@@ -39,6 +39,9 @@ export async function generateMetadata({
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       authors: [post.author ?? "Moritz Hauff"],
+      ...(post.image
+        ? { images: [{ url: `${BASE_URL}${post.image}`, width: 1600, height: 900, alt: post.imageAlt }] }
+        : {}),
     },
   };
 }
@@ -123,6 +126,7 @@ export default async function BlogPostPage({
     mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE_URL}/${safeLocale}/blog/${slug}` },
     keywords: post.keywords?.join(", "),
     inLanguage: LOCALE_FORMAT[safeLocale],
+    ...(post.image ? { image: `${BASE_URL}${post.image}` } : {}),
   };
 
   const breadcrumbSchema = {
@@ -175,6 +179,20 @@ export default async function BlogPostPage({
               </p>
             )}
           </header>
+          {post.image && (
+            <div className="relative aspect-[16/8] overflow-hidden rounded-3xl border border-slate-100 shadow-lg">
+              <Image
+                src={post.image}
+                alt={post.imageAlt ?? ""}
+                fill
+                unoptimized
+                priority
+                className="object-cover"
+              />
+              {/* Sanfter Boden-Verlauf wie beim Hero-Foto der Startseite. */}
+              <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-slate-900/20 to-transparent" />
+            </div>
+          )}
           <hr className="border-slate-200" />
           <BlogBody html={post.htmlBody} />
           <footer className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-6 space-y-3">

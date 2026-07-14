@@ -10,6 +10,8 @@ keywords:
   - "trasmettere password"
   - "accesso emergenza account"
 author: "Moritz Hauff"
+image: "/images/blog/accounts.webp"
+imageAlt: "Persone anziane sedute a un tavolo con un laptop"
 ---
 
 Se inizi a contare i tuoi account online, raggiungi rapidamente numeri sorprendenti. Account e-mail, banca, cloud storage, streaming, newsletter, forum — una vita moderna tipica si distribuisce oggi su dozzine o ben oltre cento account digitali. La domanda che non mi ha lasciato costruendo Heritavo: cosa succederà a tutto questo se domani accade qualcosa?

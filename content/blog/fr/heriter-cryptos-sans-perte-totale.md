@@ -10,6 +10,8 @@ keywords:
   - "hardware wallet héritage"
   - "succession crypto Suisse"
 author: "Moritz Hauff"
+image: "/images/blog/crypto.webp"
+imageAlt: "Pièces de Bitcoin dorées dans une lumière chaude"
 ---
 
 C'est probablement la forme la plus coûteuse d'insouciance numérique : **environ 20% de tous les Bitcoin sont aujourd'hui considérés comme irréversiblement perdus** — estimation de la société d'analyse Chainalysis. Des coins qui n'ont pas bougé depuis plus de cinq ans, dont personne ne connaît plus les clés. Aux cours actuels, on parle de centaines de milliards de francs de patrimoine qui n'appartiennent plus à personne.

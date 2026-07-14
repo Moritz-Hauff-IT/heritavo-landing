@@ -164,11 +164,23 @@ export default async function BlogIndexPage({
         ) : (
           <ul className="grid gap-6 md:grid-cols-2">
             {posts.map((p, idx) => (
-              <li key={p.slug}>
+              <li key={p.slug} className={idx === 0 ? "md:col-span-2" : ""}>
                 <Link
                   href={`/${safeLocale}/blog/${p.slug}`}
-                  className={`group flex flex-col h-full rounded-2xl border border-slate-200 bg-white p-7 shadow-sm hover:shadow-md hover:border-primary/40 transition-all ${idx === 0 ? "md:col-span-2" : ""}`}
+                  className="group flex flex-col h-full rounded-2xl border border-slate-200 bg-white p-7 shadow-sm hover:shadow-md hover:border-primary/40 transition-all"
                 >
+                  {p.image && (
+                    <div className={`relative overflow-hidden rounded-xl mb-5 ${idx === 0 ? "aspect-[21/9]" : "aspect-[16/9]"}`}>
+                      <Image
+                        src={p.image}
+                        alt=""
+                        aria-hidden
+                        fill
+                        unoptimized
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
                     <time dateTime={p.publishedAt}>{formatDate(p.publishedAt, safeLocale)}</time>
                     <span className="h-1 w-1 rounded-full bg-slate-300" />
