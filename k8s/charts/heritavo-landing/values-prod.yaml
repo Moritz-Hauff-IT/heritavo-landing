@@ -3,6 +3,13 @@ image:
 
 replicaCount: 2
 
+# Dieselbe Website-ID wie vor dem app.heritavo.com-Split (stand bis dahin im
+# Infisical-Secret heritavo-env der App) — damit die Statistik in Umami ohne
+# Bruch auf derselben Website weiterlaeuft.
+umami:
+  url: https://analytics.hauff.cloud/script.js
+  websiteId: "8564d371-10e0-4872-9c22-adc91b5ae70d"
+
 ingress:
   enabled: true
   host: heritavo.com

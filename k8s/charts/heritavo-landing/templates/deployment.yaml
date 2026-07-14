@@ -35,6 +35,16 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          {{- if .Values.umami.websiteId }}
+          env:
+            # Umami-Analytics. Keine Secrets (die Website-ID steht im HTML jeder
+            # Seite) -> Plain-Values statt Infisical. Leere websiteId = Tracking
+            # aus: die UmamiAnalytics-Komponente rendert dann kein Script.
+            - name: UMAMI_URL
+              value: {{ .Values.umami.url | quote }}
+            - name: UMAMI_WEBSITE_ID
+              value: {{ .Values.umami.websiteId | quote }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
