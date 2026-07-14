@@ -93,10 +93,9 @@ export default function PressEn() {
         <h2 className="font-semibold text-slate-900">Press contact</h2>
         <p className="text-slate-600">
           Moritz Hauff, founder —{" "}
-          <a href="mailto:support@heritavo.com" className="underline hover:text-slate-900">
-            support@heritavo.com
-          </a>{" "}
-          (please mention “press” in the subject line).
+          <a href="mailto:presse@heritavo.com" className="underline hover:text-slate-900">
+            presse@heritavo.com
+          </a>.
         </p>
       </section>
     </main>

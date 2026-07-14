@@ -96,10 +96,9 @@ export default function PressIt() {
         <h2 className="font-semibold text-slate-900">Contatto stampa</h2>
         <p className="text-slate-600">
           Moritz Hauff, fondatore —{" "}
-          <a href="mailto:support@heritavo.com" className="underline hover:text-slate-900">
-            support@heritavo.com
-          </a>{" "}
-          (indicare «stampa» nell&apos;oggetto).
+          <a href="mailto:presse@heritavo.com" className="underline hover:text-slate-900">
+            presse@heritavo.com
+          </a>.
         </p>
       </section>
     </main>

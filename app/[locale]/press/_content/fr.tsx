@@ -95,10 +95,9 @@ export default function PressFr() {
         <h2 className="font-semibold text-slate-900">Contact presse</h2>
         <p className="text-slate-600">
           Moritz Hauff, fondateur —{" "}
-          <a href="mailto:support@heritavo.com" className="underline hover:text-slate-900">
-            support@heritavo.com
-          </a>{" "}
-          (mentionnez « presse » dans l&apos;objet).
+          <a href="mailto:presse@heritavo.com" className="underline hover:text-slate-900">
+            presse@heritavo.com
+          </a>.
         </p>
       </section>
     </main>
