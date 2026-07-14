@@ -27,8 +27,8 @@ const ANGLES: [string, string][] = [
     "Digital estate planning is not just about death: dementia, accidents or a hospital stay make orderly access just as necessary.",
   ],
   [
-    "Works offline too",
-    "Every release method works offline — the handover succeeds even if the service were to disappear one day.",
+    "Decryptable offline",
+    "The emergency notification arrives by email — but the handed-over data package is self-contained: recipients decrypt it locally in their browser, with no internet connection and without Heritavo needing to still exist.",
   ],
 ];
 

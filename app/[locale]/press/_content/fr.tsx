@@ -27,8 +27,8 @@ const ANGLES: [string, string][] = [
     "La prévoyance numérique ne concerne pas que le décès : démence, accident ou hospitalisation rendent un accès organisé tout aussi nécessaire.",
   ],
   [
-    "Fonctionne aussi hors ligne",
-    "Toutes les méthodes de transmission fonctionnent hors ligne — la remise réussit même si le service venait à disparaître un jour.",
+    "Déchiffrable hors ligne",
+    "La notification d'urgence arrive par e-mail — mais le paquet de données transmis est autonome : les proches le déchiffrent localement dans leur navigateur, sans connexion internet et sans que Heritavo doive encore exister.",
   ],
 ];
 

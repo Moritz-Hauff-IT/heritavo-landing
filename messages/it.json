@@ -142,7 +142,7 @@
       },
       "q5": {
         "q": "Quali metodi di rilascio esistono?",
-        "a": "3 metodi: Recovery Sheet (offline), codice di accesso via e-mail, codice stampato. Tutti funzionano offline."
+        "a": "3 metodi: Recovery Sheet (offline), codice di accesso via e-mail, codice stampato. In ogni caso il pacchetto di dati rilasciato si decifra localmente nel browser — senza connessione internet."
       },
       "q6": {
         "q": "Cosa succede se un codice viene perso?",

@@ -142,7 +142,7 @@
       },
       "q5": {
         "q": "Quelles méthodes de libération existent ?",
-        "a": "3 méthodes : Recovery Sheet (hors ligne), code d'accès par e-mail, code d'accès imprimé. Toutes fonctionnent hors ligne."
+        "a": "3 méthodes : Recovery Sheet (hors ligne), code d'accès par e-mail, code d'accès imprimé. Dans tous les cas, le paquet de données transmis se déchiffre localement dans le navigateur — sans connexion internet."
       },
       "q6": {
         "q": "Que se passe-t-il si un code est perdu ?",

@@ -142,7 +142,7 @@
       },
       "q5": {
         "q": "What release methods are available?",
-        "a": "3 methods: Recovery Sheet (offline), access code by email, printed access code. All work offline."
+        "a": "3 methods: Recovery Sheet (offline), access code by email, printed access code. In every case, the released data package can be decrypted locally in the browser — no internet connection needed."
       },
       "q6": {
         "q": "What if an access code is lost?",

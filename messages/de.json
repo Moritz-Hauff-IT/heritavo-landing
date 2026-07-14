@@ -139,7 +139,7 @@
       },
       "q5": {
         "q": "Welche Freigabe-Methoden gibt es?",
-        "a": "3 Methoden: Recovery Sheet (offline), Zugangscode per E-Mail, Zugangscode ausgedruckt. Alle funktionieren offline."
+        "a": "3 Methoden: Recovery Sheet (offline), Zugangscode per E-Mail, Zugangscode ausgedruckt. Das freigegebene Datenpaket lässt sich in jedem Fall lokal im Browser entschlüsseln — ohne Internetverbindung."
       },
       "q6": {
         "q": "Was passiert bei verlorenem Zugangscode?",
