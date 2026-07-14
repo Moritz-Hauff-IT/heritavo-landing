@@ -141,6 +141,31 @@
   .card-lift:hover {
     transform: translateY(-6px);
   }
+
+  /* Hero-Foto: langsamer Ken-Burns-Zoom + Scroll-Parallax.
+     Parallax-Wrapper und Zoom-Element sind getrennt, damit sich
+     die Transforms nicht gegenseitig ueberschreiben. */
+  .hero-photo-parallax {
+    transform: translate3d(0, calc(var(--heroY, 0) * 0.08px), 0);
+    will-change: transform;
+  }
+  .kenburns-hero {
+    animation: kenBurnsHero 26s ease-in-out infinite alternate;
+  }
+
+  /* Schwebende Glas-Badges auf dem Hero-Foto. */
+  .float-badge {
+    animation: floatBadge 6.5s ease-in-out infinite alternate;
+  }
+  .float-badge-2 {
+    animation-duration: 7.5s;
+    animation-direction: alternate-reverse;
+  }
+
+  /* CTA-Hintergrund: sehr langsamer Zoom fuer filmische Tiefe. */
+  .kenburns-cta {
+    animation: kenBurnsCta 38s ease-in-out infinite alternate;
+  }
 }
 
 /* Fallback: reduzierte Bewegung -> nichts verstecken. */
@@ -195,4 +220,16 @@
 @keyframes lockBreath {
   0%, 100% { opacity: 0.8; transform: scale(1); }
   50%      { opacity: 1; transform: scale(1.12); }
+}
+@keyframes kenBurnsHero {
+  from { transform: scale(1.03); }
+  to   { transform: scale(1.1) translate3d(1.5%, -1%, 0); }
+}
+@keyframes floatBadge {
+  from { transform: translateY(-4px); }
+  to   { transform: translateY(7px); }
+}
+@keyframes kenBurnsCta {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.15); }
 }

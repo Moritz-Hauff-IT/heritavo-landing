@@ -217,6 +217,8 @@
     "heroTitleLine2": "ce qu'elle doit savoir.",
     "heroSubtitle": "Maladie, accident, démence ou décès — Heritavo veille à ce que tes proches aient accès à l'essentiel quand tu ne peux plus le leur dire. C'est toi qui décides qui apprend quoi, et quand.",
     "heroImageAlt": "Grand-mère et petite-fille souriantes regardant ensemble un smartphone",
+    "heroCard1": "Signe de vie confirmé",
+    "heroCard2": "Toi seul détiens la clé",
     "trust": {
       "encryption": "Chiffrement AES-256-GCM",
       "hosting": "Hébergé en Suisse",
