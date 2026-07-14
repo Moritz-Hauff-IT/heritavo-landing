@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Key,
   UserCheck,
+  Check,
   CheckCircle2,
   Lock,
   Clock,
@@ -124,6 +125,9 @@ export default function LandingPage() {
       const h = document.documentElement;
       const max = h.scrollHeight - h.clientHeight;
       h.style.setProperty("--scroll", max > 0 ? String(h.scrollTop / max) : "0");
+      // Parallax-Versatz fuers Hero-Foto (px, gedeckelt — Hero ist nach
+      // ~800px aus dem Viewport, danach kein Style-Update mehr noetig).
+      h.style.setProperty("--heroY", String(Math.min(h.scrollTop, 800)));
       setScrolled(h.scrollTop > 8);
     };
     onScroll();
@@ -248,6 +252,55 @@ export default function LandingPage() {
                   <span>{label}</span>
                 </div>
               ))}
+            </div>
+
+            <div
+              className="hero-item relative mt-16 w-full max-w-5xl"
+              style={{ "--hero-i": 5 } as CSSProperties}
+            >
+              {/* Glow hinter dem Foto — verankert es in der Aurora-Welt. */}
+              <div
+                aria-hidden
+                className="aurora-blob absolute -inset-x-10 -top-10 -bottom-16 -z-10 rounded-full blur-3xl opacity-60"
+                style={{ background: "radial-gradient(ellipse, hsl(152 43% 30% / 0.18), hsl(var(--brand-accent) / 0.12) 45%, transparent 72%)" }}
+              />
+
+              <div className="relative aspect-[2000/950] rounded-3xl overflow-hidden border border-slate-100 shadow-2xl shadow-slate-200">
+                <div className="hero-photo-parallax absolute -inset-y-[8%] inset-x-0">
+                  <Image
+                    src="/images/hero-family.webp"
+                    alt={t("heroImageAlt")}
+                    fill
+                    unoptimized
+                    priority
+                    className="kenburns-hero object-cover"
+                  />
+                </div>
+                {/* Sanfter Verlauf am unteren Rand fuer Tiefe. */}
+                <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-slate-900/25 to-transparent" />
+
+                {/* Schwebende Produkt-Badges verbinden Foto und Funktion. */}
+                <div
+                  className="hero-item absolute top-5 right-5 sm:top-7 sm:right-7"
+                  style={{ "--hero-i": 7 } as CSSProperties}
+                >
+                  <div className="float-badge flex items-center gap-2 rounded-full bg-white/85 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-slate-800">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
+                      <Check className="h-3 w-3" />
+                    </span>
+                    {t("heroCard1")}
+                  </div>
+                </div>
+                <div
+                  className="hero-item absolute bottom-5 left-5 sm:bottom-7 sm:left-7"
+                  style={{ "--hero-i": 8 } as CSSProperties}
+                >
+                  <div className="float-badge float-badge-2 flex items-center gap-2 rounded-full bg-slate-900/80 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-white">
+                    <Lock className="h-3.5 w-3.5 text-[hsl(var(--brand-accent))]" />
+                    {t("heroCard2")}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -592,8 +645,17 @@ await uploadToServer(encrypted);`}</pre>
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-24 bg-slate-900">
-          <div data-reveal className="container text-center">
+        <section className="relative overflow-hidden py-24 bg-slate-900">
+          <Image
+            src="/images/cta-lake.webp"
+            alt=""
+            aria-hidden
+            fill
+            unoptimized
+            className="kenburns-cta object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-900/60 to-slate-900/95" />
+          <div data-reveal className="container text-center relative">
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
               {t("cta.titleLine1")}<br />
               <span className="text-slate-400">{t("cta.titleLine2")}</span>

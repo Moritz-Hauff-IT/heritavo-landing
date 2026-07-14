@@ -216,6 +216,9 @@
     "heroTitleLine1": "So your family knows",
     "heroTitleLine2": "what they need to know.",
     "heroSubtitle": "Illness, accident, dementia or death — Heritavo makes sure your loved ones have access to what matters when you can't tell them yourself. You decide who learns what, and when.",
+    "heroImageAlt": "Grandmother and granddaughter smiling while looking at a smartphone together",
+    "heroCard1": "Check-in confirmed",
+    "heroCard2": "Only you hold the key",
     "trust": {
       "encryption": "AES-256-GCM encrypted",
       "hosting": "Hosted in Switzerland",
