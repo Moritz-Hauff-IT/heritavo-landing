@@ -630,6 +630,7 @@ await uploadToServer(encrypted);`}</pre>
                 <li><Link href="/imprint" className="hover:text-slate-900 transition-colors">{t("footer.imprint")}</Link></li>
                 <li><Link href="/privacy" className="hover:text-slate-900 transition-colors">{t("footer.privacy")}</Link></li>
                 <li><Link href="/terms" className="hover:text-slate-900 transition-colors">{t("footer.terms")}</Link></li>
+                <li><Link href="/press" className="hover:text-slate-900 transition-colors">{t("footer.press")}</Link></li>
               </ul>
             </div>
             <div>
