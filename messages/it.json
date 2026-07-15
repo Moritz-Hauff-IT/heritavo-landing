@@ -219,6 +219,26 @@
     "heroImageAlt": "Nonna e nipote sorridenti guardano insieme uno smartphone",
     "heroCard1": "Segno di vita confermato",
     "heroCard2": "Solo tu hai la chiave",
+    "flowDemo": {
+      "title": "E se succede?",
+      "subtitle": "Così si svolge il piano d'emergenza — in modo del tutto automatico, passo dopo passo.",
+      "s1": {
+            "title": "Segno di vita",
+            "desc": "Basta un clic — tutto resta chiuso."
+      },
+      "s2": {
+            "title": "Check-in mancato",
+            "desc": "Heritavo te lo ricorda — più volte, con discrezione."
+      },
+      "s3": {
+            "title": "Tempo di attesa",
+            "desc": "Nessuna reazione? Parte il conto alla rovescia."
+      },
+      "s4": {
+            "title": "La famiglia riceve l'accesso",
+            "desc": "I tuoi contatti ricevono la cassaforte cifrata."
+      }
+    },
     "zkDemo": {
       "inputLabel": "Nel tuo browser",
       "placeholder": "Scrivi qualcosa di riservato …",
