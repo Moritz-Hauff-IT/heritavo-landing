@@ -219,6 +219,13 @@
     "heroImageAlt": "Grand-mère et petite-fille souriantes regardant ensemble un smartphone",
     "heroCard1": "Signe de vie confirmé",
     "heroCard2": "Toi seul détiens la clé",
+    "zkDemo": {
+      "inputLabel": "Dans ton navigateur",
+      "placeholder": "Écris quelque chose de confidentiel …",
+      "serverLabel": "Ce qui arrive sur notre serveur",
+      "sample": "La clé de secours est au coffre bancaire",
+      "caption": "Chiffré en direct avec AES-256-GCM dans ton navigateur — rien n'est envoyé. La clé reste chez toi : nous ne pourrions pas lire tes données, même si nous le voulions."
+    },
     "trust": {
       "encryption": "Chiffrement AES-256-GCM",
       "hosting": "Hébergé en Suisse",

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
+import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -360,7 +361,7 @@ export default function LandingPage() {
               <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("stepsSubtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8 relative">
-              <div className="hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+              <div data-reveal className="steps-line hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
               {stepKeys.map((step, i) => (
                 <div key={step.number} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="relative flex flex-col items-center text-center">
                   <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10 transition-transform hover:scale-105">
@@ -468,27 +469,8 @@ export default function LandingPage() {
                 </ul>
               </div>
 
-              <div data-reveal style={{ "--reveal-i": 1 } as CSSProperties} className="bg-slate-800 rounded-3xl p-8 border border-slate-700 space-y-5">
-                <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
-                  <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-rose-500" />
-                    <span className="w-3 h-3 rounded-full bg-amber-500" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                  </div>
-                  <span className="text-xs text-slate-500 font-mono">heritavo-crypto.ts</span>
-                </div>
-                <pre className="text-xs text-slate-300 font-mono leading-relaxed overflow-x-auto">{`${t("security.codeComment1")}
-const { dataKey, authKey } =
-  await deriveKeys(masterPassword, kdfSalt);
-
-${t("security.codeComment2")}
-${t("security.codeComment3")}
-const encrypted =
-  await encryptPayload(data, dataKey);
-
-${t("security.codeComment4")}
-${t("security.codeComment5")}
-await uploadToServer(encrypted);`}</pre>
+              <div data-reveal style={{ "--reveal-i": 1 } as CSSProperties}>
+                <ZeroKnowledgeDemo />
               </div>
             </div>
           </div>
