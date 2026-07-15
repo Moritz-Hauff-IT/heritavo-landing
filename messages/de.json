@@ -217,6 +217,8 @@
     "heroCard1": "Lebenszeichen bestätigt",
     "heroCard2": "Nur du hast den Schlüssel",
     "flowDemo": {
+      "act1": "Einmal einrichten",
+      "act2": "Im Ernstfall — vollautomatisch",
       "title": "Und wenn es passiert?",
       "subtitle": "So läuft der Notfallplan ab — vollautomatisch, Schritt für Schritt.",
       "s1": {
