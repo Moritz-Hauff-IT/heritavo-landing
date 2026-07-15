@@ -116,8 +116,15 @@ export default function LandingPage() {
       );
       els.forEach((el) => io!.observe(el));
       // Sicherheitsnetz: nach 2.5s alles zeigen, falls ein Element nie triggert.
+      // Rein dekorative Elemente (.steps-line) ausgenommen — sonst ist die
+      // Zeichnen-Animation laengst durch, bevor die Sektion in den Viewport
+      // scrollt. Worst case ohne Netz: die Linie bleibt unsichtbar (kein
+      // Content-Verlust).
       safety = window.setTimeout(
-        () => els.forEach((el) => el.classList.add("is-visible")),
+        () =>
+          els
+            .filter((el) => !el.classList.contains("steps-line"))
+            .forEach((el) => el.classList.add("is-visible")),
         2500
       );
     }
@@ -361,7 +368,7 @@ export default function LandingPage() {
               <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("stepsSubtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8 relative">
-              <div data-reveal className="steps-line hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+              <div data-reveal className="steps-line hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
               {stepKeys.map((step, i) => (
                 <div key={step.number} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="relative flex flex-col items-center text-center">
                   <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10 transition-transform hover:scale-105">
