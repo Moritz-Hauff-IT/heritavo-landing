@@ -219,6 +219,26 @@
     "heroImageAlt": "Grand-mère et petite-fille souriantes regardant ensemble un smartphone",
     "heroCard1": "Signe de vie confirmé",
     "heroCard2": "Toi seul détiens la clé",
+    "flowDemo": {
+      "title": "Et si cela arrive ?",
+      "subtitle": "Voici comment le plan d'urgence se déroule — entièrement automatique, étape par étape.",
+      "s1": {
+            "title": "Signe de vie",
+            "desc": "Un clic suffit — tout reste verrouillé."
+      },
+      "s2": {
+            "title": "Check-in manqué",
+            "desc": "Heritavo te le rappelle — plusieurs fois, discrètement."
+      },
+      "s3": {
+            "title": "Délai d'attente",
+            "desc": "Pas de réaction ? Le compte à rebours commence."
+      },
+      "s4": {
+            "title": "La famille reçoit l'accès",
+            "desc": "Tes contacts reçoivent le coffre chiffré."
+      }
+    },
     "zkDemo": {
       "inputLabel": "Dans ton navigateur",
       "placeholder": "Écris quelque chose de confidentiel …",

@@ -216,6 +216,26 @@
     "heroImageAlt": "Grossmutter und Enkelin schauen gemeinsam lächelnd auf ein Smartphone",
     "heroCard1": "Lebenszeichen bestätigt",
     "heroCard2": "Nur du hast den Schlüssel",
+    "flowDemo": {
+      "title": "Und wenn es passiert?",
+      "subtitle": "So läuft der Notfallplan ab — vollautomatisch, Schritt für Schritt.",
+      "s1": {
+            "title": "Lebenszeichen",
+            "desc": "Ein Klick genügt — alles bleibt verschlossen."
+      },
+      "s2": {
+            "title": "Check-in verpasst",
+            "desc": "Heritavo erinnert dich — mehrfach, diskret."
+      },
+      "s3": {
+            "title": "Wartefrist läuft",
+            "desc": "Keine Reaktion? Der Countdown beginnt."
+      },
+      "s4": {
+            "title": "Familie erhält Zugang",
+            "desc": "Deine Kontakte bekommen den verschlüsselten Tresor."
+      }
+    },
     "zkDemo": {
       "inputLabel": "Bei dir im Browser",
       "placeholder": "Schreib etwas Vertrauliches …",

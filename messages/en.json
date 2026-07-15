@@ -219,6 +219,26 @@
     "heroImageAlt": "Grandmother and granddaughter smiling while looking at a smartphone together",
     "heroCard1": "Check-in confirmed",
     "heroCard2": "Only you hold the key",
+    "flowDemo": {
+      "title": "And when it happens?",
+      "subtitle": "This is how the emergency plan unfolds — fully automatic, step by step.",
+      "s1": {
+            "title": "Sign of life",
+            "desc": "One click is enough — everything stays locked."
+      },
+      "s2": {
+            "title": "Check-in missed",
+            "desc": "Heritavo reminds you — repeatedly, discreetly."
+      },
+      "s3": {
+            "title": "Waiting period",
+            "desc": "No response? The countdown begins."
+      },
+      "s4": {
+            "title": "Family gets access",
+            "desc": "Your contacts receive the encrypted vault."
+      }
+    },
     "zkDemo": {
       "inputLabel": "In your browser",
       "placeholder": "Write something confidential …",

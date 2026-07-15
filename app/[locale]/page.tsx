@@ -12,6 +12,7 @@ import { useState, useEffect, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
 import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
+import EmergencyFlowDemo from "@/components/EmergencyFlowDemo";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -378,6 +379,10 @@ export default function LandingPage() {
                   <p className="text-slate-500 leading-relaxed text-sm max-w-xs">{t(`steps.${step.key}.desc`)}</p>
                 </div>
               ))}
+            </div>
+
+            <div data-reveal className="mt-20">
+              <EmergencyFlowDemo />
             </div>
           </div>
         </section>
