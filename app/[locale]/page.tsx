@@ -12,7 +12,7 @@ import { useState, useEffect, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
 import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
-import EmergencyFlowDemo from "@/components/EmergencyFlowDemo";
+import JourneyDemo from "@/components/JourneyDemo";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -42,12 +42,6 @@ const featureKeys = [
   { key: "autoRelease", icon: Clock, color: "bg-amber-500/10 text-amber-600" },
   { key: "methods", icon: FileText, color: "bg-rose-500/10 text-rose-600" },
   { key: "offline", icon: Globe, color: "bg-sky-500/10 text-sky-600" },
-] as const;
-
-const stepKeys = [
-  { key: "s1", number: "01" },
-  { key: "s2", number: "02" },
-  { key: "s3", number: "03" },
 ] as const;
 
 // PR-pricing-2026: Jahresabos 1J / 2J / 3J. 1 Jahr ist Standard, 2 Jahre
@@ -117,15 +111,8 @@ export default function LandingPage() {
       );
       els.forEach((el) => io!.observe(el));
       // Sicherheitsnetz: nach 2.5s alles zeigen, falls ein Element nie triggert.
-      // Rein dekorative Elemente (.steps-line) ausgenommen — sonst ist die
-      // Zeichnen-Animation laengst durch, bevor die Sektion in den Viewport
-      // scrollt. Worst case ohne Netz: die Linie bleibt unsichtbar (kein
-      // Content-Verlust).
       safety = window.setTimeout(
-        () =>
-          els
-            .filter((el) => !el.classList.contains("steps-line"))
-            .forEach((el) => el.classList.add("is-visible")),
+        () => els.forEach((el) => el.classList.add("is-visible")),
         2500
       );
     }
@@ -368,21 +355,8 @@ export default function LandingPage() {
               <h2 className="text-4xl font-extrabold text-slate-900 mb-4">{t("stepsTitle")}</h2>
               <p className="text-lg text-slate-500 max-w-xl mx-auto">{t("stepsSubtitle")}</p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 relative">
-              <div data-reveal className="steps-line hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-              {stepKeys.map((step, i) => (
-                <div key={step.number} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="relative flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-3xl bg-slate-900 text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-slate-200 relative z-10 transition-transform hover:scale-105">
-                    {step.number}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{t(`steps.${step.key}.title`)}</h3>
-                  <p className="text-slate-500 leading-relaxed text-sm max-w-xs">{t(`steps.${step.key}.desc`)}</p>
-                </div>
-              ))}
-            </div>
-
-            <div data-reveal className="mt-20">
-              <EmergencyFlowDemo />
+            <div data-reveal>
+              <JourneyDemo />
             </div>
           </div>
         </section>

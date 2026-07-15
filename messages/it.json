@@ -220,6 +220,8 @@
     "heroCard1": "Segno di vita confermato",
     "heroCard2": "Solo tu hai la chiave",
     "flowDemo": {
+      "act1": "Da configurare una sola volta",
+      "act2": "In caso d'emergenza — del tutto automatico",
       "title": "E se succede?",
       "subtitle": "Così si svolge il piano d'emergenza — in modo del tutto automatico, passo dopo passo.",
       "s1": {

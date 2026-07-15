@@ -220,6 +220,8 @@
     "heroCard1": "Check-in confirmed",
     "heroCard2": "Only you hold the key",
     "flowDemo": {
+      "act1": "Set up once",
+      "act2": "In an emergency — fully automatic",
       "title": "And when it happens?",
       "subtitle": "This is how the emergency plan unfolds — fully automatic, step by step.",
       "s1": {
