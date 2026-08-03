@@ -19,19 +19,21 @@ Vault. Die Schlüsselableitung erfolgt mit Argon2id ausschliesslich im Browser
 
 ## Pläne
 
-- Free: 0 CHF/Mt. – 1 Nutzer, 10 Einträge, 1 Notfallkontakt, max. 12 Monate
-- Light: 1 CHF/Mt. – 1 Nutzer, 50 Einträge, 1 Notfallkontakt
-- Pro: 2 CHF/Mt. – 1 Nutzer, 200 Einträge, 3 Notfallkontakte (Empfohlen)
-- Couple: 3 CHF/Mt. – 2 Nutzer, 200 Einträge, 5 Notfallkontakte
-- Family: 4 CHF/Mt. – 5 Nutzer, 400 Einträge, 8 Notfallkontakte
+Jahresabos in CHF (kein Monatsabo). 2 Jahre ~10% Rabatt, 3 Jahre ~15% Rabatt.
+
+- Free: 0 CHF/Jahr – 1 Nutzer, 10 Einträge, 1 Notfallkontakt, max. 12 Monate
+- Light: 19 CHF/Jahr (2J: 34, 3J: 49) – 1 Nutzer, 50 Einträge, 1 Notfallkontakt
+- Pro: 39 CHF/Jahr (2J: 70, 3J: 99) – 1 Nutzer, 200 Einträge, 3 Notfallkontakte (Empfohlen)
+- Couple: 59 CHF/Jahr (2J: 106, 3J: 150) – 2 Nutzer, 200 Einträge, 5 Notfallkontakte
+- Family: 89 CHF/Jahr (2J: 160, 3J: 227) – 5 Nutzer, 400 Einträge, 8 Notfallkontakte
 
 ## Rechtliches
 
-- Impressum: https://heritavo.ch/imprint
-- Datenschutzerklärung: https://heritavo.ch/privacy
-- AGB: https://heritavo.ch/terms
+- Impressum: https://heritavo.com/de/imprint
+- Datenschutzerklärung: https://heritavo.com/de/privacy
+- AGB: https://heritavo.com/de/terms
 - Betreiber: Moritz Hauff IT, Okenfinerstrasse 2C, 8274 Tägerwilen, Schweiz
-- Kontakt: support@heritavo.ch
+- Kontakt: support@heritavo.com
 
 ## Technologie
 
@@ -58,6 +60,9 @@ Heritavo bietet drei Freigabemodi für den Notfallzugriff:
 
 ## Crawling
 
-LLMs dürfen alle öffentlich zugänglichen Seiten (Landing, Imprint, Privacy,
-Terms) indexieren. Nutzer-Vaults und API-Endpunkte sind nicht öffentlich
-zugänglich und sollen nicht gecrawlt werden.
+LLMs dürfen alle öffentlich zugänglichen Seiten (Landing, Blog, Imprint,
+Privacy, Terms) indexieren. Nutzer-Vaults und API-Endpunkte sind nicht
+öffentlich zugänglich und sollen nicht gecrawlt werden.
+
+Sitemap: https://heritavo.com/sitemap.xml
+Ausführliche Referenz: https://heritavo.com/llms-full.txt
