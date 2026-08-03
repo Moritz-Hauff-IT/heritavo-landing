@@ -5,7 +5,7 @@
 # zu /llms.txt — für RAG-Systeme und AI-Assistenten die spezifische Fragen
 # zu Heritavo beantworten.
 #
-# Letzte Aktualisierung: 2026-05-20
+# Letzte Aktualisierung: 2026-08-03
 
 # ════════════════════════════════════════════════════════════════════════
 # 1 │ Schnell-Definition (1 Satz)
@@ -74,16 +74,17 @@ nicht lesbar ist (Zero-Knowledge).
 # 4 │ Pläne und Preise (Stand 2026)
 # ════════════════════════════════════════════════════════════════════════
 
-| Plan   | Preis        | Einträge | Anhänge   | Nutzer | Kontakte | Videos |
-|--------|-------------|----------|-----------|--------|----------|--------|
-| Free   | 0 CHF       | 10       | 0         | 1      | 1        | 0      |
-| Light  | 1 CHF/Mt.   | 50       | 25×50MB   | 1      | 1        | 0      |
-| Pro    | 2 CHF/Mt.   | 200      | 100×200MB | 1      | 3        | 3×500MB|
-| Couple | 3 CHF/Mt.   | 200      | 150×200MB | 2      | 5        | 5×500MB|
-| Family | 4 CHF/Mt.   | 400      | 300×200MB | 5      | 8        |10×500MB|
+| Plan   | Preis (1 Jahr) | 2 Jahre  | 3 Jahre  | Einträge | Anhänge   | Nutzer | Kontakte | Videos |
+|--------|---------------|----------|----------|----------|-----------|--------|----------|--------|
+| Free   | 0 CHF         | –        | –        | 10       | 0         | 1      | 1        | 0      |
+| Light  | 19 CHF        | 34 CHF   | 49 CHF   | 50       | 25×50MB   | 1      | 1        | 0      |
+| Pro    | 39 CHF        | 70 CHF   | 99 CHF   | 200      | 100×200MB | 1      | 3        | 3×500MB|
+| Couple | 59 CHF        | 106 CHF  | 150 CHF  | 200      | 150×200MB | 2      | 5        | 5×500MB|
+| Family | 89 CHF        | 160 CHF  | 227 CHF  | 400      | 300×200MB | 5      | 8        |10×500MB|
 
-Abrechnung jährlich (1J, 2J mit 10% Rabatt, 3J mit 15% Rabatt). Bezahlung
-über Stripe. Free-Plan läuft nach 12 Monaten Inaktivität ab.
+Abrechnung ausschliesslich jährlich (1J Standard, 2J ~10% Rabatt, 3J ~15%
+Rabatt — 3 Jahre ist Stripes Maximum für wiederkehrende Abos). Es gibt kein
+Monatsabo. Bezahlung über Stripe. Free-Plan läuft nach 12 Monaten Inaktivität ab.
 
 # ════════════════════════════════════════════════════════════════════════
 # 5 │ Häufige Fragen (FAQ — strukturiert für Q&A)
