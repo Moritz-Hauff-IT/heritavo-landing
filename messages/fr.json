@@ -262,34 +262,35 @@
     "modes": {
       "label": "Modes de libération",
       "title": "3 façons de sécuriser votre coffre",
-      "subtitle": "Avec chaque méthode, la clé reste exclusivement chez vous et vos personnes de confiance — jamais chez nous.",
+      "subtitle": "Dans chaque mode, le contenu de votre coffre est chiffré uniquement sur votre appareil — nous ne pouvons jamais le lire. Les trois voies ne diffèrent que par la façon dont la clé de libération parvient à vos personnes de confiance.",
       "prosLabel": "Avantages",
       "consLabel": "À considérer",
       "recovery": {
         "title": "Recovery Sheet",
         "tag": "Hors ligne",
         "desc": "Vous imprimez une clé de récupération et la conservez en sécurité — dans un coffre-fort, chez un notaire ou dans un coffre bancaire. En cas d'urgence, elle est saisie dans le viewer fourni pour ouvrir le coffre.",
-        "pros": "Complètement sans internet|Pas de personnes de confiance nécessaires|Facile à configurer",
+        "pros": "Entièrement zero-knowledge — la clé est créée et reste en local|Complètement sans internet|Pas de personnes de confiance nécessaires|Facile à configurer",
         "cons": "Quiconque trouve le sheet a accès|La sécurité physique est cruciale"
       },
       "email": {
         "title": "Code d'accès par e-mail",
         "tag": "Code par e-mail",
-        "desc": "Chaque personne de confiance reçoit un code personnel par e-mail lors de la configuration. En cas d'urgence, chacun entre son code dans le viewer — le fragment est déchiffré localement. Heritavo ne voit jamais le code.",
+        "desc": "Chaque personne de confiance reçoit un code personnel par e-mail lors de la configuration. En cas d'urgence, chacun entre son code dans le viewer — le fragment est déchiffré localement. Pour l'envoi, le code transite une seule fois par notre serveur : la voie la plus pratique, mais la seule qui n'est pas entièrement zero-knowledge.",
         "pros": "Pratique pour les contacts|Pas d'impression nécessaire|Plusieurs personnes requises pour l'accès",
-        "cons": "Les codes doivent être conservés en sécurité|Accès e-mail requis lors de la configuration"
+        "cons": "Pas entièrement zero-knowledge — le code transite par notre serveur lors de l'envoi|Les codes doivent être conservés en sécurité|Accès e-mail requis lors de la configuration"
       },
       "print": {
         "title": "Code d'accès imprimé",
         "tag": "Remise physique",
-        "desc": "Vous imprimez un code par personne de confiance et le remettez en personne. En cas d'urgence, chacun entre son code dans le viewer — pas d'internet nécessaire.",
-        "pros": "Pas de transmission numérique|Remise personnelle|Complètement hors ligne",
+        "desc": "Vous imprimez un code personnel par personne de confiance et le remettez directement. Le code est créé dans votre navigateur et n'en sort que sur papier — nous ne le voyons à aucun moment. En cas d'urgence, chacun entre son code dans le viewer, sans internet.",
+        "pros": "Entièrement zero-knowledge — le code ne quitte votre navigateur que sur papier|Pas de transmission numérique|Remise personnelle|Complètement hors ligne",
         "cons": "Remise physique nécessaire|Les codes doivent être conservés en sécurité"
       },
       "noticeLabel": "Avis important",
       "noticeTitle": "La clé est chez vous — pas chez nous",
       "noticeDesc1": "Pour les 3 méthodes : Heritavo ne peut pas récupérer un code d'accès perdu. C'est intentionnel — car ce que nous ne pouvons pas voir, nous ne pouvons pas non plus perdre ou transmettre.",
-      "noticeDesc2": "Si un code d'accès est perdu, vous pouvez le régénérer dans les paramètres ou le tableau de bord. Si un code a été volé, nous recommandons de régénérer tous les codes — les anciens deviennent automatiquement invalides. Vos données restent intactes."
+      "noticeDesc2": "Si un code d'accès est perdu, vous pouvez le régénérer dans les paramètres ou le tableau de bord. Si un code a été volé, nous recommandons de régénérer tous les codes — les anciens deviennent automatiquement invalides. Vos données restent intactes.",
+      "noticeDesc3": "En toute transparence sur le mode e-mail : chaque code d'accès y transite une seule fois par notre serveur lors de l'envoi — cette voie n'est donc pas entièrement zero-knowledge. Le contenu du coffre reste chiffré côté client même dans ce cas, et des codes isolés interceptés sont mathématiquement sans valeur en dessous du seuil Shamir. Pour exclure aussi cette voie résiduelle, choisissez le Recovery Sheet ou le code imprimé."
     },
     "security": {
       "label": "Technologie",
@@ -538,7 +539,7 @@
     "notAllSupplied": "Tous les contacts ne sont pas approvisionnés. Veuillez régénérer.",
     "distributeDesc": "Générez et distribuez les fragments de clé à vos contacts.",
     "config": "Configuration",
-    "emailModeDesc": "Chaque contact reçoit un code individuel par e-mail. Les fragments sont chiffrés côté client avec ce code — Heritavo ne voit jamais le code. En cas d'urgence, le contact entre son code dans viewer.html.",
+    "emailModeDesc": "Chaque contact reçoit un code individuel par e-mail. Les fragments sont chiffrés côté client avec ce code. Pour l'envoi, le code transite une seule fois par notre serveur — ce mode n'est donc pas entièrement zero-knowledge. En cas d'urgence, le contact entre son code dans viewer.html.",
     "printModeDesc": "Un code est affiché par contact, que vous imprimez et remettez physiquement. Les fragments sont stockés chiffrés. En cas d'urgence, le contact entre son code dans viewer.html.",
     "zkWarning": "Zero-Knowledge : Si un code ou fragment est perdu, vous pouvez refaire la configuration — vos entrées restent intactes. Si un code ou fragment est compromis, une rotation complète des clés est recommandée. Traitez les codes et fragments comme une clé physique.",
     "confirmPassword": "Confirmer le mot de passe principal",

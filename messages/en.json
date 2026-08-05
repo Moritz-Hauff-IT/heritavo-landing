@@ -262,34 +262,35 @@
     "modes": {
       "label": "Release Modes",
       "title": "3 ways to secure your vault",
-      "subtitle": "With every method, the key stays exclusively with you and your trusted contacts — never with us.",
+      "subtitle": "In every mode, your vault contents are encrypted on your device only — we can never read them. The three paths differ only in how the release key reaches your trusted contacts.",
       "prosLabel": "Advantages",
       "consLabel": "Consider",
       "recovery": {
         "title": "Recovery Sheet",
         "tag": "Offline",
         "desc": "You print a Recovery Key and store it securely — in a safe, with a notary or in a bank vault. In an emergency, it is entered in the included viewer to open the vault.",
-        "pros": "Completely without internet|No trusted contacts needed|Easy to set up",
+        "pros": "Fully zero-knowledge — the key is created and stays local|Completely without internet|No trusted contacts needed|Easy to set up",
         "cons": "Whoever finds the sheet has access|Physical security is crucial"
       },
       "email": {
         "title": "Access code by email",
         "tag": "Code by email",
-        "desc": "Each trusted contact receives a personal code by email during setup. In an emergency, everyone enters their code in the included viewer — the fragment is decrypted locally. Heritavo never sees the code.",
+        "desc": "Each trusted contact receives a personal code by email during setup. In an emergency, everyone enters their code in the included viewer — the fragment is decrypted locally. To send it, the code passes through our server once: the most convenient path, but the only one that is not fully zero-knowledge.",
         "pros": "Convenient for trusted contacts|No printing needed|Multiple people required for access",
-        "cons": "Codes must be stored securely|Email access required during setup"
+        "cons": "Not fully zero-knowledge — the code passes through our server when sent|Codes must be stored securely|Email access required during setup"
       },
       "print": {
         "title": "Printed access code",
         "tag": "Physical handover",
-        "desc": "You print a code for each trusted contact and hand it over in person. In an emergency, everyone enters their code in the included viewer — no internet needed.",
-        "pros": "No digital transmission|Personal handover|Completely offline capable",
+        "desc": "You print a personal code for each trusted contact and hand it over directly. The code is created in your browser and leaves it on paper only — we never see it at any point. In an emergency, everyone enters their code in the included viewer, no internet needed.",
+        "pros": "Fully zero-knowledge — the code leaves your browser on paper only|No digital transmission|Personal handover|Completely offline capable",
         "cons": "Physical handover required|Codes must be stored securely"
       },
       "noticeLabel": "Important notice",
       "noticeTitle": "The key is with you — not with us",
       "noticeDesc1": "For all 3 methods: Heritavo cannot recover a lost access code. This is by design — because what we cannot see, we cannot lose or share.",
-      "noticeDesc2": "If an access code is lost, you can regenerate it in Settings or the Dashboard. If a code was stolen, we recommend regenerating all codes — old ones become automatically invalid. Your vault data is always preserved."
+      "noticeDesc2": "If an access code is lost, you can regenerate it in Settings or the Dashboard. If a code was stolen, we recommend regenerating all codes — old ones become automatically invalid. Your vault data is always preserved.",
+      "noticeDesc3": "Being transparent about the email mode: there, every access code passes through our server once when it is sent — so that one path is not fully zero-knowledge. Your vault contents stay encrypted client-side even then, and individual intercepted codes are mathematically worthless below the Shamir threshold. If you want to rule out that remaining path too, choose the Recovery Sheet or the printed code."
     },
     "security": {
       "label": "Technology",
@@ -537,7 +538,7 @@
     "notAllSupplied": "Not all contacts supplied. Please regenerate.",
     "distributeDesc": "Generate and distribute the key fragments to your contacts.",
     "config": "Configuration",
-    "emailModeDesc": "Each contact receives an individual code by email. The fragments are encrypted client-side with this code — Heritavo never sees the code. In an emergency, the contact enters their code in viewer.html.",
+    "emailModeDesc": "Each contact receives an individual code by email. The fragments are encrypted client-side with this code. To send it, the code passes through our server once — so this mode is not fully zero-knowledge. In an emergency, the contact enters their code in viewer.html.",
     "printModeDesc": "A code is displayed per contact, which you print and hand over physically. The fragments are stored encrypted. In an emergency, the contact enters their code in viewer.html.",
     "zkWarning": "Zero-Knowledge: If a code or fragment is lost, you can redo the setup — your entries remain intact. If a code or fragment is compromised, a full key rotation is recommended. Treat codes and fragments like a physical key.",
     "confirmPassword": "Confirm master password",
