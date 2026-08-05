@@ -428,6 +428,9 @@ export default function LandingPage() {
                 <p className="text-sm text-amber-700 mt-3 leading-relaxed">
                   {t("modes.noticeDesc2")}
                 </p>
+                <p className="text-sm text-amber-700 mt-3 leading-relaxed border-t border-amber-200 pt-3">
+                  {t("modes.noticeDesc3")}
+                </p>
               </div>
             </div>
           </div>

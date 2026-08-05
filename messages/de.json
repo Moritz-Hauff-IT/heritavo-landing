@@ -259,34 +259,35 @@
     "modes": {
       "label": "Freigabe-Modi",
       "title": "3 Wege, deinen Tresor zu sichern",
-      "subtitle": "Bei jeder Methode liegt der Schlüssel ausschliesslich bei dir und deinen Vertrauenspersonen — nie bei uns.",
+      "subtitle": "Der Tresor-Inhalt wird in jedem Modus ausschliesslich auf deinem Gerät verschlüsselt — für uns nie lesbar. Die drei Wege unterscheiden sich nur darin, wie der Freigabe-Schlüssel zu deinen Vertrauenspersonen kommt.",
       "prosLabel": "Vorteile",
       "consLabel": "Beachten",
       "recovery": {
         "title": "Recovery Sheet",
         "tag": "Offline",
         "desc": "Du druckst einen Recovery Key aus und verwahrst ihn sicher — im Safe, beim Notar oder im Bankschliessfach. Im Notfall wird er im mitgelieferten Viewer eingegeben, um den Tresor zu öffnen.",
-        "pros": "Komplett ohne Internet|Keine Vertrauenspersonen nötig|Einfach einzurichten",
+        "pros": "Vollständig Zero-Knowledge — der Key entsteht und bleibt lokal|Komplett ohne Internet|Keine Vertrauenspersonen nötig|Einfach einzurichten",
         "cons": "Wer das Sheet findet, hat Zugriff|Physische Sicherheit ist entscheidend"
       },
       "email": {
         "title": "Zugangscode per E-Mail",
         "tag": "Code per Mail",
-        "desc": "Jede Vertrauensperson erhält beim Einrichten einen persönlichen Code per E-Mail. Im Notfall geben alle ihren Code im mitgelieferten Viewer ein — das Fragment wird lokal entschlüsselt. Heritavo sieht den Code nie.",
+        "desc": "Jede Vertrauensperson erhält beim Einrichten einen persönlichen Code per E-Mail. Im Notfall geben alle ihren Code im mitgelieferten Viewer ein — das Fragment wird lokal entschlüsselt. Für den Versand passiert der Code einmalig unseren Server: der bequemste Weg, aber als einziger nicht vollständig Zero-Knowledge.",
         "pros": "Bequem für Vertrauenspersonen|Kein Ausdrucken nötig|Mehrere Personen nötig für Zugriff",
-        "cons": "Codes müssen sicher aufbewahrt werden|E-Mail-Zugang beim Setup erforderlich"
+        "cons": "Nicht vollständig Zero-Knowledge — der Code läuft beim Versand über unseren Server|Codes müssen sicher aufbewahrt werden|E-Mail-Zugang beim Setup erforderlich"
       },
       "print": {
         "title": "Zugangscode ausgedruckt",
         "tag": "Physische Übergabe",
-        "desc": "Du druckst pro Vertrauensperson einen Code aus und übergibst ihn persönlich. Im Notfall geben alle ihren Code im mitgelieferten Viewer ein — kein Internet nötig.",
-        "pros": "Kein digitaler Versand|Persönliche Übergabe|Komplett offline nutzbar",
+        "desc": "Du druckst pro Vertrauensperson einen persönlichen Code aus und übergibst ihn direkt. Der Code entsteht in deinem Browser und verlässt ihn nur auf Papier — wir sehen ihn zu keinem Zeitpunkt. Im Notfall geben alle ihren Code im mitgelieferten Viewer ein, kein Internet nötig.",
+        "pros": "Vollständig Zero-Knowledge — der Code verlässt deinen Browser nur auf Papier|Kein digitaler Versand|Persönliche Übergabe|Komplett offline nutzbar",
         "cons": "Physische Übergabe erforderlich|Codes müssen sicher aufbewahrt werden"
       },
       "noticeLabel": "Wichtiger Hinweis",
       "noticeTitle": "Der Schlüssel liegt bei dir — nicht bei uns",
       "noticeDesc1": "Bei allen 3 Methoden gilt: Heritavo kann einen verlorenen Zugangscode nicht wiederherstellen. Das ist Absicht — denn was wir nicht sehen können, können wir auch nicht verlieren oder weitergeben.",
-      "noticeDesc2": "Wenn ein Zugangscode verloren geht, kannst du ihn in den Einstellungen oder im Dashboard neu generieren. Wird ein Code gestohlen, empfehlen wir alle Codes neu zu generieren — die alten werden automatisch ungültig. Deine Tresor-Daten bleiben in jedem Fall erhalten."
+      "noticeDesc2": "Wenn ein Zugangscode verloren geht, kannst du ihn in den Einstellungen oder im Dashboard neu generieren. Wird ein Code gestohlen, empfehlen wir alle Codes neu zu generieren — die alten werden automatisch ungültig. Deine Tresor-Daten bleiben in jedem Fall erhalten.",
+      "noticeDesc3": "Transparent beim E-Mail-Modus: Dort passiert jeder Zugangscode beim Versand einmalig unseren Server — dieser eine Weg ist deshalb nicht vollständig Zero-Knowledge. Der Tresor-Inhalt bleibt auch dann ausschliesslich clientseitig verschlüsselt, und einzelne abgefangene Codes sind unterhalb der Shamir-Schwelle mathematisch wertlos. Wer auch diesen Restpfad ausschliessen will, wählt Recovery Sheet oder den ausgedruckten Code."
     },
     "security": {
       "label": "Technologie",
@@ -535,7 +536,7 @@
     "notAllSupplied": "Nicht alle Kontakte versorgt. Bitte neu generieren.",
     "distributeDesc": "Generiere und verteile die Schlüsselfragmente an deine Kontakte.",
     "config": "Konfiguration",
-    "emailModeDesc": "Jeder Kontakt erhält einen individuellen Code per Mail. Die Fragmente werden client-seitig mit diesem Code verschlüsselt gespeichert — Heritavo sieht den Code nie. Im Notfall gibt der Kontakt seinen Code im viewer.html ein.",
+    "emailModeDesc": "Jeder Kontakt erhält einen individuellen Code per Mail. Die Fragmente werden client-seitig mit diesem Code verschlüsselt gespeichert. Für den Versand passiert der Code einmalig unseren Server — dieser Modus ist deshalb nicht vollständig Zero-Knowledge. Im Notfall gibt der Kontakt seinen Code im viewer.html ein.",
     "printModeDesc": "Pro Kontakt wird ein Code angezeigt, den du ausdruckst und physisch übergibst. Die Fragmente werden verschlüsselt gespeichert. Im Notfall gibt der Kontakt seinen Code im viewer.html ein.",
     "zkWarning": "Zero-Knowledge: Wenn ein Code oder Fragment verloren geht, kannst du das Setup neu abschliessen — deine Einträge bleiben erhalten. Wird ein Code oder Fragment kompromittiert, empfiehlt sich ein vollständiger Schlüsselwechsel. Codes und Fragmente daher wie einen physischen Schlüssel behandeln.",
     "confirmPassword": "Master-Passwort bestätigen",

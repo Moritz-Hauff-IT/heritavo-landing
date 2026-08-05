@@ -262,34 +262,35 @@
     "modes": {
       "label": "Modalità di rilascio",
       "title": "3 modi per proteggere la tua cassaforte",
-      "subtitle": "Con ogni metodo, la chiave resta esclusivamente presso di te e le tue persone di fiducia — mai presso di noi.",
+      "subtitle": "In ogni modalità il contenuto della cassaforte viene crittografato solo sul tuo dispositivo — per noi non è mai leggibile. Le tre vie differiscono solo per il modo in cui la chiave di rilascio arriva alle tue persone di fiducia.",
       "prosLabel": "Vantaggi",
       "consLabel": "Da considerare",
       "recovery": {
         "title": "Recovery Sheet",
         "tag": "Offline",
         "desc": "Stampi una chiave di recupero e la conservi in sicurezza — in una cassaforte, da un notaio o in una cassetta di sicurezza. In caso di emergenza, viene inserita nel viewer fornito per aprire la cassaforte.",
-        "pros": "Completamente senza internet|Nessuna persona di fiducia necessaria|Facile da configurare",
+        "pros": "Completamente zero-knowledge — la chiave nasce e resta in locale|Completamente senza internet|Nessuna persona di fiducia necessaria|Facile da configurare",
         "cons": "Chi trova il foglio ha accesso|La sicurezza fisica è fondamentale"
       },
       "email": {
         "title": "Codice di accesso via e-mail",
         "tag": "Codice via e-mail",
-        "desc": "Ogni persona di fiducia riceve un codice personale via e-mail durante la configurazione. In caso di emergenza, tutti inseriscono il loro codice nel viewer — il frammento viene decrittato localmente. Heritavo non vede mai il codice.",
+        "desc": "Ogni persona di fiducia riceve un codice personale via e-mail durante la configurazione. In caso di emergenza, tutti inseriscono il loro codice nel viewer — il frammento viene decrittato localmente. Per l'invio il codice passa una sola volta dal nostro server: la via più comoda, ma l'unica non completamente zero-knowledge.",
         "pros": "Comodo per i contatti|Nessuna stampa necessaria|Più persone necessarie per l'accesso",
-        "cons": "I codici devono essere conservati in sicurezza|Accesso e-mail necessario durante la configurazione"
+        "cons": "Non completamente zero-knowledge — all'invio il codice passa dal nostro server|I codici devono essere conservati in sicurezza|Accesso e-mail necessario durante la configurazione"
       },
       "print": {
         "title": "Codice di accesso stampato",
         "tag": "Consegna fisica",
-        "desc": "Stampi un codice per ogni persona di fiducia e lo consegni di persona. In caso di emergenza, tutti inseriscono il loro codice nel viewer — nessun internet necessario.",
-        "pros": "Nessuna trasmissione digitale|Consegna personale|Completamente offline",
+        "desc": "Stampi un codice personale per ogni persona di fiducia e lo consegni direttamente. Il codice nasce nel tuo browser e lo lascia solo su carta — noi non lo vediamo in nessun momento. In caso di emergenza, tutti inseriscono il loro codice nel viewer, senza internet.",
+        "pros": "Completamente zero-knowledge — il codice lascia il browser solo su carta|Nessuna trasmissione digitale|Consegna personale|Completamente offline",
         "cons": "Consegna fisica necessaria|I codici devono essere conservati in sicurezza"
       },
       "noticeLabel": "Avviso importante",
       "noticeTitle": "La chiave è presso di te — non presso di noi",
       "noticeDesc1": "Per tutti e 3 i metodi: Heritavo non può recuperare un codice di accesso perso. È intenzionale — perché ciò che non possiamo vedere, non possiamo nemmeno perdere o condividere.",
-      "noticeDesc2": "Se un codice di accesso viene perso, puoi rigenerarlo nelle impostazioni o nel pannello. Se un codice è stato rubato, consigliamo di rigenerare tutti i codici — quelli vecchi diventano automaticamente invalidi. I dati della cassaforte rimangono sempre intatti."
+      "noticeDesc2": "Se un codice di accesso viene perso, puoi rigenerarlo nelle impostazioni o nel pannello. Se un codice è stato rubato, consigliamo di rigenerare tutti i codici — quelli vecchi diventano automaticamente invalidi. I dati della cassaforte rimangono sempre intatti.",
+      "noticeDesc3": "In tutta trasparenza sulla modalità e-mail: lì ogni codice di accesso passa una sola volta dal nostro server al momento dell'invio — quindi questa via non è completamente zero-knowledge. Anche in quel caso il contenuto della cassaforte resta crittografato lato client, e singoli codici intercettati sono matematicamente privi di valore sotto la soglia Shamir. Per escludere anche questa via residua, scegli il Recovery Sheet o il codice stampato."
     },
     "security": {
       "label": "Tecnologia",
@@ -538,7 +539,7 @@
     "notAllSupplied": "Non tutti i contatti sono forniti. Rigenerare.",
     "distributeDesc": "Genera e distribuisci i frammenti di chiave ai tuoi contatti.",
     "config": "Configurazione",
-    "emailModeDesc": "Ogni contatto riceve un codice individuale via e-mail. I frammenti vengono crittografati lato client con questo codice — Heritavo non vede mai il codice. In caso di emergenza, il contatto inserisce il suo codice nel viewer.html.",
+    "emailModeDesc": "Ogni contatto riceve un codice individuale via e-mail. I frammenti vengono crittografati lato client con questo codice. Per l'invio il codice passa una sola volta dal nostro server — questa modalità non è quindi completamente zero-knowledge. In caso di emergenza, il contatto inserisce il suo codice nel viewer.html.",
     "printModeDesc": "Viene visualizzato un codice per contatto, che stampi e consegni fisicamente. I frammenti vengono memorizzati crittografati. In caso di emergenza, il contatto inserisce il suo codice nel viewer.html.",
     "zkWarning": "Zero-Knowledge: Se un codice o frammento viene perso, puoi rifare la configurazione — le tue voci restano intatte. Se un codice o frammento viene compromesso, è consigliata una rotazione completa delle chiavi. Tratta codici e frammenti come una chiave fisica.",
     "confirmPassword": "Conferma password principale",
