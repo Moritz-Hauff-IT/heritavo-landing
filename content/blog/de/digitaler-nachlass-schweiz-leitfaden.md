@@ -1,4 +1,5 @@
 ---
+translationKey: "digital-estate-switzerland"
 title: "Digitaler Nachlass in der Schweiz: praktischer Leitfaden 2026"
 description: "Was das Schweizer Erbrecht zum digitalen Nachlass sagt, welche Schritte rechtlich und praktisch funktionieren, und welche typischen Fallen es gibt. Ein Leitfaden aus erster Hand."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/legacy-guide.webp"
 imageAlt: "Hände halten alte Briefe und Fotografien"
 ---
+translationKey: "digital-estate-switzerland"
 
 Beim Aufbau von [Heritavo](/de) habe ich mich intensiv mit dem Schweizer Erbrecht im Kontext digitaler Vermögenswerte beschäftigt. Die zentrale Erkenntnis: das Schweizer Recht ist gut auf physische Vermögenswerte vorbereitet, aber bei digitalem Nachlass entstehen regelmässig Probleme, die mit einer **rechtzeitigen Vorsorge** komplett vermeidbar wären.
 

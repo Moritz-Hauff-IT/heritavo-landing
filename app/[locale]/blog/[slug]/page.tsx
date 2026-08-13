@@ -5,7 +5,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { locales, type Locale } from "@/i18n/config";
-import { getBlogPost, getAllBlogSlugs } from "@/lib/blog";
+import { getBlogPost, getAllBlogSlugs, getBlogAlternates } from "@/lib/blog";
 import LanguageSwitcher from "@/components/language-switcher";
 
 const BASE_URL = "https://heritavo.com";
@@ -26,11 +26,20 @@ export async function generateMetadata({
   const post = getBlogPost(safeLocale, slug);
   if (!post) return { title: "Artikel nicht gefunden – Heritavo" };
   const canonicalUrl = `${BASE_URL}/${safeLocale}/blog/${slug}`;
+  // hreflang-alternates ueber translationKey (Slug ist pro Locale
+  // uebersetzt — ohne Key keine korrekte Verknuepfung moeglich).
+  const siblings = getBlogAlternates(safeLocale, slug);
+  const languageAlternates = siblings
+    ? Object.fromEntries(
+        locales.map((l) => [l, `${BASE_URL}/${l}/blog/${siblings[l] ?? slug}`]),
+      )
+    : undefined;
+  if (languageAlternates) languageAlternates["x-default"] = canonicalUrl;
   return {
     title: post.title,
     description: post.description,
     keywords: post.keywords,
-    alternates: { canonical: canonicalUrl },
+    alternates: { canonical: canonicalUrl, ...(languageAlternates ? { languages: languageAlternates } : {}) },
     openGraph: {
       url: canonicalUrl,
       title: post.title,
@@ -39,9 +48,17 @@ export async function generateMetadata({
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       authors: [post.author ?? "Moritz Hauff"],
-      ...(post.image
-        ? { images: [{ url: `${BASE_URL}${post.image}`, width: 1600, height: 900, alt: post.imageAlt }] }
-        : {}),
+      images: post.image
+        ? [{ url: `${BASE_URL}${post.image}`, width: 1600, height: 900, alt: post.imageAlt }]
+        : [{ url: `${BASE_URL}/og.png`, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: post.image
+        ? [`${BASE_URL}${post.image}`]
+        : [`${BASE_URL}/og.png`],
     },
   };
 }

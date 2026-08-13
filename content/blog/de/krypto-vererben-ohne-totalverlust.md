@@ -1,4 +1,5 @@
 ---
+translationKey: "inheriting-crypto"
 title: "Krypto vererben — warum 20% aller Bitcoin als verloren gelten"
 description: "Seed-Phrases, Hardware-Wallets, Custodial vs. Self-Custody: was du heute tun musst, damit deine Krypto-Anlage nicht im Erbfall verloren geht. Eine praktische Anleitung mit den häufigsten Fehlerquellen."
 publishedAt: "2026-05-23"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/crypto.webp"
 imageAlt: "Goldene Bitcoin-Münzen in warmem Licht"
 ---
+translationKey: "inheriting-crypto"
 
 Es ist die wahrscheinlich teuerste Form digitaler Sorglosigkeit: **rund 20% aller Bitcoin gelten heute als irreversibel verloren** — geschätzt vom Analyse-Unternehmen Chainalysis. Coins, die seit über fünf Jahren nicht mehr bewegt wurden, deren Schlüssel niemand mehr kennt. Bei aktuellen Kursen reden wir über mehrere hundert Milliarden Franken Vermögen, das niemandem mehr gehört.
 

@@ -1,4 +1,5 @@
 ---
+translationKey: "online-accounts-after-death"
 title: "Que deviennent vos comptes en ligne après un décès ? (2026)"
 description: "E-mail, stockage cloud, banque en ligne, réseaux sociaux : qui accède concrètement à vos comptes numériques en cas d'urgence ? Un guide pratique avec des étapes à réaliser ce week-end."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/accounts.webp"
 imageAlt: "Des personnes âgées assises à une table avec un ordinateur portable"
 ---
+translationKey: "online-accounts-after-death"
 
 Si tu commences à compter tes comptes en ligne, tu atteins vite des chiffres surprenants. Comptes e-mail, banque, stockage cloud, streaming, newsletters, forums — une vie moderne typique se répartit aujourd'hui sur des dizaines voire plus d'une centaine de comptes numériques. La question qui ne m'a plus quitté en construisant Heritavo : qu'arrivera-t-il à tout cela s'il arrive quelque chose demain ?
 

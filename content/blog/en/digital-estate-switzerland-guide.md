@@ -1,4 +1,5 @@
 ---
+translationKey: "digital-estate-switzerland"
 title: "Digital Estate Planning in Switzerland: a practical guide (2026)"
 description: "What Swiss inheritance law says about digital estates, which steps work legally and practically, and the common pitfalls. A first-hand guide."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/legacy-guide.webp"
 imageAlt: "Hands holding old letters and photographs"
 ---
+translationKey: "digital-estate-switzerland"
 
 While building [Heritavo](/en), I dug deep into Swiss inheritance law in the context of digital assets. The central takeaway: Swiss law is well-prepared for physical assets but regularly runs into trouble with digital estates — trouble that **timely preparation** could completely avoid.
 

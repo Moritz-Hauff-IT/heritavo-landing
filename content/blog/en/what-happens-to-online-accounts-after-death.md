@@ -1,4 +1,5 @@
 ---
+translationKey: "online-accounts-after-death"
 title: "What Happens to Online Accounts After Death? A Practical Guide (2026)"
 description: "Email, cloud storage, banking, social media: who actually gets access to your digital accounts in an emergency? A practical guide with steps you can do this weekend."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/accounts.webp"
 imageAlt: "Older people sitting at a table with a laptop"
 ---
+translationKey: "online-accounts-after-death"
 
 If you start counting your online accounts, you quickly reach surprising numbers. Email accounts, banking, cloud storage, streaming services, newsletters, forums — a typical modern life spreads across dozens to well over a hundred digital accounts today. The question that hasn't let me go while building Heritavo: what happens to all of it if something happens tomorrow?
 

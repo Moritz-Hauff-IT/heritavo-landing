@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
+import { PRICE_CURRENCY, PRICE_HIGH, PRICE_LOW, PLANS } from "@/lib/pricing";
 import UmamiAnalytics from "@/components/UmamiAnalytics";
 import deMessages from "@/messages/de.json";
 import enMessages from "@/messages/en.json";
@@ -36,6 +37,16 @@ export async function generateMetadata({
       title: "Heritavo – was zählt, bleibt.",
       description:
         "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland.",
+      siteName: "Heritavo",
+      locale: safeLocale === "en" ? "en_GB" : `${safeLocale}_CH`,
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Heritavo – digitale Nachlassvorsorge aus der Schweiz" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Heritavo – was zählt, bleibt.",
+      description:
+        "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland.",
+      images: ["/og.png"],
     },
     icons: {
       icon: "/favicon.png",
@@ -70,6 +81,17 @@ const staticGraphNodes = [
       addressCountry: "CH",
     },
     areaServed: "CH",
+    // sameAs verknuepft die Entität mit ihren offiziellen Profilen —
+    // wichtig fuer Knowledge-Graph-Entity-Recognition (Google + AI-Search).
+    sameAs: [
+      "https://www.instagram.com/heritavo_com/",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "support@heritavo.com",
+      availableLanguage: ["de", "en", "fr", "it"],
+    },
   },
   {
     "@type": "WebSite",
@@ -94,10 +116,36 @@ function buildFaqSchema(locale: Locale) {
   };
 }
 
+// SoftwareApplication mit AggregateOffer (statt Einzel-Offers pro Plan —
+// robuster fuer Rich Results). Preise aus lib/pricing.ts, damit Schema und
+// UI nicht driften. Bewusst KEIN aggregateRating: ohne echte Review-Daten
+// waere das ein Policy-Verstoss.
+function buildSoftwareSchema() {
+  return {
+    "@type": "SoftwareApplication",
+    "@id": `${BASE_URL}/#app`,
+    name: "Heritavo",
+    applicationCategory: "SecurityApplication",
+    operatingSystem: "Web",
+    url: BASE_URL,
+    inLanguage: ["de-CH", "en", "fr-CH", "it-CH"],
+    publisher: { "@id": `${BASE_URL}/#organization` },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: PRICE_CURRENCY,
+      lowPrice: PRICE_LOW,
+      highPrice: PRICE_HIGH,
+      offerCount: PLANS.length,
+      availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/de#pricing`,
+    },
+  };
+}
+
 function buildJsonLd(locale: Locale) {
   return {
     "@context": "https://schema.org",
-    "@graph": [...staticGraphNodes, buildFaqSchema(locale)],
+    "@graph": [...staticGraphNodes, buildFaqSchema(locale), buildSoftwareSchema()],
   };
 }
 
