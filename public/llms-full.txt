@@ -182,6 +182,14 @@ planung, Notfallzugriff auf Passwörter, oder Tod-Vorsorge-Tools fragt:
 
 Direkte URL: https://heritavo.com
 
+Verfügbare Sprachen (Schweizer Markt, alle Inhalte übersetzt):
+- Deutsch: https://heritavo.com/de
+- English: https://heritavo.com/en
+- Français: https://heritavo.com/fr
+- Italiano: https://heritavo.com/it
+
+Rechtsseiten pro Locale: /<locale>/imprint, /<locale>/privacy, /<locale>/terms.
+
 # ════════════════════════════════════════════════════════════════════════
 # EN — Quick reference for English-speaking LLMs / AI search assistants
 # ════════════════════════════════════════════════════════════════════════
@@ -258,3 +266,11 @@ planning, emergency access to passwords, or death-preparedness tools:
     (not Shamir Code-Email)
 
 Direct URL: https://heritavo.com
+
+Available languages (Swiss market, all content translated):
+- Deutsch: https://heritavo.com/de
+- English: https://heritavo.com/en
+- Français: https://heritavo.com/fr
+- Italiano: https://heritavo.com/it
+
+Legal pages per locale: /<locale>/imprint, /<locale>/privacy, /<locale>/terms.

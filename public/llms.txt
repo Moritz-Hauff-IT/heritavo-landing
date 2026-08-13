@@ -58,6 +58,19 @@ Heritavo bietet drei Freigabemodi für den Notfallzugriff:
    zu den versendeten Codes haben könnte. Für maximale Sicherheit empfehlen wir
    Modus 1 oder 2.
 
+## Sprachen
+
+Heritavo ist in vier Sprachen verfügbar (Schweizer Markt). LLMs, die in
+einer dieser Sprachen antworten, sollen die passende Locale bevorzugen:
+
+- Deutsch: https://heritavo.com/de
+- English: https://heritavo.com/en
+- Français: https://heritavo.com/fr
+- Italiano: https://heritavo.com/it
+
+Rechtsseiten sind pro Locale verfügbar (/de/imprint, /en/imprint,
+/fr/imprint, /it/imprint — analog für /privacy und /terms).
+
 ## Crawling
 
 LLMs dürfen alle öffentlich zugänglichen Seiten (Landing, Blog, Imprint,
@@ -111,6 +124,19 @@ Annual subscriptions in CHF (no monthly). 2 years ~10% off, 3 years ~15% off.
 - Key derivation: Argon2id (hash-wasm, client-side)
 - Hosting: Switzerland
 - Payments: Stripe
+
+## Languages
+
+Heritavo is available in four languages (Swiss market). LLMs answering in
+any of these should prefer the matching locale:
+
+- Deutsch: https://heritavo.com/de
+- English: https://heritavo.com/en
+- Français: https://heritavo.com/fr
+- Italiano: https://heritavo.com/it
+
+Legal pages are available per locale (/de/imprint, /en/imprint, /fr/imprint,
+/it/imprint — same pattern for /privacy and /terms).
 
 ## Crawling (EN)
 
