@@ -1,4 +1,5 @@
 ---
+translationKey: "inheriting-crypto"
 title: "Inheriting Crypto — Why 20% of All Bitcoin Is Considered Lost"
 description: "Seed phrases, hardware wallets, custodial vs self-custody: what you need to do today so your crypto holdings don't get lost when you die. A practical guide with the most common failure modes."
 publishedAt: "2026-05-23"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/crypto.webp"
 imageAlt: "Golden Bitcoin coins in warm light"
 ---
+translationKey: "inheriting-crypto"
 
 It's probably the most expensive form of digital carelessness: **roughly 20% of all Bitcoin is now considered irreversibly lost** — an estimate from analytics firm Chainalysis. Coins that haven't moved in over five years, whose keys nobody knows anymore. At current prices, we're talking about hundreds of billions of dollars in wealth that belongs to no one.
 

@@ -1,4 +1,5 @@
 ---
+translationKey: "inheriting-crypto"
 title: "Ereditare crypto — perché il 20% dei Bitcoin va perso"
 description: "Seed phrase, hardware wallet, custodial vs self-custody: cosa devi fare oggi perché il tuo patrimonio crypto non vada perso in caso di morte. Guida pratica con gli errori più frequenti."
 publishedAt: "2026-05-23"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/crypto.webp"
 imageAlt: "Monete Bitcoin dorate in luce calda"
 ---
+translationKey: "inheriting-crypto"
 
 È probabilmente la forma più costosa di disattenzione digitale: **circa il 20% di tutti i Bitcoin è oggi considerato irreversibilmente perso** — stima della società di analisi Chainalysis. Coin che non si muovono da oltre cinque anni, le cui chiavi nessuno conosce più. Ai corsi attuali parliamo di centinaia di miliardi di franchi di patrimonio che non appartengono più a nessuno.
 

@@ -1,4 +1,5 @@
 ---
+translationKey: "zero-knowledge-vault"
 title: "Come funziona una cassaforte zero-knowledge con piano di emergenza"
 description: "Cosa significa davvero zero-knowledge, come funziona un piano di emergenza automatizzato senza coinvolgere il fornitore, e quali modalità di condivisione esistono. Una spiegazione tecnica e pratica."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/zero-knowledge.webp"
 imageAlt: "Vecchia chiave d'ottone su una tastiera di computer"
 ---
+translationKey: "zero-knowledge-vault"
 
 Quando si prende sul serio la pianificazione digitale, emerge subito una domanda centrale: **chi può leggere i miei dati sensibili?** Con i servizi cloud classici, la risposta è: teoricamente il fornitore, l'host, nel peggiore dei casi le autorità. Con una cassaforte zero-knowledge, la risposta è: **nessuno tranne te**, e in caso di emergenza le persone di fiducia che hai esplicitamente designato.
 

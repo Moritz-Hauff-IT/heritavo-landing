@@ -1,4 +1,5 @@
 ---
+translationKey: "digital-estate-switzerland"
 title: "Successione digitale in Svizzera: guida pratica 2026"
 description: "Cosa dice il diritto successorio svizzero sulla successione digitale, quali passi funzionano giuridicamente e praticamente, e le trappole tipiche. Una guida di prima mano."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/legacy-guide.webp"
 imageAlt: "Mani che tengono vecchie lettere e fotografie"
 ---
+translationKey: "digital-estate-switzerland"
 
 Costruendo [Heritavo](/it), mi sono immerso a fondo nel diritto successorio svizzero nel contesto degli asset digitali. L'insegnamento centrale: il diritto svizzero è ben preparato per beni fisici, ma con la successione digitale incontra regolarmente problemi che una **preparazione tempestiva** eviterebbe completamente.
 

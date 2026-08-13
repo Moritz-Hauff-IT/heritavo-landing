@@ -1,4 +1,5 @@
 ---
+translationKey: "online-accounts-after-death"
 title: "Was passiert mit Online-Konten nach dem Tod? Leitfaden 2026"
 description: "E-Mail, Cloud-Speicher, Banking, Social Media: Wer kommt im Ernstfall an deine digitalen Konten? Ein praktischer Leitfaden mit Schritten, die du dieses Wochenende erledigen kannst."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/accounts.webp"
 imageAlt: "Ältere Menschen sitzen mit einem Laptop am Tisch"
 ---
+translationKey: "online-accounts-after-death"
 
 Wer einmal beginnt, seine Online-Konten zu zählen, kommt schnell auf erstaunliche Zahlen. E-Mail-Konten, Banking, Cloud-Speicher, Streaming-Dienste, Newsletter, Foren — ein typisches modernes Leben verteilt sich heute auf Dutzende bis weit über hundert digitale Konten. Die Frage, die mich beim Aufbau von Heritavo nicht losgelassen hat: Was passiert mit all dem, wenn einem Menschen morgen etwas zustösst?
 

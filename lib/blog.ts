@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import { type Locale } from "@/i18n/config";
+import { locales, type Locale } from "@/i18n/config";
 
 /**
  * Blog-Content-Reader fuer file-system-basierte Articles.
@@ -17,10 +17,15 @@ import { type Locale } from "@/i18n/config";
  *   publishedAt: "2026-05-21"     # ISO date
  *   updatedAt: "2026-05-21"       # ISO date (optional, falls vorhanden zeigt "aktualisiert")
  *   keywords: ["...", "..."]      # primary + secondary keywords
+ *   translationKey: "slug-key"   # gleicher Key ueber alle Locales fuer hreflang
  *   author: "Moritz Hauff"        # default
  *   ---
  *
  * Body: standard Markdown (GFM via marked).
+ *
+ * translationKey: verbindet die 4 uebersetzten Versionen desselben Artikels
+ * (de/en/fr/it) trotz unterschiedlicher Slugs. Daraus werden hreflang-
+ * alternates in generateMetadata + sitemap.ts generiert.
  */
 
 export type BlogPostFrontmatter = {
@@ -29,6 +34,7 @@ export type BlogPostFrontmatter = {
   publishedAt: string;
   updatedAt?: string;
   keywords?: string[];
+  translationKey?: string;
   author?: string;
   draft?: boolean;
   /** Header-Bild, Pfad unter public/ (z.B. /images/blog/crypto.webp) */
@@ -108,4 +114,45 @@ export function getAllBlogPostMeta(locale: Locale): BlogPostMeta[] {
 
 export function getAllBlogSlugs(locale: Locale): string[] {
   return getAllBlogPostMeta(locale).map((m) => m.slug);
+}
+
+/**
+ * Alle Blog-Posts aller Locales, gruppiert nach translationKey.
+ *
+ * Wird fuer hreflang-alternates in blog/[slug]/page.tsx und sitemap.ts
+ * verwendet: ein Artikel existiert in 4 Sprachen mit unterschiedlichen
+ * Slugs, aber gleichem translationKey. Diese Map liefert zu einem
+ * translationKey die Slugs pro Locale:
+ *
+ *   { "digital-estate-switzerland": { de: "digitaler-nachlass-...", en: "...", fr: "...", it: "..." } }
+ *
+ * Posts ohne translationKey werden geskippt (sollen nicht vorkommen, aber
+ * robust gegen fehlendes Frontmatter).
+ */
+export function getTranslationKeyMap(): Record<string, Partial<Record<Locale, string>>> {
+  const map: Record<string, Partial<Record<Locale, string>>> = {};
+  for (const locale of locales) {
+    for (const post of getAllBlogPostMeta(locale)) {
+      if (!post.translationKey) continue;
+      if (!map[post.translationKey]) map[post.translationKey] = {};
+      map[post.translationKey][locale] = post.slug;
+    }
+  }
+  return map;
+}
+
+/**
+ * Liefert zu (locale, slug) die hreflang-alternates als Record<locale, url>.
+ * Wenn der Post keinen translationKey hat oder keine Uebersetzungen in
+ * anderen Locales existieren, wird null zurueckgegeben (Caller rendert
+ * dann keine alternates).
+ */
+export function getBlogAlternates(locale: Locale, slug: string): Partial<Record<Locale, string>> | null {
+  const all = getAllBlogPostMeta(locale);
+  const post = all.find((p) => p.slug === slug);
+  if (!post || !post.translationKey) return null;
+  const map = getTranslationKeyMap();
+  const siblings = map[post.translationKey];
+  if (!siblings || Object.keys(siblings).length < 2) return null;
+  return siblings;
 }

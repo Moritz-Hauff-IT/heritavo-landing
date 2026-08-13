@@ -1,4 +1,5 @@
 ---
+translationKey: "zero-knowledge-vault"
 title: "Comment fonctionne un coffre-fort zero-knowledge avec plan d'urgence"
 description: "Ce que zero-knowledge signifie vraiment, comment un plan d'urgence automatisé fonctionne sans impliquer le fournisseur, et quels modes de partage existent. Une explication technique et pratique."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/zero-knowledge.webp"
 imageAlt: "Ancienne clé en laiton sur un clavier d'ordinateur"
 ---
+translationKey: "zero-knowledge-vault"
 
 Quand on prend la planification numérique au sérieux, une question centrale émerge rapidement : **qui peut lire mes données sensibles ?** Avec les services cloud classiques, la réponse est : théoriquement le fournisseur, l'hébergeur, dans le pire des cas les autorités. Avec un coffre-fort zero-knowledge, la réponse est : **personne sauf toi**, et en cas d'urgence les personnes de confiance que tu as explicitement désignées.
 

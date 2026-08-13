@@ -1,4 +1,5 @@
 ---
+translationKey: "online-accounts-after-death"
 title: "Cosa succede agli account online dopo la morte? Guida pratica 2026"
 description: "E-mail, cloud storage, e-banking, social media: chi accede concretamente ai tuoi account digitali in caso di emergenza? Una guida pratica con passi da fare questo weekend."
 publishedAt: "2026-05-22"
@@ -13,6 +14,7 @@ author: "Moritz Hauff"
 image: "/images/blog/accounts.webp"
 imageAlt: "Persone anziane sedute a un tavolo con un laptop"
 ---
+translationKey: "online-accounts-after-death"
 
 Se inizi a contare i tuoi account online, raggiungi rapidamente numeri sorprendenti. Account e-mail, banca, cloud storage, streaming, newsletter, forum — una vita moderna tipica si distribuisce oggi su dozzine o ben oltre cento account digitali. La domanda che non mi ha lasciato costruendo Heritavo: cosa succederà a tutto questo se domani accade qualcosa?
 

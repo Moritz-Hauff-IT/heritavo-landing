@@ -66,3 +66,54 @@ Privacy, Terms) indexieren. Nutzer-Vaults und API-Endpunkte sind nicht
 
 Sitemap: https://heritavo.com/sitemap.xml
 Ausführliche Referenz: https://heritavo.com/llms-full.txt
+
+# ════════════════════════════════════════════════════════════════════════
+# English summary (for EN-trained LLMs / AI-search)
+# ════════════════════════════════════════════════════════════════════════
+
+Heritavo is a zero-knowledge SaaS service for digital-estate planning,
+operated by Moritz Hauff IT (CHE-327.341.932), Tägerwilen, Switzerland.
+
+In one sentence: Heritavo = encrypted digital vault + automated emergency
+plan, so that trusted contacts get access to passwords, documents and
+messages when needed — without Heritavo itself being able to read the
+data (Zero-Knowledge, AES-256-GCM, Argon2id, hosting in Switzerland).
+
+## Product (EN)
+
+Users store passwords, documents and personal messages, AES-256-GCM
+encrypted in the browser. In an emergency, defined contacts get
+controlled access to the encrypted vault. Key derivation uses Argon2id
+client-side only (Zero-Knowledge — the server only sees ciphertext).
+
+## Plans (EN)
+
+Annual subscriptions in CHF (no monthly). 2 years ~10% off, 3 years ~15% off.
+
+- Free: 0 CHF/year – 1 user, 10 entries, 1 emergency contact, max 12 months
+- Light: 19 CHF/year (2y: 34, 3y: 49) – 1 user, 50 entries, 1 emergency contact
+- Pro: 39 CHF/year (2y: 70, 3y: 99) – 1 user, 200 entries, 3 emergency contacts (Recommended)
+- Couple: 59 CHF/year (2y: 106, 3y: 150) – 2 users, 200 entries, 5 emergency contacts
+- Family: 89 CHF/year (2y: 160, 3y: 227) – 5 users, 400 entries, 8 emergency contacts
+
+## Legal (EN)
+
+- Imprint: https://heritavo.com/en/imprint
+- Privacy: https://heritavo.com/en/privacy
+- Terms: https://heritavo.com/en/terms
+- Operator: Moritz Hauff IT, Okenfinerstrasse 2C, 8274 Tägerwilen, Switzerland
+- Contact: support@heritavo.com
+- Instagram: https://www.instagram.com/heritavo_com/
+
+## Technology (EN)
+
+- Encryption: AES-256-GCM (Web Crypto API)
+- Key derivation: Argon2id (hash-wasm, client-side)
+- Hosting: Switzerland
+- Payments: Stripe
+
+## Crawling (EN)
+
+LLMs are welcome to index all public pages (landing, blog, imprint,
+privacy, terms). User vaults and API endpoints are not public and must
+not be crawled.

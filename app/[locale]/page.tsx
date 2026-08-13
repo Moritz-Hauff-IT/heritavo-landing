@@ -13,6 +13,8 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
 import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
 import JourneyDemo from "@/components/JourneyDemo";
+// Preise kommen aus der zentralen Quelle (wird auch fuer JSON-LD genutzt).
+import { PLANS as planDefs, type PricingInterval } from "@/lib/pricing";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -44,17 +46,6 @@ const featureKeys = [
   { key: "offline", icon: Globe, color: "bg-sky-500/10 text-sky-600" },
 ] as const;
 
-// PR-pricing-2026: Jahresabos 1J / 2J / 3J. 1 Jahr ist Standard, 2 Jahre
-// mit ~10% Rabatt, 3 Jahre mit ~15% Rabatt. 3 Jahre ist Stripe's
-// recurring-Subscription-Maximum. Preise in CHF (Schweiz-Markt).
-const planDefs = [
-  { key: "free",   name: "Free",   "1year": 0,  "2years": 0,   "3years": 0,   highlighted: false },
-  { key: "light",  name: "Light",  "1year": 19, "2years": 34,  "3years": 49,  highlighted: false },
-  { key: "pro",    name: "Pro",    "1year": 39, "2years": 70,  "3years": 99,  highlighted: true  },
-  { key: "couple", name: "Couple", "1year": 59, "2years": 106, "3years": 150, highlighted: false },
-  { key: "family", name: "Family", "1year": 89, "2years": 160, "3years": 227, highlighted: false },
-] as const;
-
 const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"] as const;
 
 const modesDef = [
@@ -68,8 +59,6 @@ const momentDefs = [
   { key: "cognitive", icon: Brain,       color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-100" },
   { key: "death",     icon: Hourglass,   color: "text-slate-600",   bg: "bg-slate-100",  border: "border-slate-200" },
 ] as const;
-
-type PricingInterval = "1year" | "2years" | "3years";
 
 export default function LandingPage() {
   // 1 Jahr ist Default-Standard, kein Monats-Toggle mehr.
