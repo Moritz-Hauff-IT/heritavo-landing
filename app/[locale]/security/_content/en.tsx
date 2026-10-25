@@ -74,7 +74,7 @@ export default function SecurityEn() {
             creation) — if you need proof, create your own test account.
           </li>
           <li>
-            Do not access other users' data. If you can reach real data, stop
+            Do not access other users’ data. If you can reach real data, stop
             immediately and report it.
           </li>
           <li>

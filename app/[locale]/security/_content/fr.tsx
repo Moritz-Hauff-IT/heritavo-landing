@@ -15,7 +15,7 @@ export default function SecurityFr() {
         <p className="text-slate-600">
           Heritavo gère des données sensibles selon un modèle zero-knowledge. Les
           signalements de sécurité sont notre priorité absolue. Cette page décrit
-          comment signaler une faille et à quoi tu peux t'attendre de notre part.
+          comment signaler une faille et à quoi tu peux t’attendre de notre part.
         </p>
       </header>
 
@@ -26,7 +26,7 @@ export default function SecurityFr() {
           <a href="mailto:security@heritavo.com" className="underline hover:text-slate-900">
             security@heritavo.com
           </a>
-          . Si ce canal n'est pas accessible, tu peux aussi nous joindre à{" "}
+          . Si ce canal n’est pas accessible, tu peux aussi nous joindre à{" "}
           <a href="mailto:support@heritavo.com" className="underline hover:text-slate-900">
             support@heritavo.com
           </a>
@@ -42,11 +42,11 @@ export default function SecurityFr() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="font-semibold text-slate-900">Ce qu'il faut inclure dans ton signalement</h2>
+        <h2 className="font-semibold text-slate-900">Ce qu’il faut inclure dans ton signalement</h2>
         <ul className="list-disc space-y-1 pl-6 text-slate-600">
           <li>Une brève description de la vulnérabilité et du composant affecté.</li>
           <li>Étapes de reproduction (requête/réponse, URL, ID de compte le cas échéant).</li>
-          <li>Évaluation de l'impact et conditions requises pour l'attaquant.</li>
+          <li>Évaluation de l’impact et conditions requises pour l’attaquant.</li>
           <li>Optionnel : une suggestion de correction.</li>
         </ul>
       </section>
@@ -58,7 +58,7 @@ export default function SecurityFr() {
           <li>Nous fournissons un premier point sous 7 jours.</li>
           <li>
             Nous ne poursuivrons pas judiciairement les chercheurs qui agissent de
-            bonne foi, respectent cette politique et n'exfiltrent pas de données
+            bonne foi, respectent cette politique et n’exfiltrent pas de données
             utilisateur réelles.
           </li>
           <li>
@@ -72,16 +72,16 @@ export default function SecurityFr() {
         <h2 className="font-semibold text-slate-900">Ce que nous demandons</h2>
         <ul className="list-disc space-y-1 pl-6 text-slate-600">
           <li>
-            N'utilise pas de techniques destructrices (DoS, manipulation de données,
-            création massive de comptes) — si tu as besoin d'une preuve, crée ton
+            N’utilise pas de techniques destructrices (DoS, manipulation de données,
+            création massive de comptes) — si tu as besoin d’une preuve, crée ton
             propre compte de test.
           </li>
           <li>
-            N'accède pas aux données d'autres utilisateurs. Si tu peux atteindre des
+            N’accède pas aux données d’autres utilisateurs. Si tu peux atteindre des
             données réelles, arrête immédiatement et signale-le.
           </li>
           <li>
-            Ne divulgue la vulnérabilité qu'après correction ou après 90 jours — le
+            Ne divulgue la vulnérabilité qu’après correction ou après 90 jours — le
             premier des deux.
           </li>
         </ul>
@@ -93,7 +93,7 @@ export default function SecurityFr() {
           Sont dans le périmètre tous les hôtes exploités par Heritavo sous{" "}
           <code>heritavo.com</code>. Les autres domaines Heritavo (par ex.{" "}
           <code>heritavo.ch</code>, <code>heritavo.de</code>) sont de simples
-          redirections vers <code>heritavo.com</code> et n'ont pas de périmètre
+          redirections vers <code>heritavo.com</code> et n’ont pas de périmètre
           propre. Sont hors périmètre les tiers liés, les pures signalisations de
           spam/phishing et les résultats de scanners automatisés sans impact concret.
         </p>
@@ -102,8 +102,8 @@ export default function SecurityFr() {
       <section className="space-y-2">
         <h2 className="font-semibold text-slate-900">Modèle zero-knowledge</h2>
         <p className="text-slate-600">
-          Heritavo chiffre le contenu du coffre-fort côté client avant l'upload. Le
-          serveur n'a pas accès à la clé maîtresse. Même une fuite complète de la
+          Heritavo chiffre le contenu du coffre-fort côté client avant l’upload. Le
+          serveur n’a pas accès à la clé maîtresse. Même une fuite complète de la
           base ne donne à un attaquant aucun accès aux données déchiffrées du
           coffre-fort — à condition que le mot de passe utilisateur soit suffisamment
           fort pour résister à un brute-force Argon2id. Les findings qui rompent cet

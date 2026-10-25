@@ -14,8 +14,8 @@ export default function TermsEn() {
 
       <p className="text-sm leading-relaxed">
         These Terms of Service govern the use of the SaaS service Heritavo (the
-        "Service"), operated by Moritz Hauff IT, Okenfinerstrasse 2C, 8274 Tägerwilen,
-        Switzerland (the "Provider"). By registering, the user accepts these Terms.
+        “Service”), operated by Moritz Hauff IT, Okenfinerstrasse 2C, 8274 Tägerwilen,
+        Switzerland (the “Provider”). By registering, the user accepts these Terms.
       </p>
 
       {/* 1 */}
@@ -243,7 +243,7 @@ export default function TermsEn() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-slate-900">9. Amendments to the Terms</h2>
         <p className="text-sm leading-relaxed">
-          The Provider reserves the right to amend these Terms with 30 days' notice
+          The Provider reserves the right to amend these Terms with 30 days’ notice
           by email. If the user does not object within this period, the new Terms are
           deemed accepted. In case of objection, the user has the right to extraordinary
           termination.
