@@ -22,10 +22,9 @@ import Script from "next/script";
  *
  * Wenn eine der Vars fehlt, wird kein Script geladen — sicheres no-op.
  *
- * ACHTUNG CSP: Der Origin von UMAMI_URL muss in next.config.ts (UMAMI_ORIGIN)
+ * ACHTUNG CSP: Der Origin von UMAMI_URL muss in proxy.ts (UMAMI_ORIGIN)
  * in script-src UND connect-src stehen, sonst blockt der Browser das Script
- * bzw. den /api/send-Beacon. Die CSP wird beim Build in routes-manifest.json
- * eingebacken und kann den Wert nicht zur Laufzeit aus der ENV lesen.
+ * bzw. den /api/send-Beacon.
  */
 export default function UmamiAnalytics() {
   const url = process.env.UMAMI_URL;

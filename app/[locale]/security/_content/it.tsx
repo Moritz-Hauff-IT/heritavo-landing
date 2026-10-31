@@ -27,7 +27,7 @@ export default function SecurityIt() {
           <a href="mailto:security@heritavo.com" className="underline hover:text-slate-900">
             security@heritavo.com
           </a>
-          . Se questo canale non è raggiungibile, ci raggiungi anche all'indirizzo{" "}
+          . Se questo canale non è raggiungibile, ci raggiungi anche all’indirizzo{" "}
           <a href="mailto:support@heritavo.com" className="underline hover:text-slate-900">
             support@heritavo.com
           </a>
@@ -47,7 +47,7 @@ export default function SecurityIt() {
         <ul className="list-disc space-y-1 pl-6 text-slate-600">
           <li>Una breve descrizione della vulnerabilità e del componente interessato.</li>
           <li>Passi di riproduzione (richiesta/risposta, URL, ID account se applicabile).</li>
-          <li>Valutazione dell'impatto e prerequisiti necessari a un attaccante.</li>
+          <li>Valutazione dell’impatto e prerequisiti necessari a un attaccante.</li>
           <li>Opzionale: una proposta di correzione.</li>
         </ul>
       </section>
@@ -102,7 +102,7 @@ export default function SecurityIt() {
       <section className="space-y-2">
         <h2 className="font-semibold text-slate-900">Modello zero-knowledge</h2>
         <p className="text-slate-600">
-          Heritavo cifra i contenuti del vault lato client prima dell'upload. Il
+          Heritavo cifra i contenuti del vault lato client prima dell’upload. Il
           server non ha accesso alla chiave master. Anche un leak completo del
           database non dà a un attaccante alcun accesso ai dati del vault decifrati
           — a condizione che la password utente sia abbastanza forte da resistere

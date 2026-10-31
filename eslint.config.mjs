@@ -12,7 +12,16 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored, minifiziert (jszip).
+    "public/**",
   ]),
+  {
+    rules: {
+      // Wie in der App: Effekte, die beim Mount aus Browser-APIs
+      // (matchMedia, IntersectionObserver) State ableiten, sind hier gewollt.
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

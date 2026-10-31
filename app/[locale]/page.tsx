@@ -1,11 +1,6 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-// Auth-Pages (/login, /register) sind absichtlich OHNE Locale-Prefix
-// (siehe i18n/routing.ts). Link aus @/i18n/navigation wuerde dort ein
-// /de/login draus machen -> 404. AuthLink ist der plain next/link
-// fuer genau diese Faelle.
-import AuthLink from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, type CSSProperties } from "react";
@@ -15,6 +10,14 @@ import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
 import JourneyDemo from "@/components/JourneyDemo";
 // Preise kommen aus der zentralen Quelle (wird auch fuer JSON-LD genutzt).
 import { PLANS as planDefs, type PricingInterval } from "@/lib/pricing";
+
+// Login/Registrierung leben in der App (app.heritavo.com). Bewusst ein
+// plain <a> statt next/link: dessen RSC-Prefetch liefe ueber den 308 auf
+// die App-Origin und wuerde an connect-src der CSP scheitern.
+const APP_ORIGIN = "https://app.heritavo.com";
+function AuthLink({ href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
+  return <a href={`${APP_ORIGIN}${href}`} {...props} />;
+}
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {

@@ -5,13 +5,7 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const APP_ORIGIN = "https://app.heritavo.com";
 
-// Origin des self-hosted Umami (analytics.hauff.cloud). Muss zum Host von
-// UMAMI_URL aus dem Helm-Chart passen (k8s/charts/heritavo-landing/values.yaml)
-// — bewusst hartcodiert und NICHT aus process.env abgeleitet: Next wertet
-// headers() beim Build aus und backt das Ergebnis in routes-manifest.json. Im
-// Docker-Builder existiert die Pod-ENV nicht, der Origin fiele dort leer aus und
-// der Browser wuerde script.js + den /api/send-Beacon blocken.
-const UMAMI_ORIGIN = "https://analytics.hauff.cloud";
+// Content-Security-Policy setzt proxy.ts pro Request (Nonce).
 
 // Top-Level-Pfade, die frueher unter heritavo.com von der App bedient wurden
 // (vor dem app.heritavo.com-Split). Alte Bookmarks und bereits versendete
@@ -53,20 +47,6 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
-    const fallbackCsp = [
-      "default-src 'self'",
-      // UMAMI_ORIGIN in script-src (laedt script.js) UND connect-src (POST an
-      // /api/send fuer die Pageview-Beacons) — beides noetig, sonst blockt der
-      // Browser das Tracking still.
-      `script-src 'self' 'unsafe-inline' ${UMAMI_ORIGIN}`,
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob:",
-      "font-src 'self'",
-      `connect-src 'self' ${UMAMI_ORIGIN}`,
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join("; ");
     return [
       {
         source: "/(.*)",
@@ -75,7 +55,6 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
-          { key: "Content-Security-Policy", value: fallbackCsp },
         ],
       },
     ];

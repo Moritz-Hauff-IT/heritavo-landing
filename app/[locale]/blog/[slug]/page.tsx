@@ -10,6 +10,9 @@ import LanguageSwitcher from "@/components/language-switcher";
 
 const BASE_URL = "https://heritavo.com";
 
+// Nur Slugs aus content/blog — alles andere ist 404 statt Dateisystem-Lookup.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>
     getAllBlogSlugs(locale).map((slug) => ({ locale, slug })),
@@ -251,7 +254,7 @@ function BlogBody({ html }: { html: string }) {
         prose-table:text-sm
         prose-th:bg-slate-50 prose-th:font-semibold
         prose-hr:my-12 prose-hr:border-slate-200"
-      // eslint-disable-next-line react/no-danger -- markdown-output, controlled-source
+      // Markdown aus content/blog (eigene Dateien, Slug validiert in lib/blog.ts).
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

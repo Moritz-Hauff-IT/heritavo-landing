@@ -62,7 +62,11 @@ marked.use({
   breaks: false,
 });
 
+// Slugs kommen aus der URL — nur Dateinamen-sichere Zeichen, kein "../".
+const SLUG_RE = /^[a-z0-9-]+$/;
+
 function readPostFile(locale: Locale, slug: string): { data: BlogPostFrontmatter; content: string } | null {
+  if (!SLUG_RE.test(slug) || !locales.includes(locale)) return null;
   const file = path.join(CONTENT_DIR, locale, `${slug}.md`);
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, "utf8");

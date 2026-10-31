@@ -1,7 +1,73 @@
-/* PR-tailwind4-fix: Tailwind 4 nutzt @import statt @tailwind base/components/utilities.
-   @config zeigt auf bestehende tailwind.config.ts (theme/extend bleibt unveraendert). */
 @import "tailwindcss";
-@config "../tailwind.config.ts";
+@source not "../public";
+@source not "../content";
+
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+/* Dark Mode nur per .dark-Klasse, nicht per prefers-color-scheme. Aktuell
+   setzt niemand .dark — die dark:-Varianten sind vorbereitet, aber inaktiv. */
+@custom-variant dark (&:is(.dark *));
+
+/* Design-Tokens: Werte stehen als HSL-Tripel in :root/.dark (unten), die
+   Tailwind-Farben verweisen darauf. Neue Komponenten nutzen diese Tokens
+   (bg-card, text-muted-foreground, border-border …) statt slate-*. */
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  /* Gold-Akzent sparsam: Pricing-Highlights, "Empfohlen"-Badges. */
+  --color-brand-accent: hsl(var(--brand-accent));
+  --color-brand-accent-foreground: hsl(var(--brand-accent-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+@theme {
+  --font-sans: "SF Pro Display", "Inter", system-ui, sans-serif;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+/* Wie vorher container.screens = { 2xl: 1400px }: volle Breite, ab 1400px gedeckelt. */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= 40rem) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
  
 @layer base {
   :root {
@@ -37,6 +103,9 @@
     /* Heritavo Brand: Gold #C9A961 — selektive Highlights */
     --brand-accent: 42 49% 58%;
     --brand-accent-foreground: 152 43% 18%;
+
+    /* Hero-Verlauf: Kanten (= slate-700), Mitte = --muted-foreground. */
+    --hero-gradient-edge: 215.3 25% 26.7%;
 
     --radius: 0.75rem;
   }
@@ -185,11 +254,11 @@
 .hero-gradient-text {
   background-image: linear-gradient(
     100deg,
-    #334155 0%,
-    #64748b 34%,
+    hsl(var(--hero-gradient-edge)) 0%,
+    hsl(var(--muted-foreground)) 34%,
     hsl(var(--brand-accent)) 50%,
-    #64748b 66%,
-    #334155 100%
+    hsl(var(--muted-foreground)) 66%,
+    hsl(var(--hero-gradient-edge)) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;

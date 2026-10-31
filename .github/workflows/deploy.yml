@@ -10,8 +10,12 @@ env:
   IMAGE_NAME: moritz-hauff-it/heritavo-landing
 
 jobs:
+  verify:
+    uses: ./.github/workflows/verify.yml
+
   build-and-push:
     name: Build & Push Docker Image
+    needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: write
