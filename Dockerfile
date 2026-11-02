@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.25
-FROM node:22-bookworm-slim@sha256:53ada149d435c38b14476cb57e4a7da73c15595aba79bd6971b547ceb6d018bf AS builder
+FROM node:22.23.4-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da AS builder
 
 WORKDIR /app
 ENV NPM_CONFIG_CACHE=/tmp/.npm
@@ -11,7 +11,7 @@ RUN --mount=type=cache,target=/tmp/.npm \
 COPY . .
 RUN npm run build
 
-FROM node:22-bookworm-slim@sha256:53ada149d435c38b14476cb57e4a7da73c15595aba79bd6971b547ceb6d018bf AS runtime
+FROM node:22.23.4-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da AS runtime
 
 WORKDIR /app
 ENV NODE_ENV=production \
