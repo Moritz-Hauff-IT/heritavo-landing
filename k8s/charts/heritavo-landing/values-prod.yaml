@@ -10,8 +10,10 @@ umami:
   url: https://analytics.hauff.cloud/script.js
   websiteId: "8564d371-10e0-4872-9c22-adc91b5ae70d"
 
+# Traffic laeuft ueber nginx-gateway (HTTPRoutes + Certs im prod-cluster-Repo).
+# Legacy-Ingress aus, damit seine HTTP-01-Challenges die Gateway-Certs nicht blockieren.
 ingress:
-  enabled: true
+  enabled: false
   host: heritavo.com
   clusterIssuer: letsencrypt-prod
   legacyHosts:
