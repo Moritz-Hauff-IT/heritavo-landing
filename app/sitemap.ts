@@ -1,30 +1,27 @@
 import type { MetadataRoute } from "next";
 import { locales, defaultLocale } from "@/i18n/config";
 import { getAllBlogPostMeta, getTranslationKeyMap } from "@/lib/blog";
-
-const BASE_URL = "https://heritavo.com";
+import { BASE_URL, UNTRANSLATED_PATHS, localeAlternates } from "@/lib/seo";
 
 // Reihenfolge = absteigende Prioritaet
-const STATIC_PATHS = ["", "/blog", "/press", "/security", "/imprint", "/privacy", "/terms"];
-
-function staticAlternates(path: string) {
-  return {
-    languages: Object.fromEntries([
-      ...locales.map((l) => [l, `${BASE_URL}/${l}${path}`]),
-      ["x-default", `${BASE_URL}/${defaultLocale}${path}`],
-    ]),
-  };
-}
+const TRANSLATED_PATHS = ["", "/blog", "/press", "/security", "/terms"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticEntries: MetadataRoute.Sitemap = locales.flatMap((locale) =>
-    STATIC_PATHS.map((p) => ({
+  const translatedEntries: MetadataRoute.Sitemap = locales.flatMap((locale) =>
+    TRANSLATED_PATHS.map((p) => ({
       url: `${BASE_URL}/${locale}${p}`,
-      alternates: staticAlternates(p),
+      alternates: { languages: localeAlternates(p) },
       changeFrequency: p === "" ? ("weekly" as const) : ("monthly" as const),
       priority: p === "" ? 1 : p === "/blog" ? 0.8 : 0.4,
     }))
   );
+
+  // Nur die kanonische deutsche URL, ohne hreflang (siehe UNTRANSLATED_PATHS).
+  const untranslatedEntries: MetadataRoute.Sitemap = UNTRANSLATED_PATHS.map((p) => ({
+    url: `${BASE_URL}/${defaultLocale}${p}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.4,
+  }));
 
   // Slugs sind pro Locale uebersetzt. Ueber den translationKey im
   // Frontmatter lassen sich die 4 Versionen desselben Artikels
@@ -53,5 +50,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticEntries, ...blogEntries];
+  return [...translatedEntries, ...untranslatedEntries, ...blogEntries];
 }

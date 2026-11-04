@@ -6,7 +6,7 @@ export default function SecurityFr() {
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
         <strong>Traduction informelle.</strong> Ceci est une traduction française
         informelle de la politique allemande. En cas de divergence, la{" "}
-        <Link href="/de/security" className="underline hover:text-amber-700">version allemande</Link>{" "}
+        <Link href="/security" locale="de" className="underline hover:text-amber-700">version allemande</Link>{" "}
         fait foi.
       </div>
 

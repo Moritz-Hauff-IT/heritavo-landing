@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/legacy-guide.webp"
 imageAlt: "Des mains tenant de vieilles lettres et photographies"
 ---
-translationKey: "digital-estate-switzerland"
 
 Ces deux dernières années, j'ai parlé avec environ deux douzaines de notaires et avocats successoraux suisses — en préparation pour [Heritavo](/fr), que j'exploite désormais comme coffre-fort zero-knowledge suisse. L'enseignement central : le droit suisse est bien préparé aux biens physiques, mais rencontre régulièrement des problèmes avec la succession numérique — des problèmes qu'une **préparation à temps** pourrait éviter complètement.
 

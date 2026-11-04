@@ -78,6 +78,11 @@
     "resendVerificationFromLogin": "Renvoyer l’e-mail de confirmation"
   },
   "landing": {
+    "meta": {
+      "title": "Heritavo – ce qui compte, reste.",
+      "description": "Heritavo protège ton héritage numérique – chiffré de bout en bout, activé automatiquement et transmis en toute discrétion. Plans dès CHF 0. Hébergement en Suisse.",
+      "ogDescription": "Prévoyance numérique avec chiffrement de bout en bout – sûre, automatisée, discrète. Plans dès CHF 0. Made in Switzerland."
+    },
     "hero": {
       "title": "Pour que ta famille sache ce qu'elle doit savoir.",
       "subtitle": "Quand tu ne peux plus le lui dire — maladie, accident, démence ou décès.",

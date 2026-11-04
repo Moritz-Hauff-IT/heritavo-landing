@@ -4,10 +4,12 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, type CSSProperties } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/language-switcher";
 import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
 import JourneyDemo from "@/components/JourneyDemo";
+import JsonLd from "@/components/JsonLd";
+import { BASE_URL } from "@/lib/seo";
 // Preise kommen aus der zentralen Quelle (wird auch fuer JSON-LD genutzt).
 import { PLANS as planDefs, type PricingInterval } from "@/lib/pricing";
 
@@ -69,6 +71,7 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
 
   const t = useTranslations("landing");
+  const locale = useLocale();
   const tAuth = useTranslations("auth");
   const tBilling = useTranslations("billing");
 
@@ -565,6 +568,19 @@ export default function LandingPage() {
 
         {/* ── FAQ ── */}
         <section id="faq" className="py-24 bg-slate-50">
+          {/* FAQ-Schema nur hier, wo die Fragen sichtbar sind (Google-Richtlinie). */}
+          <JsonLd
+            data={{
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "@id": `${BASE_URL}/${locale}#faq`,
+              mainEntity: faqKeys.map((key) => ({
+                "@type": "Question",
+                name: t(`faq.${key}.q`),
+                acceptedAnswer: { "@type": "Answer", text: t(`faq.${key}.a`) },
+              })),
+            }}
+          />
           <div className="container max-w-2xl">
             <div data-reveal className="text-center mb-14">
               <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">{t("faqLabel")}</p>

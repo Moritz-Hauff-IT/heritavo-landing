@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/zero-knowledge.webp"
 imageAlt: "Alter Messingschlüssel auf einer Computertastatur"
 ---
-translationKey: "zero-knowledge-vault"
 
 Wenn man digitale Vorsorge ernst nimmt, stellt sich schnell eine zentrale Frage: **Wer kann meine sensiblen Daten lesen?** Bei klassischen Cloud-Diensten ist die Antwort: theoretisch der Anbieter, der Hoster, im Worst-Case Behörden mit Zugriff. Bei einem Zero-Knowledge-Tresor ist die Antwort: **niemand außer dir**, und im Ernstfall die Vertrauenspersonen, die du explizit benannt hast.
 

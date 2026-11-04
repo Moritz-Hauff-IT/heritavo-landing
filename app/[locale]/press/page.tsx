@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { locales, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
+import { pageMetadata, toLocale } from "@/lib/seo";
 import PressDe from "./_content/de";
 import PressEn from "./_content/en";
 import PressFr from "./_content/fr";
@@ -33,14 +34,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
-  const m = META[safeLocale];
-  return {
-    title: m.title,
-    description: m.description,
-    robots: { index: true, follow: true },
-  };
+  const locale = toLocale((await params).locale);
+  return pageMetadata({ locale, path: "/press", ...META[locale] });
 }
 
 export default async function PressPage({
@@ -48,9 +43,7 @@ export default async function PressPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
-  switch (safeLocale) {
+  switch (toLocale((await params).locale)) {
     case "en": return <PressEn />;
     case "fr": return <PressFr />;
     case "it": return <PressIt />;

@@ -78,6 +78,11 @@
     "resendVerificationFromLogin": "Bestätigungs-Mail erneut senden"
   },
   "landing": {
+    "meta": {
+      "title": "Heritavo – was zählt, bleibt.",
+      "description": "Heritavo sichert dein digitales Erbe – Ende-zu-Ende verschlüsselt, automatisch aktiviert und diskret übergeben. Pläne ab CHF 0. Hosting in der Schweiz.",
+      "ogDescription": "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland."
+    },
     "hero": {
       "title": "Damit deine Familie weiss, was sie wissen muss.",
       "subtitle": "Wenn du es ihr nicht mehr sagen kannst — bei Krankheit, Unfall, Demenz oder Tod.",

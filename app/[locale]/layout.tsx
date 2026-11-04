@@ -3,66 +3,38 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
 import { PRICE_CURRENCY, PRICE_HIGH, PRICE_LOW, PLANS } from "@/lib/pricing";
+import { BASE_URL, pageMetadata, toLocale } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import UmamiAnalytics from "@/components/UmamiAnalytics";
 import deMessages from "@/messages/de.json";
 import enMessages from "@/messages/en.json";
 import frMessages from "@/messages/fr.json";
 import itMessages from "@/messages/it.json";
 
-const BASE_URL = "https://heritavo.com";
+type MessagesShape = {
+  landing: { meta: { title: string; description: string; ogDescription: string } };
+};
+const messagesByLocale: Record<Locale, MessagesShape> = {
+  de: deMessages,
+  en: enMessages,
+  fr: frMessages,
+  it: itMessages,
+};
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const safeLocale = locales.includes(locale as Locale) ? locale : "de";
-  const canonicalUrl = `${BASE_URL}/${safeLocale}`;
-  const languageAlternates = Object.fromEntries(
-    locales.map((l) => [l, `${BASE_URL}/${l}`])
-  );
-  languageAlternates["x-default"] = `${BASE_URL}/de`;
-
+  const locale = toLocale((await params).locale);
   return {
-    title: "Heritavo – was zählt, bleibt.",
-    description:
-      "Heritavo sichert dein digitales Erbe – Ende-zu-Ende verschlüsselt, automatisch aktiviert und diskret übergeben. Pläne ab CHF 0. Hosting in der Schweiz.",
-    alternates: {
-      canonical: canonicalUrl,
-      languages: languageAlternates,
-    },
-    openGraph: {
-      url: canonicalUrl,
-      title: "Heritavo – was zählt, bleibt.",
-      description:
-        "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland.",
-      siteName: "Heritavo",
-      locale: safeLocale === "en" ? "en_GB" : `${safeLocale}_CH`,
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Heritavo – digitale Nachlassvorsorge aus der Schweiz" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: "Heritavo – was zählt, bleibt.",
-      description:
-        "Digitale Vorsorge mit Ende-zu-Ende-Verschlüsselung – sicher, automatisiert, diskret. Pläne ab CHF 0. Made in Switzerland.",
-      images: ["/og.png"],
-    },
+    ...pageMetadata({ locale, path: "", ...messagesByLocale[locale].landing.meta }),
     icons: {
       icon: "/favicon.png",
       apple: "/logo-square.png",
     },
   };
 }
-
-const FAQ_KEYS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"] as const;
-type MessagesShape = { landing: { faq: Record<string, { q: string; a: string }> } };
-const messagesByLocale: Record<Locale, MessagesShape> = {
-  de: deMessages as unknown as MessagesShape,
-  en: enMessages as unknown as MessagesShape,
-  fr: frMessages as unknown as MessagesShape,
-  it: itMessages as unknown as MessagesShape,
-};
 
 const staticGraphNodes = [
   {
@@ -103,19 +75,6 @@ const staticGraphNodes = [
   },
 ];
 
-function buildFaqSchema(locale: Locale) {
-  const faq = messagesByLocale[locale].landing.faq;
-  return {
-    "@type": "FAQPage",
-    "@id": `${BASE_URL}/${locale}#faq`,
-    mainEntity: FAQ_KEYS.map((k) => ({
-      "@type": "Question",
-      name: faq[k]?.q ?? "",
-      acceptedAnswer: { "@type": "Answer", text: faq[k]?.a ?? "" },
-    })),
-  };
-}
-
 // SoftwareApplication mit AggregateOffer (statt Einzel-Offers pro Plan —
 // robuster fuer Rich Results). Preise aus lib/pricing.ts, damit Schema und
 // UI nicht driften. Bewusst KEIN aggregateRating: ohne echte Review-Daten
@@ -142,12 +101,12 @@ function buildSoftwareSchema() {
   };
 }
 
-function buildJsonLd(locale: Locale) {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [...staticGraphNodes, buildFaqSchema(locale), buildSoftwareSchema()],
-  };
-}
+// Seitenuebergreifende Entitaeten. Seitenspezifisches (FAQ, Artikel)
+// rendert die jeweilige Seite selbst.
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [...staticGraphNodes, buildSoftwareSchema()],
+};
 
 export default async function LandingLayout({
   children,
@@ -162,14 +121,10 @@ export default async function LandingLayout({
   // "de", sonst rendert jeder unbekannte Ein-Segment-Pfad die Homepage (soft-404).
   if (!locales.includes(locale as Locale)) notFound();
   const safeLocale = locale as Locale;
-  const jsonLd = buildJsonLd(safeLocale);
   return (
     <html lang={safeLocale}>
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={siteJsonLd} />
         <NextIntlClientProvider locale={safeLocale} messages={messagesByLocale[safeLocale]}>
           {children}
         </NextIntlClientProvider>

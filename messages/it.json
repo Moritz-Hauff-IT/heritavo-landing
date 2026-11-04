@@ -78,6 +78,11 @@
     "resendVerificationFromLogin": "Reinvia e-mail di conferma"
   },
   "landing": {
+    "meta": {
+      "title": "Heritavo – ciò che conta, resta.",
+      "description": "Heritavo protegge la tua eredità digitale – crittografata end-to-end, attivata automaticamente e consegnata con discrezione. Piani da CHF 0. Hosting in Svizzera.",
+      "ogDescription": "Previdenza digitale con crittografia end-to-end – sicura, automatizzata, discreta. Piani da CHF 0. Made in Switzerland."
+    },
     "hero": {
       "title": "Perché la tua famiglia sappia ciò che deve sapere.",
       "subtitle": "Quando non puoi più dirglielo — malattia, incidente, demenza o morte.",

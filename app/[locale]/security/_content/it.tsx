@@ -6,7 +6,7 @@ export default function SecurityIt() {
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
         <strong>Traduzione informale.</strong> Questa è una traduzione italiana
         informale della policy tedesca. In caso di divergenza, la{" "}
-        <Link href="/de/security" className="underline hover:text-amber-700">versione tedesca</Link>{" "}
+        <Link href="/security" locale="de" className="underline hover:text-amber-700">versione tedesca</Link>{" "}
         è vincolante.
       </div>
 

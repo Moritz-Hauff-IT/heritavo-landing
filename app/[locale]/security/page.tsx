@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { locales, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
+import { pageMetadata, toLocale } from "@/lib/seo";
 import SecurityDe from "./_content/de";
 import SecurityEn from "./_content/en";
 import SecurityFr from "./_content/fr";
@@ -33,14 +34,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
-  const m = META[safeLocale];
-  return {
-    title: m.title,
-    description: m.description,
-    robots: { index: true, follow: true },
-  };
+  const locale = toLocale((await params).locale);
+  return pageMetadata({ locale, path: "/security", ...META[locale] });
 }
 
 export default async function SecurityPage({
@@ -48,9 +43,7 @@ export default async function SecurityPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
-  switch (safeLocale) {
+  switch (toLocale((await params).locale)) {
     case "en": return <SecurityEn />;
     case "fr": return <SecurityFr />;
     case "it": return <SecurityIt />;
