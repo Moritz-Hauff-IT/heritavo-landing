@@ -9,7 +9,7 @@ export default function TermsFr() {
         <strong>Traduction informelle.</strong> Ceci est une traduction française
         informelle des conditions générales allemandes. En cas de divergence ou de
         litige, la{" "}
-        <Link href="/de/terms" className="underline hover:text-amber-700">version allemande</Link>{" "}
+        <Link href="/terms" locale="de" className="underline hover:text-amber-700">version allemande</Link>{" "}
         fait juridiquement foi.
       </div>
 

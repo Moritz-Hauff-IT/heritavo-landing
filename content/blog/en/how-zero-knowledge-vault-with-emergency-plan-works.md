@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/zero-knowledge.webp"
 imageAlt: "Vintage brass key on a computer keyboard"
 ---
-translationKey: "zero-knowledge-vault"
 
 When you take digital legacy planning seriously, one central question comes up fast: **who can read my sensitive data?** With classic cloud services, the answer is: theoretically the provider, the host, in worst-case authorities with access. With a zero-knowledge vault, the answer is: **no one but you**, and in an emergency the trusted contacts you explicitly designated.
 

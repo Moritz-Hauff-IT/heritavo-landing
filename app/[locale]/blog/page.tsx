@@ -1,26 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
-import { headers } from "next/headers";
-import { locales, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import { getAllBlogPostMeta } from "@/lib/blog";
+import { BASE_URL, pageMetadata, toLocale } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import LanguageSwitcher from "@/components/language-switcher";
-
-const BASE_URL = "https://heritavo.com";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
-  const canonicalUrl = `${BASE_URL}/${safeLocale}/blog`;
-  const languageAlternates = Object.fromEntries(
-    locales.map((l) => [l, `${BASE_URL}/${l}/blog`]),
-  );
-  languageAlternates["x-default"] = `${BASE_URL}/de/blog`;
+  const locale = toLocale((await params).locale);
   const meta: Record<Locale, { title: string; description: string; descriptionOg: string }> = {
     de: {
       title: "Wissen & Ratgeber – Heritavo",
@@ -43,14 +35,8 @@ export async function generateMetadata({
       descriptionOg: "Articoli su successione digitale, pianificazione d'emergenza e crittografia zero-knowledge.",
     },
   };
-  const m = meta[safeLocale];
-  return {
-    title: m.title,
-    description: m.description,
-    alternates: { canonical: canonicalUrl, languages: languageAlternates },
-    openGraph: { url: canonicalUrl, title: m.title, description: m.descriptionOg, images: [{ url: "/og.png", width: 1200, height: 630, alt: m.title }] },
-    twitter: { card: "summary_large_image", title: m.title, description: m.descriptionOg, images: ["/og.png"] },
-  };
+  const { title, description, descriptionOg } = meta[locale];
+  return pageMetadata({ locale, path: "/blog", title, description, ogDescription: descriptionOg });
 }
 
 const LOCALE_FORMAT: Record<Locale, string> = {
@@ -115,10 +101,8 @@ export default async function BlogIndexPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
+  const safeLocale = toLocale((await params).locale);
   const posts = getAllBlogPostMeta(safeLocale);
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   const itemListSchema = {
     "@context": "https://schema.org",
@@ -133,13 +117,7 @@ export default async function BlogIndexPage({
 
   return (
     <>
-      <Script
-        id="blog-index-schema"
-        type="application/ld+json"
-        nonce={nonce}
-      >
-        {JSON.stringify(itemListSchema)}
-      </Script>
+      <JsonLd data={itemListSchema} />
       <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
           <Link href={`/${safeLocale}`} className="flex items-center space-x-2.5" aria-label="Heritavo">

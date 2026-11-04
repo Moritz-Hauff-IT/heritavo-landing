@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/zero-knowledge.webp"
 imageAlt: "Ancienne clé en laiton sur un clavier d'ordinateur"
 ---
-translationKey: "zero-knowledge-vault"
 
 Quand on prend la planification numérique au sérieux, une question centrale émerge rapidement : **qui peut lire mes données sensibles ?** Avec les services cloud classiques, la réponse est : théoriquement le fournisseur, l'hébergeur, dans le pire des cas les autorités. Avec un coffre-fort zero-knowledge, la réponse est : **personne sauf toi**, et en cas d'urgence les personnes de confiance que tu as explicitement désignées.
 

@@ -8,7 +8,7 @@ export default function TermsEn() {
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
         <strong>Informal translation.</strong> This is an informal English translation
         of the German Terms of Service. In case of any discrepancy or dispute, the{" "}
-        <Link href="/de/terms" className="underline hover:text-amber-700">German version</Link>{" "}
+        <Link href="/terms" locale="de" className="underline hover:text-amber-700">German version</Link>{" "}
         is the legally binding original.
       </div>
 

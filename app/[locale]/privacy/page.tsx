@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
+import { pageMetadata, toLocale } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Datenschutzerklärung – Heritavo",
-  description: "Datenschutzerklärung von Heritavo: Wie wir personenbezogene Daten verarbeiten, welche Cookies wir einsetzen und welche Rechte Sie haben.",
-  robots: { index: true, follow: true },
-};
+// Inhalt nur auf Deutsch: pageMetadata setzt den Canonical auf /de/privacy.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return pageMetadata({
+    locale: toLocale((await params).locale),
+    path: "/privacy",
+    title: "Datenschutzerklärung – Heritavo",
+    description: "Datenschutzerklärung von Heritavo: Wie wir personenbezogene Daten verarbeiten, welche Cookies wir einsetzen und welche Rechte Sie haben.",
+  });
+}
 
 export default function PrivacyPage() {
   return (
