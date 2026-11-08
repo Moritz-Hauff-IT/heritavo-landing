@@ -352,6 +352,13 @@
         "title": "Soudainement absent",
         "desc": "Un accident, une crise cardiaque. Tes proches doivent résilier des comptes, mettre fin à des contrats et retrouver tes messages personnels — ils ne peuvent plus t'appeler."
       }
+    },
+    "notFound": {
+      "metaTitle": "Page introuvable – Heritavo",
+      "title": "Cette page n'existe pas.",
+      "text": "L'adresse a peut-être changé ou contient une faute de frappe. Vous trouverez l'essentiel sur la page d'accueil.",
+      "home": "Retour à l'accueil",
+      "blog": "Voir les guides"
     }
   },
   "cookie": {

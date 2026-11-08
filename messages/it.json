@@ -352,6 +352,13 @@
         "title": "Improvvisamente assente",
         "desc": "Un incidente, un infarto. I tuoi cari devono chiudere conti, terminare contratti e ritrovare i tuoi messaggi personali — non possono più chiamarti."
       }
+    },
+    "notFound": {
+      "metaTitle": "Pagina non trovata – Heritavo",
+      "title": "Questa pagina non esiste.",
+      "text": "Forse l'indirizzo è cambiato o contiene un errore di battitura. Nella pagina iniziale trovi tutto ciò che conta.",
+      "home": "Vai alla pagina iniziale",
+      "blog": "Leggi le guide"
     }
   },
   "cookie": {

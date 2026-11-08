@@ -5,7 +5,6 @@ import type { Locale } from "@/i18n/config";
 import { getAllBlogPostMeta } from "@/lib/blog";
 import { BASE_URL, pageMetadata, toLocale } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
-import LanguageSwitcher from "@/components/language-switcher";
 
 export async function generateMetadata({
   params,
@@ -118,14 +117,6 @@ export default async function BlogIndexPage({
   return (
     <>
       <JsonLd data={itemListSchema} />
-      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href={`/${safeLocale}`} className="flex items-center space-x-2.5" aria-label="Heritavo">
-            <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized priority />
-          </Link>
-          <LanguageSwitcher />
-        </div>
-      </header>
       <main className="mx-auto w-full max-w-4xl px-6 py-20 space-y-16">
         <header className="space-y-5 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{I18N[safeLocale].label}</p>

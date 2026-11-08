@@ -352,6 +352,13 @@
         "title": "Suddenly gone",
         "desc": "An accident, a heart attack. Your loved ones have to cancel accounts, end contracts and find your personal messages — they can't call you anymore."
       }
+    },
+    "notFound": {
+      "metaTitle": "Page not found – Heritavo",
+      "title": "This page doesn't exist.",
+      "text": "The address may have changed, or there might be a typo. You'll find everything that matters on the home page.",
+      "home": "Go to home page",
+      "blog": "Read the guides"
     }
   },
   "cookie": {

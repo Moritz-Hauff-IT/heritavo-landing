@@ -27,13 +27,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const locale = toLocale((await params).locale);
-  return {
-    ...pageMetadata({ locale, path: "", ...messagesByLocale[locale].landing.meta }),
-    icons: {
-      icon: "/favicon.png",
-      apple: "/logo-square.png",
-    },
-  };
+  return pageMetadata({ locale, path: "", ...messagesByLocale[locale].landing.meta });
 }
 
 const staticGraphNodes = [

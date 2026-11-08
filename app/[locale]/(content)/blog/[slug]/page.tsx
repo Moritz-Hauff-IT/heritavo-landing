@@ -6,7 +6,6 @@ import { locales, type Locale } from "@/i18n/config";
 import { getBlogPost, getAllBlogSlugs, getBlogAlternates } from "@/lib/blog";
 import { BASE_URL } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
-import LanguageSwitcher from "@/components/language-switcher";
 
 // Nur Slugs aus content/blog — alles andere ist 404 statt Dateisystem-Lookup.
 export const dynamicParams = false;
@@ -160,14 +159,6 @@ export default async function BlogPostPage({
     <>
       <JsonLd data={articleSchema} />
       <JsonLd data={breadcrumbSchema} />
-      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href={`/${safeLocale}`} className="flex items-center space-x-2.5" aria-label="Heritavo">
-            <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized priority />
-          </Link>
-          <LanguageSwitcher />
-        </div>
-      </header>
       <main className="mx-auto w-full max-w-3xl px-6 py-20">
         <nav className="text-sm mb-10">
           <Link
