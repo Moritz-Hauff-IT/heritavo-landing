@@ -5,21 +5,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import LanguageSwitcher from "@/components/language-switcher";
+import AuthLink from "@/components/auth-link";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 import ZeroKnowledgeDemo from "@/components/ZeroKnowledgeDemo";
 import JourneyDemo from "@/components/JourneyDemo";
 import JsonLd from "@/components/JsonLd";
 import { BASE_URL } from "@/lib/seo";
 // Preise kommen aus der zentralen Quelle (wird auch fuer JSON-LD genutzt).
 import { PLANS as planDefs, type PricingInterval } from "@/lib/pricing";
-
-// Login/Registrierung leben in der App (app.heritavo.com). Bewusst ein
-// plain <a> statt next/link: dessen RSC-Prefetch liefe ueber den 308 auf
-// die App-Origin und wuerde an connect-src der CSP scheitern.
-const APP_ORIGIN = "https://app.heritavo.com";
-function AuthLink({ href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
-  return <a href={`${APP_ORIGIN}${href}`} {...props} />;
-}
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
@@ -72,7 +66,6 @@ export default function LandingPage() {
 
   const t = useTranslations("landing");
   const locale = useLocale();
-  const tAuth = useTranslations("auth");
   const tBilling = useTranslations("billing");
 
   // Scroll-Reveal (IntersectionObserver, gebuendelt = CSP-safe), Scroll-
@@ -141,33 +134,18 @@ export default function LandingPage() {
       />
 
       {/* ── Navigation ── */}
-      <header
-        className={`sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md transition-shadow duration-300 ${
-          scrolled ? "border-slate-200 shadow-sm" : "border-slate-100"
-        }`}
-      >
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2.5">
-            <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized />
-          </Link>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+      <SiteHeader
+        elevated={scrolled}
+        nav={
+          <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-600">
             <Link href="#features" className="hover:text-slate-900 transition-colors">{t("nav.solution")}</Link>
             <Link href="#how-it-works" className="hover:text-slate-900 transition-colors">{t("nav.howItWorks")}</Link>
             <Link href="#pricing" className="hover:text-slate-900 transition-colors">{t("nav.pricing")}</Link>
             <Link href="#faq" className="hover:text-slate-900 transition-colors">{t("nav.faq")}</Link>
             <Link href="/blog" className="hover:text-slate-900 transition-colors">{t("nav.blog")}</Link>
           </nav>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <AuthLink href="/login">
-              <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">{tAuth("login")}</Button>
-            </AuthLink>
-            <AuthLink href="/register">
-              <Button size="sm" className="rounded-full px-5 shadow-sm">{t("hero.cta")}</Button>
-            </AuthLink>
-          </div>
-        </div>
-      </header>
+        }
+      />
 
       <main className="flex-1">
 
@@ -216,7 +194,7 @@ export default function LandingPage() {
               className="hero-item flex flex-col sm:flex-row gap-4 mb-16"
               style={{ "--hero-i": 3 } as CSSProperties}
             >
-              <AuthLink href="/register">
+              <AuthLink href="/register" trackingPosition="hero">
                 <Button size="lg" className="group px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2 transition-transform hover:scale-[1.03] active:scale-95">
                   {t("hero.cta")}
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -545,7 +523,7 @@ export default function LandingPage() {
                       ))}
                     </ul>
 
-                    <AuthLink href="/register" className="w-full">
+                    <AuthLink href="/register" trackingPosition={`pricing-${plan.key}`} className="w-full">
                       <Button
                         variant={plan.highlighted ? "default" : "outline"}
                         className={`w-full rounded-xl h-11 font-semibold ${
@@ -642,7 +620,7 @@ export default function LandingPage() {
             <p className="text-slate-400 text-lg mb-10 max-w-lg mx-auto">
               {t("cta.desc")}
             </p>
-            <AuthLink href="/register">
+            <AuthLink href="/register" trackingPosition="closing-cta">
               <Button size="lg" className="group px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold transition-transform hover:scale-[1.03] active:scale-95">
                 {t("cta.button")}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -653,44 +631,7 @@ export default function LandingPage() {
 
       </main>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-slate-100 py-14 bg-white">
-        <div className="container">
-          <div className="grid md:grid-cols-4 gap-10 mb-12">
-            <div className="col-span-2">
-              <Link href="/" className="flex items-center space-x-2.5 mb-4">
-                <Image src="/logo.svg" alt="Heritavo Logo" width={140} height={40} unoptimized className="rounded-lg" />
-              </Link>
-              <p className="text-sm text-slate-500 max-w-xs leading-relaxed">
-                {t("footerDesc")}
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-slate-900 mb-4 text-sm">{t("footerLegal")}</h3>
-              <ul className="space-y-2.5 text-sm text-slate-500">
-                <li><Link href="/imprint" className="hover:text-slate-900 transition-colors">{t("footer.imprint")}</Link></li>
-                <li><Link href="/privacy" className="hover:text-slate-900 transition-colors">{t("footer.privacy")}</Link></li>
-                <li><Link href="/terms" className="hover:text-slate-900 transition-colors">{t("footer.terms")}</Link></li>
-                <li><Link href="/press" className="hover:text-slate-900 transition-colors">{t("footer.press")}</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-slate-900 mb-4 text-sm">{t("footerContact")}</h3>
-              <ul className="space-y-2.5 text-sm text-slate-500">
-                <li>support@heritavo.com</li>
-                <li>Tägerwilen, Schweiz</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-            <span>&copy; {new Date().getFullYear()} {t("footerCopyright")}</span>
-            <div className="flex items-center gap-2">
-              <Shield className="w-3.5 h-3.5 text-slate-300" />
-              <span>{t("footerMadeIn")}</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
     </div>
   );

@@ -138,8 +138,13 @@ export default function PrivacyPage() {
                 <td className="py-2">Technisch notwendig</td>
               </tr>
               <tr>
-                <td className="py-2 pr-4 font-mono text-xs">localStorage (Browser)</td>
-                <td className="py-2 pr-4">Temporäre Zwischenspeicherung der Cookie-Einwilligung</td>
+                <td className="py-2 pr-4 font-mono text-xs">locale, NEXT_LOCALE (Cookie)</td>
+                <td className="py-2 pr-4">Speichert die gewählte Sprache, wenn sie von der Browsersprache abweicht</td>
+                <td className="py-2">Technisch notwendig</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 font-mono text-xs">sessionStorage (Browser)</td>
+                <td className="py-2 pr-4">Zwischenspeicher während der Anmeldung mit Zwei-Faktor-Authentifizierung, danach gelöscht</td>
                 <td className="py-2">Technisch notwendig</td>
               </tr>
               <tr>
@@ -272,7 +277,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <p className="text-xs text-slate-400">Stand: Mai 2026</p>
+      <p className="text-xs text-slate-400">Stand: November 2026</p>
     </main>
   );
 }

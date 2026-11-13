@@ -349,6 +349,13 @@
         "title": "Plötzlich weg",
         "desc": "Ein Unfall, ein Herzinfarkt. Deine Liebsten müssen Konten kündigen, Verträge auflösen und persönliche Botschaften finden — du kannst sie nicht mehr anrufen."
       }
+    },
+    "notFound": {
+      "metaTitle": "Seite nicht gefunden – Heritavo",
+      "title": "Diese Seite gibt es nicht.",
+      "text": "Vielleicht hat sich die Adresse geändert oder es hat sich ein Tippfehler eingeschlichen. Auf der Startseite findest du alles Wichtige.",
+      "home": "Zur Startseite",
+      "blog": "Zum Ratgeber"
     }
   },
   "cookie": {

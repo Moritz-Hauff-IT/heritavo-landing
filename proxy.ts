@@ -12,7 +12,13 @@ const intlMiddleware = createMiddleware({
 // passen (k8s/charts/heritavo-landing/values.yaml).
 const UMAMI_ORIGIN = "https://analytics.hauff.cloud";
 
-const LOCALE_PATH = new RegExp(`^/(${locales.join("|")})(/|$)`);
+// Seiten laufen ueber next-intl: Pfade ohne Locale-Prefix (auch unbekannte
+// wie /xyz) werden auf /de/... umgeleitet und landen dort ggf. auf der
+// lokalisierten 404. Ausgenommen sind API-Routen und Dateien (sitemap.xml,
+// robots.txt, …), die unprefixed bleiben muessen.
+function isPagePath(pathname: string): boolean {
+  return !pathname.startsWith("/api/") && !/\.[^/]+$/.test(pathname);
+}
 
 /**
  * Per-Request-Nonce-CSP statt 'unsafe-inline' (Landing und App sind
@@ -43,7 +49,7 @@ export default function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const response =
-    pathname === "/" || LOCALE_PATH.test(pathname)
+    isPagePath(pathname)
       ? intlMiddleware(request)
       : NextResponse.next({ request: { headers: request.headers } });
   response.headers.set("Content-Security-Policy", csp);
@@ -53,5 +59,5 @@ export default function proxy(request: NextRequest) {
 export const config = {
   // Alles ausser statischen Assets — auch robots.txt, sitemap.xml, api/health
   // bekommen so dieselbe CSP.
-  matcher: ["/((?!_next/static|_next/image|images/|favicon\\.png|.*\\.(?:png|svg|webp|jpg|ico|txt|js)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|images/|.*\\.(?:png|svg|webp|jpg|ico|txt|js)$).*)"],
 };
