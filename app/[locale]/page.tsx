@@ -38,6 +38,8 @@ import {
   Stethoscope,
   Brain,
   Hourglass,
+  Menu,
+  X,
 } from "lucide-react";
 
 const featureKeys = [
@@ -67,10 +69,19 @@ export default function LandingPage() {
   // 1 Jahr ist Default-Standard, kein Monats-Toggle mehr.
   const [pricingInterval, setPricingInterval] = useState<PricingInterval>("1year");
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const t = useTranslations("landing");
   const tAuth = useTranslations("auth");
   const tBilling = useTranslations("billing");
+
+  const navLinks = [
+    { href: "#features", label: t("nav.solution") },
+    { href: "#how-it-works", label: t("nav.howItWorks") },
+    { href: "#pricing", label: t("nav.pricing") },
+    { href: "#faq", label: t("nav.faq") },
+    { href: "/blog", label: t("nav.blog") },
+  ];
 
   // Scroll-Reveal (IntersectionObserver, gebuendelt = CSP-safe), Scroll-
   // Progress-Bar und Nav-Elevation. Alles rein progressiv: faellt JS oder
@@ -139,31 +150,62 @@ export default function LandingPage() {
 
       {/* ── Navigation ── */}
       <header
-        className={`sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md transition-shadow duration-300 ${
+        className={`sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md transition-shadow duration-slow ${
           scrolled ? "border-slate-200 shadow-sm" : "border-slate-100"
         }`}
       >
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2.5">
+        <div className="container flex h-16 items-center justify-between gap-3">
+          <Link href="/" className="flex shrink-0 items-center space-x-2.5">
             <Image src="/logo.svg" alt="Heritavo Logo" width={160} height={48} unoptimized />
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            <Link href="#features" className="hover:text-slate-900 transition-colors">{t("nav.solution")}</Link>
-            <Link href="#how-it-works" className="hover:text-slate-900 transition-colors">{t("nav.howItWorks")}</Link>
-            <Link href="#pricing" className="hover:text-slate-900 transition-colors">{t("nav.pricing")}</Link>
-            <Link href="#faq" className="hover:text-slate-900 transition-colors">{t("nav.faq")}</Link>
-            <Link href="/blog" className="hover:text-slate-900 transition-colors">{t("nav.blog")}</Link>
+            {navLinks.map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-slate-900 transition-colors">{item.label}</Link>
+            ))}
           </nav>
           <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <AuthLink href="/login">
-              <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">{tAuth("login")}</Button>
-            </AuthLink>
-            <AuthLink href="/register">
-              <Button size="sm" className="rounded-full px-5 shadow-sm">{t("hero.cta")}</Button>
-            </AuthLink>
+            <LanguageSwitcher className="hidden md:inline-flex" />
+            <Button asChild variant="ghost" size="sm" className="hidden md:inline-flex text-slate-600 hover:text-slate-900">
+              <AuthLink href="/login">{tAuth("login")}</AuthLink>
+            </Button>
+            <Button asChild size="sm" className="rounded-full px-5 shadow-sm">
+              <AuthLink href="/register">{t("hero.cta")}</AuthLink>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              aria-label={t("nav.menu")}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
         </div>
+        {mobileMenuOpen && (
+          <nav id="mobile-nav" className="md:hidden animate-fade-in border-t border-slate-100 bg-white">
+            <div className="container flex flex-col py-2">
+              {navLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex min-h-11 items-center text-base font-medium text-slate-700 hover:text-slate-900 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <div className="mt-2 flex items-center justify-between border-t border-slate-100 pt-3 pb-1">
+                <LanguageSwitcher />
+                <Button asChild variant="ghost" className="text-slate-600 hover:text-slate-900">
+                  <AuthLink href="/login">{tAuth("login")}</AuthLink>
+                </Button>
+              </div>
+            </div>
+          </nav>
+        )}
       </header>
 
       <main className="flex-1">
@@ -171,14 +213,14 @@ export default function LandingPage() {
         {/* ── Hero ── */}
         <section className="relative overflow-hidden pt-24 pb-28 md:pt-32 md:pb-36">
           <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="aurora-blob absolute -top-[10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-gradient-to-b from-slate-100 to-transparent rounded-full blur-3xl opacity-70" />
-            <div className="aurora-blob aurora-blob-2 absolute bottom-0 -right-[5%] w-[420px] h-[420px] bg-blue-100 rounded-full blur-3xl opacity-60" />
+            <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-gradient-to-b from-slate-100 to-transparent rounded-full blur-3xl opacity-70" />
+            <div className="absolute bottom-0 -right-[5%] w-[420px] h-[420px] bg-blue-100 rounded-full blur-3xl opacity-60" />
             <div
-              className="aurora-blob absolute top-[18%] -left-[5%] w-[380px] h-[380px] rounded-full blur-3xl opacity-50"
+              className="absolute top-[18%] -left-[5%] w-[380px] h-[380px] rounded-full blur-3xl opacity-50"
               style={{ background: "radial-gradient(circle, hsl(152 43% 30% / 0.28), transparent 70%)" }}
             />
             <div
-              className="aurora-blob aurora-blob-2 absolute bottom-[8%] left-[28%] w-[320px] h-[320px] rounded-full blur-3xl opacity-40"
+              className="absolute bottom-[8%] left-[28%] w-[320px] h-[320px] rounded-full blur-3xl opacity-40"
               style={{ background: "radial-gradient(circle, hsl(var(--brand-accent) / 0.32), transparent 70%)" }}
             />
           </div>
@@ -188,7 +230,7 @@ export default function LandingPage() {
               className="hero-item inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold mb-8 tracking-wide uppercase"
               style={{ "--hero-i": 0 } as CSSProperties}
             >
-              <Lock className="lock-pulse w-3 h-3 text-[hsl(var(--brand-accent))]" />
+              <Lock className="w-3 h-3 text-[hsl(var(--brand-accent))]" />
               {t("heroBadge")}
             </div>
 
@@ -213,17 +255,17 @@ export default function LandingPage() {
               className="hero-item flex flex-col sm:flex-row gap-4 mb-16"
               style={{ "--hero-i": 3 } as CSSProperties}
             >
-              <AuthLink href="/register">
-                <Button size="lg" className="group px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2 transition-transform hover:scale-[1.03] active:scale-95">
+              <Button asChild size="lg" className="group px-8 text-base rounded-full shadow-lg shadow-slate-200 gap-2">
+                <AuthLink href="/register">
                   {t("hero.cta")}
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </Button>
-              </AuthLink>
-              <Link href="#how-it-works">
-                <Button variant="outline" size="lg" className="px-8 text-base rounded-full border-slate-200 transition-transform hover:scale-[1.03] active:scale-95">
+                </AuthLink>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="px-8 text-base rounded-full border-slate-200">
+                <Link href="#how-it-works">
                   {t("hero.ctaSecondary")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
 
             <div
@@ -249,7 +291,7 @@ export default function LandingPage() {
               {/* Glow hinter dem Foto — verankert es in der Aurora-Welt. */}
               <div
                 aria-hidden
-                className="aurora-blob absolute -inset-x-10 -top-10 -bottom-16 -z-10 rounded-full blur-3xl opacity-60"
+                className="absolute -inset-x-10 -top-10 -bottom-16 -z-10 rounded-full blur-3xl opacity-60"
                 style={{ background: "radial-gradient(ellipse, hsl(152 43% 30% / 0.18), hsl(var(--brand-accent) / 0.12) 45%, transparent 72%)" }}
               />
 
@@ -272,7 +314,7 @@ export default function LandingPage() {
                   className="hero-item absolute top-5 right-5 sm:top-7 sm:right-7"
                   style={{ "--hero-i": 7 } as CSSProperties}
                 >
-                  <div className="float-badge flex items-center gap-2 rounded-full bg-white/85 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-slate-800">
+                  <div className="flex items-center gap-2 rounded-full bg-white/85 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-slate-800">
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
                       <Check className="h-3 w-3" />
                     </span>
@@ -283,7 +325,7 @@ export default function LandingPage() {
                   className="hero-item absolute bottom-5 left-5 sm:bottom-7 sm:left-7"
                   style={{ "--hero-i": 8 } as CSSProperties}
                 >
-                  <div className="float-badge float-badge-2 flex items-center gap-2 rounded-full bg-slate-900/80 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-white">
+                  <div className="flex items-center gap-2 rounded-full bg-slate-900/80 backdrop-blur-md px-4 py-2 shadow-lg text-xs sm:text-sm font-semibold text-white">
                     <Lock className="h-3.5 w-3.5 text-[hsl(var(--brand-accent))]" />
                     {t("heroCard2")}
                   </div>
@@ -303,7 +345,7 @@ export default function LandingPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {momentDefs.map((m, i) => (
-                <div key={m.key} data-reveal style={{ "--reveal-i": i } as CSSProperties} className={`card-lift rounded-3xl p-7 border ${m.border} bg-white shadow-sm hover:shadow-xl`}>
+                <div key={m.key} data-reveal style={{ "--reveal-i": i } as CSSProperties} className={`rounded-3xl p-7 border ${m.border} bg-white shadow-sm`}>
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${m.bg}`}>
                     <m.icon className={`w-6 h-6 ${m.color}`} />
                   </div>
@@ -327,7 +369,7 @@ export default function LandingPage() {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featureKeys.map((f, i) => (
-                <div key={f.key} data-reveal style={{ "--reveal-i": i % 3 } as CSSProperties} className="card-lift bg-white rounded-3xl p-7 border border-slate-100 shadow-sm hover:shadow-xl">
+                <div key={f.key} data-reveal style={{ "--reveal-i": i % 3 } as CSSProperties} className="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm">
                   <div className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-5 ${f.color}`}>
                     <f.icon className="w-5 h-5" />
                   </div>
@@ -370,7 +412,7 @@ export default function LandingPage() {
                 const pros = t(`modes.${mode.key}.pros`).split("|");
                 const cons = t(`modes.${mode.key}.cons`).split("|");
                 return (
-                  <div key={mode.num} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="card-lift bg-white rounded-3xl border border-slate-200 p-7 shadow-sm hover:shadow-xl flex flex-col">
+                  <div key={mode.num} data-reveal style={{ "--reveal-i": i } as CSSProperties} className="bg-white rounded-3xl border border-slate-200 p-7 shadow-sm flex flex-col">
                     <div className="flex items-start gap-4 mb-5">
                       <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${mode.bg}`}>
                         <Icon className={`w-5 h-5 ${mode.color}`} />
@@ -471,7 +513,7 @@ export default function LandingPage() {
                   <button
                     key={iv}
                     onClick={() => setPricingInterval(iv)}
-                    className={`relative px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                    className={`pressable relative min-h-11 px-5 py-2.5 rounded-xl text-sm font-semibold ${
                       pricingInterval === iv
                         ? "bg-white text-slate-900 shadow-sm"
                         : "text-slate-500 hover:text-slate-700"
@@ -504,7 +546,7 @@ export default function LandingPage() {
                 return (
                   <div
                     key={plan.name}
-                    className={`relative flex flex-col rounded-3xl p-6 border transition-all ${
+                    className={`relative flex flex-col rounded-3xl p-6 border transition-[border-color,box-shadow] ${
                       plan.highlighted
                         ? "bg-slate-900 border-slate-900 shadow-xl shadow-slate-200 scale-105"
                         : "bg-white border-slate-200 hover:border-slate-300 hover:shadow-md"
@@ -542,16 +584,17 @@ export default function LandingPage() {
                       ))}
                     </ul>
 
-                    <AuthLink href="/register" className="w-full">
-                      <Button
-                        variant={plan.highlighted ? "default" : "outline"}
-                        className={`w-full rounded-xl h-11 font-semibold ${
-                          plan.highlighted ? "bg-white text-slate-900 hover:bg-slate-100" : ""
-                        }`}
-                      >
+                    <Button
+                      asChild
+                      variant={plan.highlighted ? "default" : "outline"}
+                      className={`w-full rounded-xl font-semibold ${
+                        plan.highlighted ? "bg-white text-slate-900 hover:bg-slate-100" : ""
+                      }`}
+                    >
+                      <AuthLink href="/register">
                         {t(`plans.${plan.key}.cta`)}
-                      </Button>
-                    </AuthLink>
+                      </AuthLink>
+                    </Button>
                   </div>
                 );
               })}
@@ -615,7 +658,7 @@ export default function LandingPage() {
             aria-hidden
             fill
             unoptimized
-            className="kenburns-cta object-cover"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-900/60 to-slate-900/95" />
           <div data-reveal className="container text-center relative">
@@ -626,12 +669,12 @@ export default function LandingPage() {
             <p className="text-slate-400 text-lg mb-10 max-w-lg mx-auto">
               {t("cta.desc")}
             </p>
-            <AuthLink href="/register">
-              <Button size="lg" className="group px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold transition-transform hover:scale-[1.03] active:scale-95">
+            <Button asChild size="lg" className="group px-10 text-base rounded-full bg-white text-slate-900 hover:bg-slate-100 shadow-xl gap-2 font-bold">
+              <AuthLink href="/register">
                 {t("cta.button")}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-            </AuthLink>
+              </AuthLink>
+            </Button>
           </div>
         </section>
 

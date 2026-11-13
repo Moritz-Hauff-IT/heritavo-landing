@@ -112,7 +112,7 @@ export default function PressEn() {
                 key={logo.file}
                 href={logo.file}
                 download
-                className="group flex flex-col items-center gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-primary/40 transition-all"
+                className="group flex flex-col items-center gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-primary/40 transition-[border-color,box-shadow]"
               >
                 <span className="flex h-16 items-center justify-center">
                   <Image
@@ -123,8 +123,8 @@ export default function PressEn() {
                     unoptimized
                   />
                 </span>
-                <span className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                  {logo.name} <span aria-hidden>↓</span>
+                <span className="text-sm font-medium text-primary inline-flex items-center gap-1">
+                  {logo.name} <span aria-hidden className="inline-block transition-transform group-hover:translate-y-0.5">↓</span>
                 </span>
               </a>
             ))}

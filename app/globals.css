@@ -44,8 +44,23 @@
 @theme {
   --font-sans: "SF Pro Display", "Inter", system-ui, sans-serif;
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+  /* Motion-Tokens — gleiche Werte wie in der App (heritavo). Tailwind erzeugt
+     daraus duration-fast/base/slow und ease-out/in/in-out. Reveal-Werte nur
+     fuer Scroll- und Hero-Einblendungen der Marketing-Seite. */
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 200ms;
+  --transition-duration-slow: 300ms;
+  --transition-duration-reveal: 500ms;
+  --reveal-stagger: 80ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --default-transition-duration: var(--transition-duration-fast);
+  --default-transition-timing-function: var(--ease-out);
+
+  --animate-accordion-down: accordion-down var(--transition-duration-base) var(--ease-out);
+  --animate-accordion-up: accordion-up var(--transition-duration-base) var(--ease-in);
+  --animate-fade-in: fade-in var(--transition-duration-base) var(--ease-out);
 
   @keyframes accordion-down {
     from { height: 0; }
@@ -54,6 +69,10 @@
   @keyframes accordion-up {
     from { height: var(--radix-accordion-content-height); }
     to { height: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }
 
@@ -157,10 +176,12 @@
 
 /* ============================================================
    Motion — dezente, ruhige Animationen fuer ein Trust-Produkt.
+   Dauer und Easing kommen aus den Motion-Tokens im @theme.
    Bewegung liegt hinter `prefers-reduced-motion: no-preference`,
    damit Nutzer mit reduzierter Bewegung IMMER statischen, voll
    sichtbaren Content bekommen. Zusaetzlich hebt der reduce-Zweig
    versteckte Reveal-Elemente explizit an (Fallback wenn JS fehlt).
+   Dauerschleifen bewusst nur eine: der Ken-Burns-Zoom im Hero.
    ============================================================ */
 
 @media (prefers-reduced-motion: no-preference) {
@@ -168,12 +189,11 @@
      IntersectionObserver (page.tsx) setzt .is-visible. */
   [data-reveal] {
     opacity: 0;
-    transform: translateY(26px);
+    transform: translateY(16px);
     transition:
-      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: calc(var(--reveal-i, 0) * 85ms);
-    will-change: opacity, transform;
+      opacity var(--transition-duration-reveal) var(--ease-out),
+      transform var(--transition-duration-reveal) var(--ease-out);
+    transition-delay: calc(var(--reveal-i, 0) * var(--reveal-stagger));
   }
   [data-reveal].is-visible {
     opacity: 1;
@@ -183,32 +203,8 @@
   /* Hero-Eingang: gestaffeltes Einblenden beim Laden. */
   .hero-item {
     opacity: 0;
-    animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: calc(var(--hero-i, 0) * 110ms + 80ms);
-  }
-
-  /* Ambient Aurora hinter dem Hero — langsam driftend. */
-  .aurora-blob {
-    animation: auroraDrift 22s ease-in-out infinite alternate;
-  }
-  .aurora-blob-2 {
-    animation-duration: 28s;
-    animation-direction: alternate-reverse;
-  }
-
-  /* Sehr subtiler Gold-Sweep durch die Hero-Headline. */
-  .hero-gradient-text {
-    background-size: 220% auto;
-    animation: shimmer 9s ease-in-out infinite;
-  }
-
-  /* Sanftes „Atmen" des Lock-Icons im Security-Badge. */
-  .lock-pulse {
-    animation: lockBreath 3.2s ease-in-out infinite;
-  }
-
-  .card-lift:hover {
-    transform: translateY(-6px);
+    animation: hero-in var(--transition-duration-reveal) var(--ease-out) forwards;
+    animation-delay: calc(var(--hero-i, 0) * var(--reveal-stagger));
   }
 
   /* Hero-Foto: langsamer Ken-Burns-Zoom + Scroll-Parallax.
@@ -219,26 +215,12 @@
     will-change: transform;
   }
   .kenburns-hero {
-    animation: kenBurnsHero 26s ease-in-out infinite alternate;
-  }
-
-  /* Schwebende Glas-Badges auf dem Hero-Foto. */
-  .float-badge {
-    animation: floatBadge 6.5s ease-in-out infinite alternate;
-  }
-  .float-badge-2 {
-    animation-duration: 7.5s;
-    animation-direction: alternate-reverse;
-  }
-
-  /* CTA-Hintergrund: sehr langsamer Zoom fuer filmische Tiefe. */
-  .kenburns-cta {
-    animation: kenBurnsCta 38s ease-in-out infinite alternate;
+    animation: ken-burns-hero 26s var(--ease-in-out) infinite alternate;
   }
 
   /* Ciphertext-Panel der Zero-Knowledge-Demo: kurzer Puls bei jedem Update. */
   .cipher-flash {
-    animation: cipherFlash 0.45s ease-out;
+    animation: cipher-flash var(--transition-duration-slow) var(--ease-out);
   }
 }
 
@@ -265,49 +247,33 @@
   color: transparent;
 }
 
-/* Card-Lift Micro-Interaction — nur transform/shadow (GPU-billig). */
-.card-lift {
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s ease;
-}
-
-/* Scroll-Progress-Bar oben — skaliert mit dem Scroll-Fortschritt. */
+/* Scroll-Progress-Bar oben — skaliert mit dem Scroll-Fortschritt.
+   Linear, weil sie der Scrollposition direkt folgt. */
 .scroll-progress {
   transform: scaleX(var(--scroll, 0));
   transform-origin: 0 50%;
-  transition: transform 0.1s linear;
+  transition: transform var(--transition-duration-fast) linear;
 }
 
-@keyframes heroIn {
-  from { opacity: 0; transform: translateY(24px); }
+/* Druck-Feedback fuer alles Klickbare: leichtes Einsinken, nur transform. */
+@utility pressable {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: var(--transition-duration-fast);
+  transition-timing-function: var(--ease-out);
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: none; }
 }
-@keyframes auroraDrift {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(4%, -3%, 0) scale(1.12); }
-}
-@keyframes shimmer {
-  0%, 100% { background-position: 0% center; }
-  50%      { background-position: 100% center; }
-}
-@keyframes lockBreath {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50%      { opacity: 1; transform: scale(1.12); }
-}
-@keyframes kenBurnsHero {
+@keyframes ken-burns-hero {
   from { transform: scale(1.03); }
   to   { transform: scale(1.1) translate3d(1.5%, -1%, 0); }
 }
-@keyframes floatBadge {
-  from { transform: translateY(-4px); }
-  to   { transform: translateY(7px); }
-}
-@keyframes kenBurnsCta {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1.15); }
-}
-@keyframes cipherFlash {
+@keyframes cipher-flash {
   from { opacity: 0.35; }
   to   { opacity: 1; }
 }

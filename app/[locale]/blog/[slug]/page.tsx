@@ -179,7 +179,7 @@ export default async function BlogPostPage({
         <nav className="text-sm mb-10">
           <Link
             href={`/${safeLocale}/blog`}
-            className="inline-flex items-center gap-1 text-slate-500 hover:text-primary hover:gap-2 transition-all"
+            className="inline-flex items-center gap-1 text-slate-500 hover:text-primary transition-colors"
           >
             {I18N[safeLocale].back}
           </Link>

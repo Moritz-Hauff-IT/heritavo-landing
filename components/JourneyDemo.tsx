@@ -107,7 +107,7 @@ export default function JourneyDemo() {
                 </div>
               )}
               <div
-                className={`relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl transition-all duration-500 ${
+                className={`relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl transition-[color,background-color,box-shadow,scale] duration-slow ${
                   isActive
                     ? `${station.active} ring-8 scale-110 shadow-lg`
                     : isDone
@@ -125,10 +125,10 @@ export default function JourneyDemo() {
               </div>
             </div>
             <div className="md:mt-5 md:text-center max-w-[240px] md:mx-auto">
-              <p className={`font-bold transition-colors duration-500 ${isActive || isDone ? "text-slate-900" : "text-slate-400"}`}>
+              <p className={`font-bold transition-colors duration-slow ${isActive || isDone ? "text-slate-900" : "text-slate-400"}`}>
                 {t(`${station.key}.title`)}
               </p>
-              <p className={`text-sm leading-relaxed transition-opacity duration-500 ${isActive ? "text-slate-600 opacity-100" : "text-slate-400 opacity-70"}`}>
+              <p className={`text-sm leading-relaxed transition-opacity duration-slow ${isActive ? "text-slate-600 opacity-100" : "text-slate-400 opacity-70"}`}>
                 {t(`${station.key}.desc`)}
               </p>
             </div>
@@ -166,11 +166,11 @@ export default function JourneyDemo() {
 
       <div className="flex justify-center">
         <span
-          className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors duration-500 ${
+          className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors duration-slow ${
             act2Started ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-400"
           }`}
         >
-          <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] text-white transition-colors duration-500 ${act2Started ? "bg-emerald-500" : "bg-slate-400"}`}>2</span>
+          <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] text-white transition-colors duration-slow ${act2Started ? "bg-emerald-500" : "bg-slate-400"}`}>2</span>
           {t("flowDemo.act2")}
         </span>
       </div>
