@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
+import { pageMetadata, toLocale } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Impressum – Heritavo",
-  description: "Impressum von Heritavo (Moritz Hauff IT): Angaben zum Betreiber, Handelsregistereintrag und Kontakt.",
-  robots: { index: true, follow: true },
-};
+// Inhalt nur auf Deutsch: pageMetadata setzt den Canonical auf /de/imprint.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return pageMetadata({
+    locale: toLocale((await params).locale),
+    path: "/imprint",
+    title: "Impressum – Heritavo",
+    description: "Impressum von Heritavo (Moritz Hauff IT): Angaben zum Betreiber, Handelsregistereintrag und Kontakt.",
+  });
+}
 
 export default function ImprintPage() {
   return (

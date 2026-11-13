@@ -9,7 +9,7 @@ export default function TermsIt() {
         <strong>Traduzione informale.</strong> Questa è una traduzione italiana
         informale delle condizioni generali tedesche. In caso di divergenza o
         controversia, la{" "}
-        <Link href="/de/terms" className="underline hover:text-amber-700">versione tedesca</Link>{" "}
+        <Link href="/terms" locale="de" className="underline hover:text-amber-700">versione tedesca</Link>{" "}
         è giuridicamente vincolante.
       </div>
 

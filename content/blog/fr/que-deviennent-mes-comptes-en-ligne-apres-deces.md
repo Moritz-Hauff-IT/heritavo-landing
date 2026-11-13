@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/accounts.webp"
 imageAlt: "Des personnes âgées assises à une table avec un ordinateur portable"
 ---
-translationKey: "online-accounts-after-death"
 
 Si tu commences à compter tes comptes en ligne, tu atteins vite des chiffres surprenants. Comptes e-mail, banque, stockage cloud, streaming, newsletters, forums — une vie moderne typique se répartit aujourd'hui sur des dizaines voire plus d'une centaine de comptes numériques. La question qui ne m'a plus quitté en construisant Heritavo : qu'arrivera-t-il à tout cela s'il arrive quelque chose demain ?
 

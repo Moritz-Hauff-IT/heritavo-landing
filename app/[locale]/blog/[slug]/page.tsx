@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { locales, type Locale } from "@/i18n/config";
 import { getBlogPost, getAllBlogSlugs, getBlogAlternates } from "@/lib/blog";
+import { BASE_URL } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import LanguageSwitcher from "@/components/language-switcher";
-
-const BASE_URL = "https://heritavo.com";
 
 // Nur Slugs aus content/blog — alles andere ist 404 statt Dateisystem-Lookup.
 export const dynamicParams = false;
@@ -132,7 +130,6 @@ export default async function BlogPostPage({
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : "de";
   const post = getBlogPost(safeLocale, slug);
   if (!post) notFound();
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -161,12 +158,8 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <Script id="article-schema" type="application/ld+json" nonce={nonce}>
-        {JSON.stringify(articleSchema)}
-      </Script>
-      <Script id="breadcrumb-schema" type="application/ld+json" nonce={nonce}>
-        {JSON.stringify(breadcrumbSchema)}
-      </Script>
+      <JsonLd data={articleSchema} />
+      <JsonLd data={breadcrumbSchema} />
       <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
           <Link href={`/${safeLocale}`} className="flex items-center space-x-2.5" aria-label="Heritavo">

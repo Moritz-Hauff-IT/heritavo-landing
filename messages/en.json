@@ -78,6 +78,11 @@
     "resendVerificationFromLogin": "Resend confirmation email"
   },
   "landing": {
+    "meta": {
+      "title": "Heritavo – what matters, stays.",
+      "description": "Heritavo secures your digital legacy – end-to-end encrypted, activated automatically and handed over discreetly. Plans from CHF 0. Hosted in Switzerland.",
+      "ogDescription": "Digital legacy planning with end-to-end encryption – secure, automated, discreet. Plans from CHF 0. Made in Switzerland."
+    },
     "hero": {
       "title": "So your family knows what they need to know.",
       "subtitle": "When you can't tell them anymore — illness, accident, dementia or death.",

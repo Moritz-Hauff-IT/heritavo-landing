@@ -14,7 +14,6 @@ author: "Moritz Hauff"
 image: "/images/blog/legacy-guide.webp"
 imageAlt: "Mani che tengono vecchie lettere e fotografie"
 ---
-translationKey: "digital-estate-switzerland"
 
 Costruendo [Heritavo](/it), mi sono immerso a fondo nel diritto successorio svizzero nel contesto degli asset digitali. L'insegnamento centrale: il diritto svizzero è ben preparato per beni fisici, ma con la successione digitale incontra regolarmente problemi che una **preparazione tempestiva** eviterebbe completamente.
 
