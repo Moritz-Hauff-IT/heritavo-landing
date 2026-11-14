@@ -146,7 +146,7 @@ export default async function BlogIndexPage({
               <li key={p.slug} className={idx === 0 ? "md:col-span-2" : ""}>
                 <Link
                   href={`/${safeLocale}/blog/${p.slug}`}
-                  className="group flex flex-col h-full rounded-2xl border border-slate-200 bg-white p-7 shadow-sm hover:shadow-md hover:border-primary/40 transition-all"
+                  className="group flex flex-col h-full rounded-2xl border border-slate-200 bg-white p-7 shadow-sm hover:shadow-md hover:border-primary/40 transition-[border-color,box-shadow]"
                 >
                   {p.image && (
                     <div className={`relative overflow-hidden rounded-xl mb-5 ${idx === 0 ? "aspect-[21/9]" : "aspect-[16/9]"}`}>
@@ -156,7 +156,7 @@ export default async function BlogIndexPage({
                         aria-hidden
                         fill
                         unoptimized
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                        className="object-cover transition-transform duration-slow group-hover:scale-[1.06]"
                       />
                     </div>
                   )}
@@ -169,8 +169,8 @@ export default async function BlogIndexPage({
                     {p.title}
                   </h2>
                   <p className="text-sm text-slate-600 leading-relaxed flex-1">{p.description}</p>
-                  <p className="mt-4 text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                    {I18N[safeLocale].readMore} <span aria-hidden>→</span>
+                  <p className="mt-4 text-sm font-medium text-primary inline-flex items-center gap-1">
+                    {I18N[safeLocale].readMore} <span aria-hidden className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
                   </p>
                 </Link>
               </li>

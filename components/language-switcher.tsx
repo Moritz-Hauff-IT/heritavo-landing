@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { locales, type Locale } from "@/i18n/config";
+import { cn } from "@/lib/utils";
 
 const labels: Record<Locale, string> = {
   de: "DE",
@@ -58,18 +59,23 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
   }
 
   return (
-    <div className={`inline-flex items-center gap-0.5 text-xs ${className ?? ""}`}>
+    <div className={cn("inline-flex items-center text-xs", className)}>
       {locales.map((locale) => (
         <button
           key={locale}
           onClick={() => switchLocale(locale)}
-          className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
-            currentLocale === locale
-              ? "bg-slate-200 text-slate-900 font-bold"
-              : "text-slate-500 hover:text-slate-700"
-          }`}
+          aria-pressed={currentLocale === locale}
+          className="group inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          {labels[locale]}
+          <span
+            className={`px-1.5 py-0.5 rounded transition-colors ${
+              currentLocale === locale
+                ? "bg-slate-200 text-slate-900 font-bold"
+                : "text-slate-500 group-hover:text-slate-700"
+            }`}
+          >
+            {labels[locale]}
+          </span>
         </button>
       ))}
     </div>
